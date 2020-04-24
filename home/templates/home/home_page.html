@@ -4,18 +4,17 @@
 {% block body_class %}template-homepage{% endblock %}
 
 {% block extra_css %}
-
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-<link rel="stylesheet" href="{% static 'css/welcome_page.css' %}">
+<link rel="stylesheet" href="{% static 'css/home_page.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
-
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-{% include 'home/welcome_page.html' %}
-
+<div class="splash d-flex justify-content-center align-items-center text-white">
+    <div class="text-center font-weight-bold">
+        <h1 class="display-4">Your resource for K-12 online learning</h1>
+        <p class="lead">Search courses. Read reviews.</p>
+    </div>
+</div>
+<div class="container my-5">
+    <h1>2020 Best Online Computer Science Courses</h1>
+</div>
 {% endblock content %}
