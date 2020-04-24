@@ -1,5 +1,6 @@
 {% load static wagtailuserbar %}
 {% load wagtailcore_tags %}
+{% load static %}
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -48,7 +49,7 @@
         {% endblock %}
     </head>
 
-    <body class="{% block body_class %}{% endblock %}">
+    <body class="{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}">
         {% wagtailuserbar %}
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
