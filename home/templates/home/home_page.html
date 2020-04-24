@@ -16,5 +16,13 @@
 </div>
 <div class="container my-5">
     <h1>2020 Best Online Computer Science Courses</h1>
+    <div>
+        {% for page in courses %}
+            <div>
+                <span>{{ page.title }}</span>
+                <a href="{{ page.url }}">click here</a>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock content %}
