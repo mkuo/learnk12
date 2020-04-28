@@ -1,13 +1,82 @@
 {% extends "base.html" %}
 {% load static %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load humanize %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/course_detail_page.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
-<div class="container my-5">
-    <h1>{{ page.title }}</h1>
-    <p>Description about {{ page.title }}</p>
+<div class="container my-4">
+    <h1 class="font-weight-bold">{{ page.title }}</h1>
+    <section class="mb-4">
+        {% if page.tags.count %}
+            <div class="mb-2">
+                {% for tag in page.tags.all %}
+                    <a href="{{ self.get_parent.url }}?tag={{ tag.slug }}"
+                       class="badge badge-pill badge-info">
+                        {{ tag | title }}
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="d-flex align-items-center">
+            <div class="progress mr-2">
+                <div class="progress-bar {{ difficulty_class }}"
+                     role="progressbar"
+                     style="width: {{ difficulty_percent }}%"
+                     aria-valuenow="{{ difficulty_percent }}"
+                     aria-valuemin="0"
+                     aria-valuemax="100">
+                </div>
+            </div>
+            <span>{{ difficulty_label | title }} difficulty</span>
+        </div>
+        {% if page.summary %}
+            <div class="my-2">
+                <span class="font-weight-bold">Learn K12 takeaway:</span>
+                <span>{{ page.summary }}</span>
+            </div>
+        {% endif %}
+    </section>
+    <hr>
+    <section class="mt-4">
+        <h2>Course Details</h2>
+        {% if page.images %}
+            <div class="overflow-auto text-nowrap pb-3">
+                {% for block in page.images %}
+                    {% image block.value fill-256x256-c100 class="mr-2" %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div>
+            <span class="font-weight-bold">Provider:</span>
+            {% if page.course_url %}
+                <a href="{{ page.course_url }}" target="_blank">{{ page.provider }}</a>
+            {% else %}
+                <span>{{ page.provider }}</span>
+            {% endif %}
+        </div>
+        <div>
+            <span class="font-weight-bold">Cost:</span>
+            <span>
+                {% if page.cost == 0%}
+                    Free
+                {% else %}
+                    ${{ page.cost | floatformat:"0" | intcomma }}
+                {% endif %}
+            </span>
+        </div>
+        <div>
+            <span class="font-weight-bold">Duration:</span>
+            <span>{{ page.duration_hours }} hours</span>
+        </div>
+    </section>
+    <section class="mt-4">
+        <h2>Overview</h2>
+        <p class="my-0 py-0">{{ page.overview | richtext }}</p>
+    </section>
 </div>
 {% endblock content %}
