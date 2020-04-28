@@ -35,12 +35,24 @@ Gunicorn, nginx, and SSL settings were initially set up according to [this guide
 1. Set up ssh access to the remote server on DigitalOcean.
 2. Generate ssh keys for your Github account and [use ssh agent forwarding](https://developer.github.com/v3/guides/using-ssh-agent-forwarding/).
 3. Pull code from this repo.
-4. To deploy new code
-	```
-	$ ssh mike@learnk12.org
-	[mike@learnk12 ~ ]$ cd projects/learnk12
-	[mike@learnk12 learnk12 (master)]$ git pull
-	
-	# gracefully restart gunicorn app serving
-	[mike@learnk12 learnk12 (master)]$ sudo systemctl reload gunicorn
-	```
+
+To deploy new code
+```
+$ ssh mike@learnk12.org
+[mike@learnk12 ~ ]$ cd projects/learnk12
+[mike@learnk12 learnk12 (master)]$ git pull
+
+[mike@learnk12 learnk12 (master)]$ source venv/bin/activate
+
+# if there are new python packages in the deploy 
+(venv) [mike@learnk12 learnk12 (master)]$ pip install -r requirements.txt
+
+# if there are new or updated static files in the deploy 
+(venv) [mike@learnk12 learnk12 (master)]$ ./manage.py collectstatic
+
+# if there are database migrations in the deploy
+(venv) [mike@learnk12 learnk12 (master)]$ ./manage.py migrate
+
+# gracefully restart gunicorn app serving
+[mike@learnk12 learnk12 (master)]$ sudo systemctl reload gunicorn
+```
