@@ -9,9 +9,9 @@
 {% endblock extra_css %}
 
 {% block content %}
-<div class="container my-4">
-    <h1 class="font-weight-bold">{{ page.title }}</h1>
-    <section class="mb-4">
+<div class="container">
+    <section>
+    <h1>{{ page.title }}</h1>
         {% if page.tags.count %}
             <div class="mb-2">
                 {% for tag in page.tags.all %}
@@ -40,9 +40,9 @@
                 <span>{{ page.summary }}</span>
             </div>
         {% endif %}
+        <hr>
     </section>
-    <hr>
-    <section class="mt-4">
+    <section>
         <h2>Course Details</h2>
         {% if page.images %}
             <div class="overflow-auto text-nowrap pb-3">
@@ -74,7 +74,7 @@
             <span>{{ page.duration_hours }} hours</span>
         </div>
     </section>
-    <section class="mt-4">
+    <section>
         <h2>Overview</h2>
         <p class="my-0 py-0">{{ page.overview | richtext }}</p>
     </section>
