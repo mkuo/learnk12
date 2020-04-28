@@ -1,18 +1,62 @@
 {% extends "base.html" %}
-{% load static %}
+{% load humanize static wagtailimages_tags %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/courses_page.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
-<div class="container my-5">
-    <h1>Online Computer Science Courses</h1>
-    {% for page in self.get_children.specific %}
-        <div>
-            <span>{{ page.title }}</span>
-            <a href="{{ page.url }}">click here</a>
+<div class="container">
+    <section>
+        <h1>Online Computer Science Courses</h1>
+        <div class="list-group">
+            {% for page in courses %}
+                <a href="{{ page.url }}" class="list-group-item list-group-item-action">
+                    <div class="d-flex flex-row align-items-center">
+                        {% with page.images|first as first_image %}
+                            {% image first_image.value fill-128x128-c100 class="d-inline-block rounded mr-2" %}
+                        {% endwith %}
+                        <div class="card-body">
+                            <h2 class="mb-0">{{ page.title }}</h2>
+                            {% if page.tags %}
+                                <div>
+                                    {% for tag in page.tags.all %}
+                                        <span class="badge badge-pill badge-info">{{ tag | title }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <p class="mt-1 mb-2">{{ page.summary }}</p>
+                            <div>
+                                <div class="d-inline-block mr-2">
+                                    <i class="material-icons md-18 align-middle">signal_cellular_alt</i>
+                                    <span class="align-middle">{{ page.difficulty_label | title }}</span>
+                                </div>
+                                <div class="d-inline-block mr-2">
+                                    <i class="material-icons md-18 align-middle">face</i>
+                                    <span class="align-middle">{{ page.provider }}</span>
+                                </div>
+                                <div class="d-inline-block mr-2">
+                                    <i class="material-icons md-18 align-middle">credit_card</i>
+                                    <span class="align-middle">
+                                        {% if page.cost == 0%}
+                                            Free
+                                        {% else %}
+                                            ${{ page.cost | floatformat:"0" | intcomma }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="d-inline-block mr-2">
+                                    <i class="material-icons md-18 align-middle">schedule</i>
+                                    <span class="mr-1">
+                                        {{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
         </div>
-    {% endfor %}
+    </section>
 </div>
 {% endblock content %}

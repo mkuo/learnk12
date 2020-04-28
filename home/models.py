@@ -29,6 +29,12 @@ class CoursesPage(Page):
     subpage_types = ['CourseDetailPage']
     parent_page_type = ['HomePage']
 
+    def get_context(self, request):
+        context = super().get_context(request)
+        sort = request.GET['sort'] if 'sort' in request.GET else 'title'
+        context['courses'] = CourseDetailPage.objects.live().order_by(sort).specific()
+        return context
+
 
 class CourseTag(TaggedItemBase):
     content_object = ParentalKey(
@@ -81,20 +87,8 @@ class CourseDetailPage(Page):
         StreamFieldPanel('images')
     ]
 
-    def get_context(self, request):
-        context = super().get_context(request)
-        difficulty_enum = self.CourseDifficulty(self.difficulty)
-        context['difficulty_label'] = difficulty_enum.name
-        difficulty_classes = {
-            self.CourseDifficulty.BEGINNER: 'bg-primary',
-            self.CourseDifficulty.EASY: 'bg-success',
-            self.CourseDifficulty.MEDIUM: 'bg-info',
-            self.CourseDifficulty.HARD: 'bg-warning',
-            self.CourseDifficulty.ADVANCED: 'bg-danger'
-        }
-        context['difficulty_class'] = difficulty_classes[difficulty_enum]
-        context['difficulty_percent'] = (difficulty_enum + 1) * 20
-        return context
+    def difficulty_label(self):
+        return self.CourseDifficulty(self.difficulty).name
 
 
 class TutorsPage(Page):

@@ -1,8 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
-{% load wagtailcore_tags %}
-{% load wagtailimages_tags %}
-{% load humanize %}
+{% load humanize static wagtailcore_tags wagtailimages_tags %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/course_detail_page.css' %}">
@@ -15,25 +12,10 @@
         {% if page.tags.count %}
             <div class="mb-2">
                 {% for tag in page.tags.all %}
-                    <a href="{{ self.get_parent.url }}?tag={{ tag.slug }}"
-                       class="badge badge-pill badge-info">
-                        {{ tag | title }}
-                    </a>
+                    <span class="badge badge-pill badge-info">{{ tag | title }}</span>
                 {% endfor %}
             </div>
         {% endif %}
-        <div class="d-flex align-items-center">
-            <div class="progress mr-2">
-                <div class="progress-bar {{ difficulty_class }}"
-                     role="progressbar"
-                     style="width: {{ difficulty_percent }}%"
-                     aria-valuenow="{{ difficulty_percent }}"
-                     aria-valuemin="0"
-                     aria-valuemax="100">
-                </div>
-            </div>
-            <span>{{ difficulty_label | title }} difficulty</span>
-        </div>
         {% if page.summary %}
             <div class="my-2">
                 <span class="font-weight-bold">Learn K12 takeaway:</span>
@@ -47,21 +29,28 @@
         {% if page.images %}
             <div class="overflow-auto text-nowrap pb-3">
                 {% for block in page.images %}
-                    {% image block.value fill-256x256-c100 class="mr-2" %}
+                    {% image block.value fill-256x256-c100 class="rounded mr-2" %}
                 {% endfor %}
             </div>
         {% endif %}
         <div>
-            <span class="font-weight-bold">Provider:</span>
+            <i class="material-icons md-18 align-middle">signal_cellular_alt</i>
+            <span class="font-weight-bold align-middle mx-1">Difficulty:</span>
+            <span class="align-middle">{{ page.difficulty_label | title }}</span>
+        </div>
+        <div>
+            <i class="material-icons md-18 align-middle">face</i>
+            <span class="font-weight-bold align-middle mx-1">Provider:</span>
             {% if page.course_url %}
-                <a href="{{ page.course_url }}" target="_blank">{{ page.provider }}</a>
+                <a href="{{ page.course_url }}" target="_blank" class="align-middle">{{ page.provider }}</a>
             {% else %}
-                <span>{{ page.provider }}</span>
+                <span class="align-middle">{{ page.provider }}</span>
             {% endif %}
         </div>
         <div>
-            <span class="font-weight-bold">Cost:</span>
-            <span>
+            <i class="material-icons md-18 align-middle">credit_card</i>
+            <span class="font-weight-bold align-middle mx-1">Cost:</span>
+            <span class="align-middle">
                 {% if page.cost == 0%}
                     Free
                 {% else %}
@@ -70,8 +59,9 @@
             </span>
         </div>
         <div>
-            <span class="font-weight-bold">Duration:</span>
-            <span>{{ page.duration_hours }} hours</span>
+            <i class="material-icons md-18 align-middle">schedule</i>
+            <span class="font-weight-bold align-middle mx-1">Duration:</span>
+            <span class="align-middle">{{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}</span>
         </div>
     </section>
     <section>
