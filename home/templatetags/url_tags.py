@@ -28,6 +28,8 @@ def build_url(context, **kwargs):
             else:
                 # order was neutral, make ascending
                 new_query[param].append(value)
+            # reset page when re-sorting
+            new_query.pop('page', None)
         else:
             # default behavior is to take last value
             new_query[param] = [value]
