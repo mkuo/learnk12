@@ -30,6 +30,11 @@ def build_url(context, **kwargs):
                 new_query[param].append(value)
             # reset page when re-sorting
             new_query.pop('page', None)
+        elif param in ['tag', 'difficulty', 'provider']:
+            if value in new_query[param]:
+                new_query[param].remove(value)
+            else:
+                new_query[param].append(value)
         else:
             # default behavior is to take last value
             new_query[param] = [value]

@@ -8,20 +8,40 @@
 {% block content %}
 <div class="container">
     <h1>Online Computer Science Courses</h1>
-    <div class="my-2">
-        <div class="d-none d-sm-inline-block">Sort</div>
+    <div class="my-1">
         <div class="d-inline-block align-middle">
             {% for column, sort_button in sort_buttons.items %}
                 <a href="{% build_url sort=column %}" class="btn {{ sort_button.button_color }} btn-sm border mb-1">
                     <span class="align-middle p-0 m-0">{{ sort_button.label | title }}</span>
-                    <i class="material-icons md-15 align-middle md-15 md-narrow">
+                    <i class="material-icons md-15 align-middle md-narrow">
                         {{ sort_button.material_icon }}
                     </i>
                 </a>
             {% endfor %}
-            <a href="{{ page.url }}" class="ml-1"><small>reset</small></a>
+            <a href="{% build_url sort=column %}"
+               class="btn btn-sm border mb-1 {{ provider_button_color }}"
+               data-toggle="dropdown"
+               aria-haspopup="true"
+               aria-expanded="false">
+                <span class="align-middle">Provider</span>
+                {% if provider_select_count %}
+                    <span class="align-middle">({{ provider_select_count }})</span>
+                {% endif %}
+                <i class="material-icons md-15 align-middle md-narrow">filter_list</i>
+            </a>
+            <div class="dropdown-menu">
+                {% for provider, dropdown_class in provider_dropdown_buttons.items %}
+                    <a class="dropdown-item {{ dropdown_class }}" href="{% build_url provider=provider %}">
+                        {{ provider }}
+                    </a>
+                {% endfor %}
+            </div>
+            <a href="{{ page.url }}" class="ml-1"><small>Reset</small></a>
         </div>
     </div>
+    <small class="text-muted">
+        {{ courses_paged.num_courses }} result{{ courses_paged.num_courses | pluralize }} returned
+    </small>
     <div class="list-group">
         {% for page in courses_paged.courses %}
             <a href="{{ page.url }}" class="list-group-item list-group-item-action">
@@ -70,6 +90,8 @@
                     </div>
                 </div>
             </a>
+        {% empty %}
+            <p class="border text-center py-5">No results were returned. Please try updating your filters. 😊</p>
         {% endfor %}
     </div>
     <div class="text-center my-2">
