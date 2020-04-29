@@ -52,6 +52,10 @@ h6, .h6 {
     font-size: 1.8rem;
 }
 
+.container {
+    margin: 2rem auto;
+}
+
 section {
     margin-bottom: 2rem;
 }
