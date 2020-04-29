@@ -29,7 +29,7 @@
         {% if page.images %}
             <div class="overflow-auto text-nowrap pb-3">
                 {% for block in page.images %}
-                    {% image block.value fill-256x256-c100 class="rounded mr-2" %}
+                    {% image block.value fill-256x256-c100 class="rounded mr-2 shadow-sm" %}
                 {% endfor %}
             </div>
         {% endif %}
