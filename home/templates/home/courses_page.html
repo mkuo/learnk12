@@ -9,7 +9,7 @@
 <div class="container">
     <h1>Online Computer Science Courses</h1>
     <div class="my-2">
-        <div class="d-inline-block">Sort</div>
+        <div class="d-none d-sm-inline-block">Sort</div>
         <div class="d-inline-block align-middle">
             {% for column, sort_button in sort_buttons.items %}
                 <a href="{% build_url sort=column %}" class="btn {{ sort_button.button_color }} btn-sm border mb-1">
@@ -73,18 +73,20 @@
         {% endfor %}
     </div>
     <div class="text-center my-2">
-        <div class="btn-group btn-group-sm" role="group" aria-label="Navigation">
+        <div class="btn-group btn-group-sm flex-wrap" role="group" aria-label="Navigation">
             {% with curr_pg=courses_paged.current_page %}
+            {% with num_pg=courses_paged.num_pages %}
             {% with enabled="btn border btn-light" %}
             {% with disabled="btn border btn-light disabled" %}
             {% with active="btn border btn-secondary disabled" %}
+            {% with hide_xs="d-none d-sm-block" %}
             {% with prev_page=courses_paged.current_page|add:-1 %}
             {% with next_page=courses_paged.current_page|add:1 %}
                 <a class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
                    href="{% build_url page=1 %}">
                     First
                 </a>
-                <a class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
+                <a class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %} {{ hide_xs }}"
                    href="{% build_url page=prev_page %}">
                     Previous
                 </a>
@@ -94,14 +96,16 @@
                         {{ page_num }}
                     </a>
                 {% endfor %}
-                <a class="{% if curr_pg >= courses_paged.num_pages %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
+                <a class="{% if curr_pg >= num_pg %}{{ disabled }}{% else %}{{ enabled }}{% endif %} {{ hide_xs }}"
                    href="{% build_url page=next_page %}">
                     Next
                 </a>
-                <a class="{% if curr_pg >= courses_paged.num_pages %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
-                   href="{% build_url page=courses_paged.num_pages %}">
+                <a class="{% if curr_pg >= num_pg %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
+                   href="{% build_url page=num_pg %}">
                     Last
                 </a>
+            {% endwith %}
+            {% endwith %}
             {% endwith %}
             {% endwith %}
             {% endwith %}
