@@ -1,3 +1,4 @@
+from collections import defaultdict
 from django.db import models
 from django.db.models import TextField
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -29,10 +30,30 @@ class CoursesPage(Page):
     subpage_types = ['CourseDetailPage']
     parent_page_type = ['HomePage']
 
+    @staticmethod
+    def _get_sort_button_styling(sort_args):
+        sort_columns = ['title', 'difficulty', 'provider', 'cost', 'duration_hours']
+        sort_button_styling = {
+            col: {
+                'label': col.split('_')[0],
+                'button_color': 'btn-light',  # default white
+                'material_icon': 'unfold_more'
+            } for col in sort_columns
+        }
+        for column in sort_args:
+            if column[0] == '-':
+                sort_button_styling[column[1:]]['button_color'] = 'btn-primary'
+                sort_button_styling[column[1:]]['material_icon'] = 'expand_more'
+            else:
+                sort_button_styling[column]['button_color'] = 'btn-primary'
+                sort_button_styling[column]['material_icon'] = 'expand_less'
+        return sort_button_styling
+
     def get_context(self, request):
         context = super().get_context(request)
-        sort = request.GET['sort'] if 'sort' in request.GET else 'title'
-        context['courses'] = CourseDetailPage.objects.live().order_by(sort).specific()
+        sort_args = request.GET.getlist('sort', [])
+        context['courses'] = CourseDetailPage.objects.live().order_by(*sort_args).specific()
+        context['sort_buttons'] = self._get_sort_button_styling(sort_args)
         return context
 
 

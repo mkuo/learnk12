@@ -59,3 +59,11 @@ h6, .h6 {
 section {
     margin-bottom: 2rem;
 }
+
+.material-icons.md-15 {
+    font-size: 15px;
+}
+
+.material-icons.md-narrow {
+    margin: -3px;
+}
