@@ -25,11 +25,13 @@
     <div class="list-group">
         {% for page in courses %}
             <a href="{{ page.url }}" class="list-group-item list-group-item-action">
-                <div class="d-flex flex-row align-items-center">
-                    {% with page.images|first as first_image %}
-                        {% image first_image.value fill-128x128-c100 class="d-inline-block rounded mr-2" %}
-                    {% endwith %}
-                    <div class="card-body">
+                <div class="d-flex flex-row align-items-center row">
+                    <div class="col-md-auto my-1 px-0 ml-3">
+                        {% with page.images|first as first_image %}
+                            {% image first_image.value fill-128x128-c100 class="d-inline-block rounded" %}
+                        {% endwith %}
+                    </div>
+                    <div class="col-md-auto my-1 px-0 mx-3">
                         <h2 class="mb-0">{{ page.title }}</h2>
                         {% if page.tags %}
                             <div>
