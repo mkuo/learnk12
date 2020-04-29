@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="list-group">
-        {% for page in courses %}
+        {% for page in courses_paged.courses %}
             <a href="{{ page.url }}" class="list-group-item list-group-item-action">
                 <div class="d-flex flex-row align-items-center row">
                     <div class="col-md-auto my-1 px-0 ml-3">
@@ -71,6 +71,44 @@
                 </div>
             </a>
         {% endfor %}
+    </div>
+    <div class="text-center my-2">
+        <div class="btn-group btn-group-sm" role="group" aria-label="Navigation">
+            {% with curr_pg=courses_paged.current_page %}
+            {% with enabled="btn border btn-light" %}
+            {% with disabled="btn border btn-light disabled" %}
+            {% with active="btn border btn-secondary disabled" %}
+            {% with prev_page=courses_paged.current_page|add:-1 %}
+            {% with next_page=courses_paged.current_page|add:1 %}
+                <a class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
+                   href="{% build_url page=1 %}">
+                    First
+                </a>
+                <a class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
+                   href="{% build_url page=prev_page %}">
+                    Previous
+                </a>
+                {% for page_num in courses_paged.page_range %}
+                    <a class="{% if curr_pg == page_num %}{{ active }}{% else %}{{ enabled }}{% endif %}"
+                       href="{% build_url page=page_num %}">
+                        {{ page_num }}
+                    </a>
+                {% endfor %}
+                <a class="{% if curr_pg >= courses_paged.num_pages %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
+                   href="{% build_url page=next_page %}">
+                    Next
+                </a>
+                <a class="{% if curr_pg >= courses_paged.num_pages %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
+                   href="{% build_url page=courses_paged.num_pages %}">
+                    Last
+                </a>
+            {% endwith %}
+            {% endwith %}
+            {% endwith %}
+            {% endwith %}
+            {% endwith %}
+            {% endwith %}
+        </div>
     </div>
 </div>
 {% endblock content %}

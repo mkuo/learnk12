@@ -28,8 +28,9 @@ def build_url(context, **kwargs):
             else:
                 # order was neutral, make ascending
                 new_query[param].append(value)
-        elif value not in new_query[param]:
-            new_query[param].append(value)
+        else:
+            # default behavior is to take last value
+            new_query[param] = [value]
 
     # build new query
     encoded_query = parse.urlencode(new_query, doseq=True)

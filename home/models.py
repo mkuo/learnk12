@@ -1,4 +1,4 @@
-from collections import defaultdict
+from django.core.paginator import Paginator, EmptyPage
 from django.db import models
 from django.db.models import TextField
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -49,10 +49,36 @@ class CoursesPage(Page):
                 sort_button_styling[column]['material_icon'] = 'expand_less'
         return sort_button_styling
 
+    @staticmethod
+    def _get_courses_paged(sort_args, page):
+        # get courses from database
+        course_query = CourseDetailPage.objects.live().order_by(*sort_args)
+        paginator = Paginator(course_query, per_page=5)
+
+        try:
+            courses = paginator.page(page)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            page = paginator.num_pages
+            courses = paginator.page(page)
+
+        # get page numbers and parse for front-end
+        range_start = max(page - 2, 1)
+        range_stop = min(range_start + 5, paginator.num_pages + 1)
+        page_range = range(range_start, range_stop)
+
+        return {
+            'courses': courses,
+            'page_range': page_range,
+            'current_page': page,
+            'num_pages': paginator.num_pages
+        }
+
     def get_context(self, request):
         context = super().get_context(request)
         sort_args = request.GET.getlist('sort', [])
-        context['courses'] = CourseDetailPage.objects.live().order_by(*sort_args).specific()
+        page = int(request.GET.get('page', 1))
+        context['courses_paged'] = self._get_courses_paged(sort_args, page)
         context['sort_buttons'] = self._get_sort_button_styling(sort_args)
         return context
 
