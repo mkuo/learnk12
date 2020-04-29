@@ -31,6 +31,24 @@ class CoursesPage(Page):
     parent_page_type = ['HomePage']
 
     @staticmethod
+    def _sanitize_sort_args(request):
+        default_sort = ['title']
+        sort_args = request.GET.getlist('sort', default_sort)
+        allowed_sort_columns = ['title', 'difficulty', 'provider', 'cost', 'duration_hours']
+        if not all(col in allowed_sort_columns for col in sort_args):
+            sort_args = default_sort
+        return sort_args
+
+    @staticmethod
+    def _sanitize_page(request):
+        default_page = 1
+        page = request.GET.get('page', default_page)
+        try:
+            return int(page)
+        except ValueError:
+            return default_page
+
+    @staticmethod
     def _get_sort_button_styling(sort_args):
         sort_columns = ['title', 'difficulty', 'provider', 'cost', 'duration_hours']
         sort_button_styling = {
@@ -58,7 +76,7 @@ class CoursesPage(Page):
         try:
             courses = paginator.page(page)
         except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
+            # if page is out of range (e.g. 9999), deliver last page of results
             page = paginator.num_pages
             courses = paginator.page(page)
 
@@ -76,8 +94,8 @@ class CoursesPage(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        sort_args = request.GET.getlist('sort', [])
-        page = int(request.GET.get('page', 1))
+        sort_args = self._sanitize_sort_args(request)
+        page = self._sanitize_page(request)
         context['courses_paged'] = self._get_courses_paged(sort_args, page)
         context['sort_buttons'] = self._get_sort_button_styling(sort_args)
         return context
