@@ -1,10 +1,15 @@
 from django.db import models
 from django.db.models import TextField
 from modelcluster.contrib.taggit import ClusterTaggableManager
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
-from wagtail.core.fields import RichTextField, StreamField
+from wagtail.admin.edit_handlers import (
+    FieldPanel,
+    MultiFieldPanel,
+    InlinePanel,
+    ObjectList,
+    TabbedInterface
+)
+from wagtail.core.fields import RichTextField
 from wagtail.core.models import Page
-from wagtail.images.blocks import ImageChooserBlock
 
 from home.submodels.course_tag import CourseTag
 
@@ -30,9 +35,6 @@ class CourseDetailPage(Page):
     duration_hours = models.PositiveSmallIntegerField()
     difficulty = models.PositiveSmallIntegerField(choices=CourseDifficulty.choices)
     tags = ClusterTaggableManager(through=CourseTag, blank=True)
-    images = StreamField([
-        ('image', ImageChooserBlock(required=False)),
-    ], blank=True, null=True)
 
     # editor fields
     content_panels = Page.content_panels + [
@@ -48,7 +50,17 @@ class CourseDetailPage(Page):
                 FieldPanel('tags')
             ],
             heading="Course Details"
-        ),
-        StreamFieldPanel('images')
+        )
     ]
+
+    image_panels = [
+        InlinePanel('course_images', label="Images")
+    ]
+
+    edit_handler = TabbedInterface([
+        ObjectList(content_panels, heading='Content'),
+        ObjectList(image_panels, heading='Images'),
+        ObjectList(Page.promote_panels, heading='Promote'),
+        ObjectList(Page.settings_panels, heading='Settings', classname="settings"),
+    ])
 

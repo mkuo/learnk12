@@ -4,8 +4,8 @@
     <a href="{{ page.url }}" class="list-group-item list-group-item-action">
         <div class="d-flex flex-row align-items-center row">
             <div class="col-md-auto my-1 px-0 ml-3">
-                {% with page.images|first as first_image %}
-                    {% image first_image.value fill-128x128-c100 class="d-inline-block rounded shadow-sm" %}
+                {% with page.course_images.all|first as first_image %}
+                    {% image first_image.image fill-128x128-c100 class="d-inline-block rounded shadow-sm" %}
                 {% endwith %}
             </div>
             <div class="col-md-auto my-1 px-0 mx-3">

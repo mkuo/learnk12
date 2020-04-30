@@ -23,10 +23,10 @@
     </section>
     <section>
         <h2>Course Details</h2>
-        {% if page.images %}
+        {% if page.course_images %}
             <div class="overflow-auto text-nowrap pb-3">
-                {% for block in page.images %}
-                    {% image block.value fill-256x256-c100 class="rounded mr-2 shadow-sm" %}
+                {% for course_image in page.course_images.all %}
+                    {% image course_image.image fill-256x256-c100 class="rounded mr-2 shadow-sm" %}
                 {% endfor %}
             </div>
         {% endif %}
