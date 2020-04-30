@@ -58,7 +58,7 @@ class CoursesPage(Page):
 
         tag_filter = Q()
         for tag in tag_args:
-            tag_filter |= Q(tags__id=tag)
+            tag_filter |= Q(tags__slug=tag)
         course_query = course_query.filter(tag_filter).distinct()
 
         difficulty_filter = Q()
@@ -93,8 +93,8 @@ class CoursesPage(Page):
         }
 
     def _get_tags(self, request):
-        results = Tag.objects.values('id', 'name')
-        tags = [(res['id'], res['name']) for res in results]
+        results = Tag.objects.values('slug', 'name')
+        tags = [(res['slug'], res['name']) for res in results]
         tag_args = self._sanitize_args(request, 'tag', tags)
         return tag_args, tags
 

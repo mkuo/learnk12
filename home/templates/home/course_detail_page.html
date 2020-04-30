@@ -8,7 +8,8 @@
         {% if page.tags.count %}
             <div class="mb-2">
                 {% for tag in page.tags.all %}
-                    <span class="badge badge-pill badge-info">{{ tag | title }}</span>
+                    <a href="{{ self.get_parent.url }}?tag={{ tag.slug }}"
+                       class="badge badge-pill badge-info">{{ tag | title }}</a>
                 {% endfor %}
             </div>
         {% endif %}
@@ -32,7 +33,8 @@
         <div>
             <i class="material-icons md-18 align-middle">signal_cellular_alt</i>
             <span class="font-weight-bold align-middle mx-1">Difficulty:</span>
-            <span class="align-middle">{{ page.difficulty | course_difficulty_enum }}</span>
+            <a href="{{ self.get_parent.url }}?difficulty={{ page.difficulty }}"
+               class="align-middle">{{ page.difficulty | course_difficulty_enum }}</a>
         </div>
         <div>
             <i class="material-icons md-18 align-middle">face</i>
