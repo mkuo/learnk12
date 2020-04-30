@@ -52,5 +52,3 @@ class CourseDetailPage(Page):
         StreamFieldPanel('images')
     ]
 
-    def difficulty_label(self):
-        return self.CourseDifficulty(self.difficulty).name
