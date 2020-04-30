@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load humanize static url_tags wagtailimages_tags %}
+{% load humanize static model_tags url_tags wagtailimages_tags %}
 
 {% block content %}
 <div class="container">
@@ -7,31 +7,39 @@
     <div class="my-1">
         <div class="d-inline-block align-middle">
             {% for column, sort_button in sort_buttons.items %}
-                <a href="{% build_url sort=column %}" class="btn {{ sort_button.button_color }} btn-sm border mb-1">
+                <a href="{% build_url 'sort' column %}" class="btn {{ sort_button.button_color }} btn-sm border mb-1">
                     <span class="align-middle p-0 m-0">{{ sort_button.label | title }}</span>
                     <i class="material-icons md-15 align-middle md-narrow">
                         {{ sort_button.material_icon }}
                     </i>
                 </a>
             {% endfor %}
-            <a href="{% build_url sort=column %}"
-               class="btn btn-sm border mb-1 {{ provider_button_color }}"
-               data-toggle="dropdown"
-               aria-haspopup="true"
-               aria-expanded="false">
-                <span class="align-middle">Provider</span>
-                {% if provider_select_count %}
-                    <span class="align-middle">({{ provider_select_count }})</span>
-                {% endif %}
-                <i class="material-icons md-15 align-middle md-narrow">filter_list</i>
-            </a>
-            <div class="dropdown-menu">
-                {% for provider, dropdown_class in provider_dropdown_buttons.items %}
-                    <a class="dropdown-item {{ dropdown_class }}" href="{% build_url provider=provider %}">
-                        {{ provider }}
+            {% for column, filter in filter_labels.items %}
+                <div class="dropdown d-inline">
+                    <a href="{% build_url 'sort' column %}"
+                       class="btn btn-sm border mb-1 {{ filter.main_btn }}"
+                       data-toggle="dropdown"
+                       aria-haspopup="true"
+                       aria-expanded="false">
+                        <span class="align-middle">{{ column | title }}</span>
+                        {% if filter.select_count %}
+                            <span class="align-middle">({{ filter.select_count }})</span>
+                        {% endif %}
+                        <i class="material-icons md-15 align-middle md-narrow">filter_list</i>
                     </a>
-                {% endfor %}
-            </div>
+                    <div class="dropdown-menu">
+                        {% for value, dropdown_class in filter.dropdown_btns.items %}
+                            <a class="dropdown-item {{ dropdown_class }}" href="{% build_url column value %}">
+                                {% if column == 'difficulty' %}
+                                    {{ value|course_difficulty_enum }}
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
             <a href="{{ page.url }}" class="ml-1"><small>Reset</small></a>
         </div>
     </div>
@@ -101,25 +109,25 @@
             {% with prev_page=courses_paged.current_page|add:-1 %}
             {% with next_page=courses_paged.current_page|add:1 %}
                 <a class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
-                   href="{% build_url page=1 %}">
+                   href="{% build_url 'page' 1 %}">
                     First
                 </a>
                 <a class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %} {{ hide_xs }}"
-                   href="{% build_url page=prev_page %}">
+                   href="{% build_url 'page' prev_page %}">
                     Previous
                 </a>
                 {% for page_num in courses_paged.page_range %}
                     <a class="{% if curr_pg == page_num %}{{ active }}{% else %}{{ enabled }}{% endif %}"
-                       href="{% build_url page=page_num %}">
+                       href="{% build_url 'page' page_num %}">
                         {{ page_num }}
                     </a>
                 {% endfor %}
                 <a class="{% if curr_pg >= num_pg %}{{ disabled }}{% else %}{{ enabled }}{% endif %} {{ hide_xs }}"
-                   href="{% build_url page=next_page %}">
+                   href="{% build_url 'page' next_page %}">
                     Next
                 </a>
                 <a class="{% if curr_pg >= num_pg %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
-                   href="{% build_url page=num_pg %}">
+                   href="{% build_url 'page' num_pg %}">
                     Last
                 </a>
             {% endwith %}
