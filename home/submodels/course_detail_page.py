@@ -29,11 +29,11 @@ class CourseDetailPage(Page):
     # database fields
     summary = TextField(blank=True, null=True)
     overview = RichTextField()
-    provider = models.CharField(max_length=255)
+    provider = models.CharField(db_index=True, max_length=255)
     course_url = models.CharField(max_length=2048, blank=True, null=True)
-    cost = models.DecimalField(max_digits=9, decimal_places=2)
-    duration_hours = models.PositiveSmallIntegerField()
-    difficulty = models.PositiveSmallIntegerField(choices=CourseDifficulty.choices)
+    cost = models.DecimalField(db_index=True, max_digits=9, decimal_places=2)
+    duration_hours = models.PositiveSmallIntegerField(db_index=True)
+    difficulty = models.PositiveSmallIntegerField(db_index=True, choices=CourseDifficulty.choices)
     tags = ClusterTaggableManager(through=CourseTag, blank=True)
 
     # editor fields
