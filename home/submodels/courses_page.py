@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage
+from django.db.models import Q
 from wagtail.core.models import Page
 
 from home.submodels.course_detail_page import CourseDetailPage
@@ -53,9 +54,10 @@ class CoursesPage(Page):
         if not sort_args:
             sort_args = [self.default_sort]
         course_query = CourseDetailPage.objects.live().order_by(*sort_args)
-        if provider_args:
-            for provider in provider_args:
-                course_query = course_query.filter(provider=provider)
+        provider_filter = Q()
+        for provider in provider_args:
+            provider_filter |= Q(provider=provider)
+        course_query = course_query.filter(provider_filter)
         paginator = Paginator(course_query, per_page=5)
 
         try:
