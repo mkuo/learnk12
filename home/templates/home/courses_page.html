@@ -28,12 +28,12 @@
                         <i class="material-icons md-15 align-middle md-narrow">filter_list</i>
                     </a>
                     <div class="dropdown-menu">
-                        {% for value, dropdown_class in filter.dropdown_btns.items %}
-                            <a class="dropdown-item {{ dropdown_class }}" href="{% build_url column value %}">
-                                {% if column == 'difficulty' %}
-                                    {{ value|course_difficulty_enum }}
+                        {% for value, dropdown_dict in filter.dropdown_btns.items %}
+                            <a class="dropdown-item {{ dropdown_dict.btn_color }}" href="{% build_url column value %}">
+                                {% if column == 'tag' %}
+                                    {{ dropdown_dict.label|title }}
                                 {% else %}
-                                    {{ value }}
+                                    {{ dropdown_dict.label }}
                                 {% endif %}
                             </a>
                         {% endfor %}
