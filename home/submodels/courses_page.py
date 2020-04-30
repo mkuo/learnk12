@@ -1,9 +1,9 @@
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
-from taggit.models import Tag
 from wagtail.core.models import Page
 
 from home.submodels.course_detail_page import CourseDetailPage
+from home.submodels.course_tag import CourseTag
 
 
 class CoursesPage(Page):
@@ -19,7 +19,7 @@ class CoursesPage(Page):
     @staticmethod
     def _sanitize_args(request, param, allowed):
         args = request.GET.getlist(param, [])
-        if not all(col or f'-{col}' in allowed for col in args):
+        if not all(arg in allowed for arg in args):
             args = []
         return set(args)
 
@@ -93,26 +93,26 @@ class CoursesPage(Page):
         }
 
     def _get_tags(self, request):
-        results = Tag.objects.values('slug', 'name')
-        tags = [(res['slug'], res['name']) for res in results]
-        tag_args = self._sanitize_args(request, 'tag', tags)
+        results = CourseTag.objects.values('tag__slug', 'tag__name').distinct()
+        tags = [(res['tag__slug'], res['tag__name']) for res in results]
+        tag_args = self._sanitize_args(request, 'tag', [val for val, _ in tags])
         return tag_args, tags
 
     def _get_difficulties(self, request):
-        difficulties = CourseDetailPage.CourseDifficulty.choices
-        difficulty_args = self._sanitize_args(request, 'difficulty', difficulties)
+        difficulties = [(str(val), label) for val, label in CourseDetailPage.CourseDifficulty.choices]
+        difficulty_args = self._sanitize_args(request, 'difficulty', [val for val, _ in difficulties])
         return difficulty_args, difficulties
 
     def _get_providers(self, request):
         results = CourseDetailPage.objects.live().order_by().values('provider').distinct()
         providers = [(res['provider'], res['provider']) for res in results]
-        provider_args = self._sanitize_args(request, 'provider', providers)
+        provider_args = self._sanitize_args(request, 'provider', [val for val, _ in providers])
         return provider_args, providers
 
     @staticmethod
     def _get_filter_buttons(args, choices):
         dropdown_btns = {
-            str(choice[0]): {
+            choice[0]: {
                 'label': choice[1],
                 'btn_color': 'badge-white'
             } for choice in choices
@@ -132,7 +132,11 @@ class CoursesPage(Page):
     def get_context(self, request):
         context = super().get_context(request)
 
-        sort_args = self._sanitize_args(request, 'sort', self.sort_columns)
+        sort_args = self._sanitize_args(
+            request,
+            'sort',
+            self.sort_columns + [f'-{col}' for col in self.sort_columns]
+        )
         context['sort_buttons'] = self._get_sort_buttons(sort_args)
 
         tag_args, tags = self._get_tags(request)
