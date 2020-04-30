@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load humanize static model_tags url_tags wagtailimages_tags %}
+{% load humanize static url_tags %}
 
 {% block content %}
 <div class="container">
@@ -47,56 +47,7 @@
         {{ courses_paged.num_courses }} result{{ courses_paged.num_courses | pluralize }} returned
     </small>
     <div class="list-group">
-        {% for page in courses_paged.courses %}
-            <a href="{{ page.url }}" class="list-group-item list-group-item-action">
-                <div class="d-flex flex-row align-items-center row">
-                    <div class="col-md-auto my-1 px-0 ml-3">
-                        {% with page.images|first as first_image %}
-                            {% image first_image.value fill-128x128-c100 class="d-inline-block rounded shadow-sm" %}
-                        {% endwith %}
-                    </div>
-                    <div class="col-md-auto my-1 px-0 mx-3">
-                        <h2 class="mb-0">{{ page.title }}</h2>
-                        {% if page.tags %}
-                            <div>
-                                {% for tag in page.tags.all %}
-                                    <span class="badge badge-pill badge-info">{{ tag | title }}</span>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                        <p class="mt-1 mb-2">{{ page.summary }}</p>
-                        <div>
-                            <div class="d-inline-block mr-2">
-                                <i class="material-icons md-18 align-middle">signal_cellular_alt</i>
-                                <span class="align-middle">{{ page.difficulty | course_difficulty_enum }}</span>
-                            </div>
-                            <div class="d-inline-block mr-2">
-                                <i class="material-icons md-18 align-middle">face</i>
-                                <span class="align-middle">{{ page.provider }}</span>
-                            </div>
-                            <div class="d-inline-block mr-2">
-                                <i class="material-icons md-18 align-middle">credit_card</i>
-                                <span class="align-middle">
-                                    {% if page.cost == 0%}
-                                        Free
-                                    {% else %}
-                                        ${{ page.cost | floatformat:"0" | intcomma }}
-                                    {% endif %}
-                                </span>
-                            </div>
-                            <div class="d-inline-block mr-2">
-                                <i class="material-icons md-18 align-middle">schedule</i>
-                                <span class="mr-1 align-middle">
-                                    {{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        {% empty %}
-            <p class="border text-center py-5">No results were returned. Please try updating your filters. 😊</p>
-        {% endfor %}
+        {% include 'home/courses_table.html' %}
     </div>
     <div class="text-center my-2">
         <div class="btn-group btn-group-sm flex-wrap" role="group" aria-label="Navigation">
