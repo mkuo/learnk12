@@ -1,16 +1,29 @@
 {% extends "base.html" %}
-{% load humanize static model_tags wagtailcore_tags wagtailimages_tags %}
+{% load humanize learnk12_tags static wagtailcore_tags wagtailimages_tags %}
 
 {% block content %}
 <div class="container">
     <section>
-    <h1>{{ page.title }}</h1>
+    <h1 class="mb-0">{{ page.title }}</h1>
         {% if page.tags.count %}
-            <div class="mb-2">
+            <div class="mb-1">
                 {% for tag in page.tags.all %}
                     <a href="{{ self.get_parent.url }}?tag={{ tag.slug }}"
                        class="badge badge-pill badge-info">{{ tag | title }}</a>
                 {% endfor %}
+            </div>
+        {% endif %}
+        {% if reviews %}
+            <div class="d-inline-block text-nowrap">
+                {% get_stars avg_score as stars %}
+                {% for icon in stars %}
+                    <i class="material-icons md-narrow align-middle text-warning">{{ icon }}</i>
+                {% endfor %}
+            </div>
+            <div class="d-inline-block text-nowrap">
+                <a href="#reviews" class="ml-1 align-middle text-secondary">
+                    {{ reviews.count }} reviews
+                </a>
             </div>
         {% endif %}
         {% if page.summary %}
@@ -65,6 +78,10 @@
     <section>
         <h2>Overview</h2>
         <p class="my-0 py-0">{{ page.overview | richtext }}</p>
+    </section>
+    <section id="reviews">
+        <h2>Reviews</h2>
+        {% include 'home/course_reviews.html' %}
     </section>
 </div>
 {% endblock content %}

@@ -1,0 +1,28 @@
+{% load humanize learnk12_tags %}
+
+{% for review in reviews %}
+    <div class="border rounded p-4 my-3">
+        <div class="font-weight-bold">{{ review.subject }}</div>
+        <div class="text-secondary">
+            {% if review.is_anonymous %}
+                <span>Anonymous</span>
+            {% else %}
+                <span>{{ review.name }}</span>
+            {% endif %}
+            <span>·</span>
+            <span>{{ review.reviewer_type | title }}</span>
+        </div>
+        <div class="d-inline-block text-nowrap mr-1">
+            {% get_stars review.score as stars %}
+            {% for icon in stars %}
+                <i class="material-icons md-narrow text-warning align-middle">{{ icon }}</i>
+            {% endfor %}
+        </div>
+        <div class="d-inline-block text-nowrap align-middle">{{ review.publish_date | naturalday | title }}</div>
+        <p class="mt-1 mb-0">{{ review.description }}</p>
+    </div>
+{% empty %}
+    <p class="border rounded p-4 my-3 text-center">
+        There are no reviews for this course yet. Would you like to write the first one? 😊
+    </p>
+{% endfor %}

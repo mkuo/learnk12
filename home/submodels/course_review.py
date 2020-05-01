@@ -2,12 +2,10 @@ from django.core.validators import MaxValueValidator
 from django.db import models
 from modelcluster.fields import ParentalKey
 
-from home.submodels.course_detail_page import CourseDetailPage
-
 
 class CourseReview(models.Model):
     course_detail_page = ParentalKey(
-        CourseDetailPage,
+        'CourseDetailPage',
         on_delete=models.CASCADE,
         related_name='course_reviews'
     )

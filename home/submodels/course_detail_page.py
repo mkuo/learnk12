@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import TextField
+from django.db.models import TextField, Avg
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from wagtail.admin.edit_handlers import (
     FieldPanel,
@@ -64,3 +64,8 @@ class CourseDetailPage(Page):
         ObjectList(Page.settings_panels, heading='Settings', classname="settings"),
     ])
 
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['reviews'] = self.course_reviews.all()
+        context['avg_score'] = context['reviews'].aggregate(Avg('score')).get('score__avg')
+        return context

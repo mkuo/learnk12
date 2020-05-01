@@ -2,7 +2,45 @@ from collections import defaultdict
 from django.template import Library
 from urllib import parse
 
+from home.submodels.course_detail_page import CourseDetailPage
+
 register = Library()
+
+
+@register.filter
+def times(number):
+    return range(number)
+
+
+@register.filter
+def course_difficulty_enum(text):
+    return CourseDetailPage.CourseDifficulty(int(text)).label
+
+
+@register.simple_tag
+def get_stars(score):
+    icons = []
+    score = round(score * 2)
+    for i in range(5):
+        if score >= 2:
+            icons.append('star')
+        elif score >= 1:
+            icons.append('star_half')
+        else:
+            icons.append('star_outline')
+        score -= 2
+    return icons
+
+
+@register.simple_tag
+def google_fonts_import_url():
+    url = ("https://fonts.googleapis.com/css2?"
+           "family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&"
+           "family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&"
+           "family=Material+Icons&"
+           "family=Baloo+Bhaina+2&"
+           "display=swap")
+    return url
 
 
 @register.simple_tag(takes_context=True)
