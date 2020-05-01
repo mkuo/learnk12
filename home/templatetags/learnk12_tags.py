@@ -8,6 +8,21 @@ register = Library()
 
 
 @register.filter
+def isin(el, iterable):
+    return el in iterable
+
+
+@register.filter
+def eq(first, second):
+    return first == second
+
+
+@register.filter
+def times(number):
+    return range(number)
+
+
+@register.filter
 def times(number):
     return range(number)
 
@@ -53,28 +68,19 @@ def build_url(context, param, value):
     # build new query arguments
     new_query = defaultdict(list, url_query)
 
-    if param == 'sort':
-        desc_value = f'-{value}'
-        if value in new_query[param]:
-            # order was ascending, make descending
-            idx = new_query[param].index(value)
-            new_query[param][idx] = desc_value
-        elif desc_value in new_query[param]:
-            # order was descending, make neutral
-            new_query[param].remove(desc_value)
-        else:
-            # order was neutral, make ascending
-            new_query[param].append(value)
-        # reset page when re-sorting
-        new_query.pop('page', None)
-    elif param in ['tag', 'difficulty', 'provider']:
+    if param in ['tag', 'difficulty', 'provider']:
+        # replace parameter
         if value in new_query[param]:
             new_query[param].remove(value)
         else:
             new_query[param].append(value)
     else:
-        # default behavior is to take last value
+        # take last of parameter
         new_query[param] = [value]
+
+    if param != 'page':
+        # reset page
+        new_query.pop('page', None)
 
     # build new query
     encoded_query = parse.urlencode(new_query, doseq=True)

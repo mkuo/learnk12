@@ -5,43 +5,46 @@
 <div class="container">
     <h1>Online Computer Science Courses</h1>
     <div class="my-1">
-        <div class="d-inline-block align-middle">
-            {% for column, sort_button in sort_buttons.items %}
-                <a href="{% build_url 'sort' column %}" class="btn {{ sort_button.button_color }} btn-sm border mb-1">
-                    <span class="align-middle p-0 m-0">{{ sort_button.label | title }}</span>
-                    <i class="material-icons md-15 align-middle md-narrow">
-                        {{ sort_button.material_icon }}
-                    </i>
-                </a>
-            {% endfor %}
-            {% for column, filter in filter_labels.items %}
-                <div class="dropdown d-inline">
-                    <a href="{% build_url 'sort' column %}"
-                       class="btn btn-sm border mb-1 {{ filter.main_btn }}"
-                       data-toggle="dropdown"
-                       aria-haspopup="true"
-                       aria-expanded="false">
-                        <span class="align-middle">{{ column | title }}</span>
-                        {% if filter.select_count %}
-                            <span class="align-middle">({{ filter.select_count }})</span>
-                        {% endif %}
-                        <i class="material-icons md-15 align-middle md-narrow">filter_list</i>
+        <div class="dropdown d-inline">
+            <button class="btn btn-sm border mb-1 {{ sort_btn.selected_label|yesno:'btn-primary,btn-light' }}"
+               data-toggle="dropdown"
+               aria-haspopup="true"
+               aria-expanded="false">
+                <span class="align-middle">{{ sort_btn.selected_label|default:'Sort' }}</span>
+                <i class="material-icons md-15 align-middle md-narrow">unfold_more</i>
+            </button>
+            <div class="dropdown-menu">
+                {% for col, label in sort_btn.choices.items %}
+                    <a class="dropdown-item {% if sort_btn.selected_label|eq:label %}d-none{% endif %}"
+                       href="{% build_url 'sort' col %}">
+                            {{ label }}
                     </a>
-                    <div class="dropdown-menu">
-                        {% for value, dropdown_dict in filter.dropdown_btns.items %}
-                            <a class="dropdown-item {{ dropdown_dict.btn_color }}" href="{% build_url column value %}">
-                                {% if column == 'tag' %}
-                                    {{ dropdown_dict.label|title }}
-                                {% else %}
-                                    {{ dropdown_dict.label }}
-                                {% endif %}
-                            </a>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endfor %}
-            <a href="{{ page.url }}" class="ml-1"><small>Reset</small></a>
+                {% endfor %}
+            </div>
         </div>
+        {% for category, filter_btn in filter_btns.items %}
+            <div class="dropdown d-inline">
+                <button class="btn btn-sm border mb-1 {{ filter_btn.selected_args|yesno:'btn-primary,btn-light' }}"
+                   data-toggle="dropdown"
+                   aria-haspopup="true"
+                   aria-expanded="false">
+                    <span class="align-middle">{{ category|title }}</span>
+                    {% if filter_btn.selected_args %}
+                        <span class="align-middle">({{ filter_btn.selected_args|length }})</span>
+                    {% endif %}
+                    <i class="material-icons md-15 align-middle">filter_list</i>
+                </button>
+                <div class="dropdown-menu">
+                    {% for col, label in filter_btn.choices.items %}
+                        <a class="dropdown-item {% if col|isin:filter_btn.selected_args %}badge-primary {% endif %}"
+                            href="{% build_url category col %}">
+                                {{ label | title }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        <a href="{{ page.url }}" class="ml-1"><small>Reset</small></a>
     </div>
     <small class="text-muted">
         {{ courses_paged.num_courses }} result{{ courses_paged.num_courses | pluralize }} returned
