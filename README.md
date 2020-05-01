@@ -56,3 +56,8 @@ $ ssh mike@learnk12.org
 # gracefully restart gunicorn app serving
 [mike@learnk12 learnk12 (master)]$ sudo systemctl reload gunicorn
 ```
+
+To run custom Django commands, see command files in `learnk12/home/management/commands`.
+```
+(venv) [mike@learnk12 learnk12 (master)]$ ./manage.py update_courses_avg_score
+```
