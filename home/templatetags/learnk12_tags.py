@@ -17,7 +17,7 @@ def course_difficulty_enum(text):
     return CourseDetailPage.CourseDifficulty(int(text)).label
 
 
-@register.simple_tag
+@register.filter
 def get_stars(score):
     icons = []
     score = round(score * 2)

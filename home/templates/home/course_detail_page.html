@@ -15,8 +15,7 @@
         {% endif %}
         {% if reviews %}
             <div class="d-inline-block text-nowrap">
-                {% get_stars avg_score as stars %}
-                {% for icon in stars %}
+                {% for icon in page.avg_score|get_stars %}
                     <i class="material-icons md-narrow align-middle text-warning">{{ icon }}</i>
                 {% endfor %}
             </div>

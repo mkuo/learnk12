@@ -1,15 +1,17 @@
 {% load humanize learnk12_tags wagtailimages_tags %}
 
 {% for page in courses_paged.courses %}
-    <a href="{{ page.url }}" class="list-group-item list-group-item-action">
+    <a href="{{ page.url }}" class="list-group-item list-group-item-action py-3">
         <div class="d-flex flex-row align-items-center row">
-            <div class="col-md-auto my-1 px-0 ml-3">
-                {% with page.course_images.all|first as first_image %}
-                    {% image first_image.image fill-128x128-c100 class="d-inline-block rounded shadow-sm" %}
-                {% endwith %}
-            </div>
+            {% with page.course_images.all|first as first_image %}
+                {% if first_image %}
+                    <div class="col-md-auto my-1 px-0 ml-3">
+                        {% image first_image.image fill-128x128-c100 class="d-inline-block rounded shadow-sm" %}
+                    </div>
+                {% endif %}
+            {% endwith %}
             <div class="col-md-auto my-1 px-0 mx-3">
-                <h2 class="mb-0">{{ page.title }}</h2>
+                <h2 class="mb-1">{{ page.title }}</h2>
                 {% if page.tags %}
                     <div>
                         {% for tag in page.tags.all %}
@@ -17,7 +19,17 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-                <p class="mt-1 mb-2">{{ page.summary }}</p>
+                {% if page.course_reviews.count %}
+                    <div class="d-inline-block text-nowrap">
+                        {% for icon in page.avg_score|get_stars %}
+                            <i class="material-icons md-narrow align-middle text-warning">{{ icon }}</i>
+                        {% endfor %}
+                    </div>
+                    <div class="d-inline-block text-nowrap align-middle ml-1">
+                        {{ page.course_reviews.count }} reviews
+                    </div>
+                {% endif %}
+                <p class="my-1">{{ page.summary }}</p>
                 <div>
                     <div class="d-inline-block mr-2">
                         <i class="material-icons md-18 align-middle">signal_cellular_alt</i>

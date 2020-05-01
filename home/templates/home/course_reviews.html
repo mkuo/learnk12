@@ -13,8 +13,7 @@
             <span>{{ review.reviewer_type | title }}</span>
         </div>
         <div class="d-inline-block text-nowrap mr-1">
-            {% get_stars review.score as stars %}
-            {% for icon in stars %}
+            {% for icon in review.score|get_stars %}
                 <i class="material-icons md-narrow text-warning align-middle">{{ icon }}</i>
             {% endfor %}
         </div>
