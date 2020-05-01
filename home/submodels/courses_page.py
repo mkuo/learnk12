@@ -13,8 +13,13 @@ class CoursesPage(Page):
     subpage_types = ['CourseDetailPage']
     parent_page_type = ['HomePage']
 
-    sort_columns = ['title', 'cost', 'duration_hours']
-    default_sort = 'title'
+    sort_columns = [
+        ('avg_score', 'Rating'),
+        ('title', 'Title'),
+        ('cost', 'Cost'),
+        ('duration_hours', 'Duration')
+    ]
+    default_sort = 'avg_score'
 
     @staticmethod
     def _sanitize_args(request, param, allowed):
@@ -35,10 +40,10 @@ class CoursesPage(Page):
     def _get_sort_buttons(self, sort_args):
         sort_button_styling = {
             col: {
-                'label': col.split('_')[0],
+                'label': label,
                 'button_color': 'btn-light',
                 'material_icon': 'unfold_more'
-            } for col in self.sort_columns
+            } for col, label in self.sort_columns
         }
         for column in sort_args:
             if column[0] == '-':
@@ -135,7 +140,7 @@ class CoursesPage(Page):
         sort_args = self._sanitize_args(
             request,
             'sort',
-            self.sort_columns + [f'-{col}' for col in self.sort_columns]
+            [col for col, _ in self.sort_columns] + [f'-{col}' for col, _ in self.sort_columns]
         )
         context['sort_buttons'] = self._get_sort_buttons(sort_args)
 
