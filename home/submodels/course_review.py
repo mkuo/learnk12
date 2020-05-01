@@ -1,13 +1,8 @@
-from decimal import Decimal
-
 from django.core.validators import MaxValueValidator
 from django.db import models, connection
-from django.db.models import Avg
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from modelcluster.fields import ParentalKey
-
-from home.submodels.course_detail_page import CourseDetailPage
 
 
 class CourseReview(models.Model):
