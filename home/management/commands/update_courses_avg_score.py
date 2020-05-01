@@ -1,11 +1,11 @@
 from sys import stdout
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.db import connection
 from django.db.models.signals import post_save
 
-from home.submodels.course_detail_page import CourseDetailPage
-from home.submodels.course_review import update_course_avg_score, CourseReview
+from home.models.course_detail_page import CourseDetailPage
+from home.models.course_review import CourseReview
 
 
 class Command(BaseCommand):

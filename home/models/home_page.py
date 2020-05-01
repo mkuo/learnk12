@@ -1,7 +1,7 @@
 from wagtail.core.models import Page
 
-from home.submodels.course_detail_page import CourseDetailPage
-from home.submodels.tutor_detail_page import TutorDetailPage
+from home.models.course_detail_page import CourseDetailPage
+from home.models.tutor_detail_page import TutorDetailPage
 
 
 class HomePage(Page):

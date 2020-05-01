@@ -6,7 +6,7 @@ from wagtail.contrib.modeladmin.options import (
 )
 from wagtail.core import hooks
 
-from home.submodels.course_review import CourseReview
+from home.models.course_review import CourseReview
 
 
 class CourseReviewAdmin(ModelAdmin):

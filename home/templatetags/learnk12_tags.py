@@ -2,7 +2,7 @@ from collections import defaultdict
 from django.template import Library
 from urllib import parse
 
-from home.submodels.course_detail_page import CourseDetailPage
+from home.models.course_detail_page import CourseDetailPage
 
 register = Library()
 

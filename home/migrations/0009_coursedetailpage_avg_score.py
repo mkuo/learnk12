@@ -2,8 +2,6 @@
 
 from django.db import migrations, models
 
-from home.submodels.course_detail_page import CourseDetailPage
-
 sql = (
     'UPDATE home_coursedetailpage SET avg_score = '
     '(SELECT AVG(score) FROM home_coursereview WHERE course_detail_page_id = page_ptr_id)'

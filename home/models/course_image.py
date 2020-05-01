@@ -3,7 +3,7 @@ from modelcluster.fields import ParentalKey
 from wagtail.core.models import Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from home.submodels.course_detail_page import CourseDetailPage
+from home.models.course_detail_page import CourseDetailPage
 
 
 class CourseImage(Orderable):

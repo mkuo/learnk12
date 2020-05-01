@@ -10,7 +10,7 @@ from wagtail.admin.edit_handlers import (
 from wagtail.core.fields import RichTextField
 from wagtail.core.models import Page
 
-from home.submodels.course_tag import CourseTag
+from home.models.course_tag import CourseTag
 
 
 class CourseDetailPage(Page):

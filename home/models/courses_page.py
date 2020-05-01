@@ -2,8 +2,8 @@ from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
 from wagtail.core.models import Page
 
-from home.submodels.course_detail_page import CourseDetailPage
-from home.submodels.course_tag import CourseTag
+from home.models.course_detail_page import CourseDetailPage
+from home.models.course_tag import CourseTag
 
 
 class CoursesPage(Page):
