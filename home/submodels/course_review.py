@@ -22,11 +22,11 @@ class CourseReview(models.Model):
     subpage_types = []
 
     # database fields
-    score = models.PositiveSmallIntegerField(validators=[MaxValueValidator(5)])
-    publish_date = models.DateField()
-    subject = models.TextField()
-    description = models.TextField()
-    date_modified = models.DateTimeField(auto_now=True)
+    score = models.PositiveSmallIntegerField(db_index=True, validators=[MaxValueValidator(5)])
+    publish_date = models.DateField(db_index=True)
+    subject = models.TextField(db_index=True)
+    description = models.TextField(db_index=True)
+    date_modified = models.DateTimeField(db_index=True, auto_now=True)
 
     class ReviewerType(models.TextChoices):
         STUDENT = 'student'
