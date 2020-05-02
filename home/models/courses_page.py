@@ -14,9 +14,6 @@ class CoursesPage(CoursesMixin, Page):
     def get_context(self, request):
         context = super().get_context(request)
 
-        # paging
-        page = ParamData.sanitize_int_arg(request, 'page', default=1)
-
         # sorting
         context['sort_btn'] = self._get_course_sort_data(request, default_sort='-avg_score')
 
@@ -29,7 +26,7 @@ class CoursesPage(CoursesMixin, Page):
 
         # courses
         context['courses_paged'], context['paging_data'] = self._get_courses_paged(
-            page,
+            ParamData.sanitize_int_arg(request, 'page', default=1),
             context['sort_btn'].selected_args[0],
             context['filter_btns']['tag'].selected_args,
             context['filter_btns']['difficulty'].selected_args,

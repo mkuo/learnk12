@@ -8,14 +8,12 @@
         {% with disabled="btn border btn-light disabled" %}
         {% with active="btn border btn-secondary disabled" %}
         {% with hide_xs="d-none d-sm-block" %}
-        {% with prev_page=paging_data.current_page|add:-1 %}
-        {% with next_page=paging_data.current_page|add:1 %}
             <a class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
                href="{% build_url 'page' 1 %}">
                 First
             </a>
             <a class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %} {{ hide_xs }}"
-               href="{% build_url 'page' prev_page %}">
+               href="{% build_url 'page' paging_data.previous_page %}">
                 Previous
             </a>
             {% for page_num in paging_data.page_range %}
@@ -25,15 +23,13 @@
                 </a>
             {% endfor %}
             <a class="{% if curr_pg >= num_pg %}{{ disabled }}{% else %}{{ enabled }}{% endif %} {{ hide_xs }}"
-               href="{% build_url 'page' next_page %}">
+               href="{% build_url 'page' paging_data.next_page %}">
                 Next
             </a>
             <a class="{% if curr_pg >= num_pg %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
                href="{% build_url 'page' num_pg %}">
                 Last
             </a>
-        {% endwith %}
-        {% endwith %}
         {% endwith %}
         {% endwith %}
         {% endwith %}

@@ -39,3 +39,5 @@ class PagingData:
         self.current_page = current_page
         self.num_pages = num_pages
         self.num_records = num_records
+        self.next_page = current_page + 1
+        self.previous_page = current_page - 1
