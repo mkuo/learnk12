@@ -63,7 +63,7 @@ def google_fonts_import_url():
 
 
 @register.simple_tag(takes_context=True)
-def build_url(context, param, value):
+def build_url(context, param, value, multiple_vals=False):
     # parse the url
     url_string = context.request.get_full_path()
     url_parsed = parse.urlparse(url_string)
@@ -72,9 +72,9 @@ def build_url(context, param, value):
     # build new query arguments
     new_query = defaultdict(list, url_query)
 
-    if param in ['tag', 'difficulty', 'provider']:
-        # replace parameter
+    if multiple_vals:
         if value in new_query[param]:
+            # replace parameter if already exists
             new_query[param].remove(value)
         else:
             new_query[param].append(value)

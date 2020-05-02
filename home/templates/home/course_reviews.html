@@ -1,27 +1,33 @@
 {% load humanize learnk12_tags %}
 
-{% for review in reviews %}
-    <div class="border rounded p-4 my-3">
-        <div class="font-weight-bold">{{ review.subject }}</div>
-        <div class="text-secondary">
-            {% if review.is_anonymous %}
-                <span>Anonymous</span>
-            {% else %}
-                <span>{{ review.name }}</span>
-            {% endif %}
-            <span>·</span>
-            <span>{{ review.reviewer_type | title }}</span>
+<small class="text-muted">
+    {{ paging_data.num_records }} result{{ paging_data.num_records | pluralize }} from
+    {{ review_count }} total review{{ review_count|pluralize }}
+</small>
+<div>
+    {% for review in reviews %}
+        <div class="border rounded p-4 mb-3">
+            <div class="font-weight-bold">{{ review.subject }}</div>
+            <div class="text-secondary">
+                {% if review.is_anonymous %}
+                    <span>Anonymous</span>
+                {% else %}
+                    <span>{{ review.name }}</span>
+                {% endif %}
+                <span>·</span>
+                <span>{{ review.reviewer_type | title }}</span>
+            </div>
+            <div class="d-inline-block text-nowrap mr-1">
+                {% for icon in review.score|get_stars %}
+                    <i class="material-icons md-narrow text-warning align-middle">{{ icon }}</i>
+                {% endfor %}
+            </div>
+            <div class="d-inline-block text-nowrap align-middle">{{ review.publish_date | naturalday | title }}</div>
+            <p class="mt-1 mb-0">{{ review.description }}</p>
         </div>
-        <div class="d-inline-block text-nowrap mr-1">
-            {% for icon in review.score|get_stars %}
-                <i class="material-icons md-narrow text-warning align-middle">{{ icon }}</i>
-            {% endfor %}
-        </div>
-        <div class="d-inline-block text-nowrap align-middle">{{ review.publish_date | naturalday | title }}</div>
-        <p class="mt-1 mb-0">{{ review.description }}</p>
-    </div>
-{% empty %}
-    <p class="border rounded p-4 my-3 text-center">
-        There are no reviews for this course yet. Would you like to write the first one? 😊
-    </p>
-{% endfor %}
+    {% empty %}
+        <p class="border rounded p-4 mb-3 text-center">
+            No reviews were returned. Would you like to write one? 😊
+        </p>
+    {% endfor %}
+</div>

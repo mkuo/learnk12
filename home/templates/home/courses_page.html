@@ -1,57 +1,10 @@
 {% extends "base.html" %}
-{% load humanize learnk12_tags static %}
 
 {% block content %}
 <div class="container">
     <h1>Online Computer Science Courses</h1>
-    <div class="my-1">
-        <div class="dropdown d-inline">
-            <button class="btn btn-sm border mb-1 {{ sort_btn.selected_labels|yesno:'btn-primary,btn-light' }}"
-               data-toggle="dropdown"
-               aria-haspopup="true"
-               aria-expanded="false">
-                <span class="align-middle">{{ sort_btn.selected_labels|default:'Sort' }}</span>
-                <i class="material-icons md-15 align-middle md-narrow">unfold_more</i>
-            </button>
-            <div class="dropdown-menu">
-                {% for col, label in sort_btn.choices.items %}
-                    <a class="dropdown-item {% if sort_btn.selected_labels|eq:label %}d-none{% endif %}"
-                       href="{% build_url 'sort' col %}">
-                            {{ label }}
-                    </a>
-                {% endfor %}
-            </div>
-        </div>
-        {% for category, filter_btn in filter_btns.items %}
-            <div class="dropdown d-inline">
-                <button class="btn btn-sm border mb-1 {{ filter_btn.selected_args|yesno:'btn-primary,btn-light' }}"
-                   data-toggle="dropdown"
-                   aria-haspopup="true"
-                   aria-expanded="false">
-                    <span class="align-middle">{{ category|title }}</span>
-                    {% if filter_btn.selected_args %}
-                        <span class="align-middle">({{ filter_btn.selected_args|length }})</span>
-                    {% endif %}
-                    <i class="material-icons md-15 align-middle">filter_list</i>
-                </button>
-                <div class="dropdown-menu">
-                    {% for col, label in filter_btn.choices.items %}
-                        <a class="dropdown-item {% if col|is_in:filter_btn.selected_args %}badge-primary {% endif %}"
-                            href="{% build_url category col %}">
-                                {{ label | title }}
-                        </a>
-                    {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
-        <a href="{{ page.url }}" class="ml-1"><small>Reset</small></a>
-    </div>
-    <small class="text-muted">
-        {{ paging_data.num_courses }} result{{ paging_data.num_courses | pluralize }} returned
-    </small>
-    <div class="list-group">
-        {% include 'home/courses_table.html' %}
-    </div>
+    {% include 'home/query_buttons.html' %}
+    {% include 'home/courses_table.html' %}
     {% include 'home/page_buttons.html' %}
 </div>
 {% endblock content %}

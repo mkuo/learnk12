@@ -1,64 +1,69 @@
 {% load humanize learnk12_tags wagtailimages_tags %}
 
-{% for page in courses_paged %}
-    <a href="{{ page.url }}" class="list-group-item list-group-item-action py-3">
-        <div class="d-flex flex-row align-items-center row">
-            {% with page.course_images.all|first as first_image %}
-                {% if first_image %}
-                    <div class="col-md-auto my-1 px-0 ml-3">
-                        {% image first_image.image fill-128x128-c100 class="d-inline-block rounded shadow-sm" %}
-                    </div>
-                {% endif %}
-            {% endwith %}
-            <div class="col-md-auto my-1 px-0 mx-3">
-                <h2 class="mb-1">{{ page.title }}</h2>
-                {% if page.tags %}
+<small class="text-muted">
+    {{ paging_data.num_records }} result{{ paging_data.num_records | pluralize }} returned
+</small>
+<div class="list-group">
+    {% for page in courses_paged %}
+        <a href="{{ page.url }}" class="list-group-item list-group-item-action py-3">
+            <div class="d-flex flex-row align-items-center row">
+                {% with page.course_images.all|first as first_image %}
+                    {% if first_image %}
+                        <div class="col-md-auto my-1 px-0 ml-3">
+                            {% image first_image.image fill-128x128-c100 class="d-inline-block rounded shadow-sm" %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                <div class="col-md-auto my-1 px-0 mx-3">
+                    <h2 class="mb-1">{{ page.title }}</h2>
+                    {% if page.tags %}
+                        <div>
+                            {% for tag in page.tags.all %}
+                                <span class="badge badge-pill badge-info">{{ tag | title }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if page.course_reviews.count %}
+                        <div class="d-inline-block text-nowrap">
+                            {% for icon in page.avg_score|get_stars %}
+                                <i class="material-icons md-narrow align-middle text-warning">{{ icon }}</i>
+                            {% endfor %}
+                        </div>
+                        <div class="d-inline-block text-nowrap align-middle ml-1">
+                            {{ page.course_reviews.count }} reviews
+                        </div>
+                    {% endif %}
+                    <p class="my-1">{{ page.summary }}</p>
                     <div>
-                        {% for tag in page.tags.all %}
-                            <span class="badge badge-pill badge-info">{{ tag | title }}</span>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% if page.course_reviews.count %}
-                    <div class="d-inline-block text-nowrap">
-                        {% for icon in page.avg_score|get_stars %}
-                            <i class="material-icons md-narrow align-middle text-warning">{{ icon }}</i>
-                        {% endfor %}
-                    </div>
-                    <div class="d-inline-block text-nowrap align-middle ml-1">
-                        {{ page.course_reviews.count }} reviews
-                    </div>
-                {% endif %}
-                <p class="my-1">{{ page.summary }}</p>
-                <div>
-                    <div class="d-inline-block mr-2">
-                        <i class="material-icons md-18 align-middle">signal_cellular_alt</i>
-                        <span class="align-middle">{{ page.difficulty | course_difficulty_enum }}</span>
-                    </div>
-                    <div class="d-inline-block mr-2">
-                        <i class="material-icons md-18 align-middle">face</i>
-                        <span class="align-middle">{{ page.provider }}</span>
-                    </div>
-                    <div class="d-inline-block mr-2">
-                        <i class="material-icons md-18 align-middle">credit_card</i>
-                        <span class="align-middle">
-                            {% if page.cost == 0%}
-                                Free
-                            {% else %}
-                                ${{ page.cost | floatformat:"0" | intcomma }}
-                            {% endif %}
-                        </span>
-                    </div>
-                    <div class="d-inline-block mr-2">
-                        <i class="material-icons md-18 align-middle">schedule</i>
-                        <span class="mr-1 align-middle">
-                            {{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}
-                        </span>
+                        <div class="d-inline-block mr-2">
+                            <i class="material-icons md-18 align-middle">signal_cellular_alt</i>
+                            <span class="align-middle">{{ page.difficulty | course_difficulty_enum }}</span>
+                        </div>
+                        <div class="d-inline-block mr-2">
+                            <i class="material-icons md-18 align-middle">face</i>
+                            <span class="align-middle">{{ page.provider }}</span>
+                        </div>
+                        <div class="d-inline-block mr-2">
+                            <i class="material-icons md-18 align-middle">credit_card</i>
+                            <span class="align-middle">
+                                {% if page.cost == 0%}
+                                    Free
+                                {% else %}
+                                    ${{ page.cost | floatformat:"0" | intcomma }}
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="d-inline-block mr-2">
+                            <i class="material-icons md-18 align-middle">schedule</i>
+                            <span class="mr-1 align-middle">
+                                {{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </a>
-{% empty %}
-    <p class="border text-center py-5">No results were returned. Please try updating your filters. 😊</p>
-{% endfor %}
+        </a>
+    {% empty %}
+        <p class="border text-center py-5">No courses were returned. Please try updating your filters. 😊</p>
+    {% endfor %}
+</div>

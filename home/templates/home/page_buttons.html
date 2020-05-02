@@ -9,25 +9,25 @@
         {% with active="btn border btn-secondary disabled" %}
         {% with hide_xs="d-none d-sm-block" %}
             <a class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
-               href="{% build_url 'page' 1 %}">
+               href="{% build_url 'page' 1 %}#{{ anchor }}">
                 First
             </a>
             <a class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %} {{ hide_xs }}"
-               href="{% build_url 'page' paging_data.previous_page %}">
+               href="{% build_url 'page' paging_data.previous_page %}#{{ anchor }}">
                 Previous
             </a>
             {% for page_num in paging_data.page_range %}
                 <a class="{% if curr_pg == page_num %}{{ active }}{% else %}{{ enabled }}{% endif %}"
-                   href="{% build_url 'page' page_num %}">
+                   href="{% build_url 'page' page_num %}#{{ anchor }}">
                     {{ page_num }}
                 </a>
             {% endfor %}
             <a class="{% if curr_pg >= num_pg %}{{ disabled }}{% else %}{{ enabled }}{% endif %} {{ hide_xs }}"
-               href="{% build_url 'page' paging_data.next_page %}">
+               href="{% build_url 'page' paging_data.next_page %}#{{ anchor }}">
                 Next
             </a>
             <a class="{% if curr_pg >= num_pg %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
-               href="{% build_url 'page' num_pg %}">
+               href="{% build_url 'page' num_pg %}#{{ anchor }}">
                 Last
             </a>
         {% endwith %}

@@ -1,0 +1,44 @@
+{% load learnk12_tags %}
+
+<div class="my-1">
+    <div class="dropdown d-inline">
+        <button class="btn btn-sm border mb-1 {{ sort_btn.selected_labels|yesno:'btn-primary,btn-light' }}"
+           data-toggle="dropdown"
+           aria-haspopup="true"
+           aria-expanded="false">
+            <span class="align-middle">{{ sort_btn.selected_labels|default:'Sort' }}</span>
+            <i class="material-icons md-15 align-middle md-narrow">unfold_more</i>
+        </button>
+        <div class="dropdown-menu">
+            {% for col, label in sort_btn.choices.items %}
+                <a class="dropdown-item {% if sort_btn.selected_labels|eq:label %}d-none{% endif %}"
+                   href="{% build_url 'sort' col %}">
+                        {{ label }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% for category, filter_btn in filter_btns.items %}
+        <div class="dropdown d-inline">
+            <button class="btn btn-sm border mb-1 {{ filter_btn.selected_args|yesno:'btn-primary,btn-light' }}"
+               data-toggle="dropdown"
+               aria-haspopup="true"
+               aria-expanded="false">
+                <span class="align-middle">{{ category.1 }}</span>
+                {% if filter_btn.selected_args %}
+                    <span class="align-middle">({{ filter_btn.selected_args|length }})</span>
+                {% endif %}
+                <i class="material-icons md-15 align-middle">filter_list</i>
+            </button>
+            <div class="dropdown-menu">
+                {% for col, label in filter_btn.choices.items %}
+                    <a class="dropdown-item {% if col|is_in:filter_btn.selected_args %}badge-primary {% endif %}"
+                        href="{% build_url category.0 col True %}#{{ anchor }}">
+                            {{ label | title }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+    <a href="{{ page.url }}#{{ anchor }}" class="ml-1"><small>Reset</small></a>
+</div>
