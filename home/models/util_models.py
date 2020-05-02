@@ -34,10 +34,16 @@ class ParamData:
 
 
 class PagingData:
-    def __init__(self, range_start, range_stop, current_page, num_pages, num_records):
-        self.page_range = range(range_start, range_stop)
+    def __init__(self, current_page, num_pages, num_records):
         self.current_page = current_page
         self.num_pages = num_pages
         self.num_records = num_records
-        self.next_page = current_page + 1
-        self.previous_page = current_page - 1
+        range_start = max(current_page - 2, 1)
+        range_stop = min(range_start + 5, num_pages + 1)
+        self.page_range = range(range_start, range_stop)
+
+    def next_page(self):
+        return self.current_page + 1
+
+    def previous_page(self):
+        return self.current_page - 1

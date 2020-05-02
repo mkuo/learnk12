@@ -64,9 +64,5 @@ class CoursesMixin:
             page = paginator.num_pages
             courses = paginator.page(page)
 
-        # get page numbers and parse for front-end
-        range_start = max(page - 2, 1)
-        range_stop = min(range_start + 5, paginator.num_pages + 1)
-        paging_data = PagingData(range_start, range_stop, page, paginator.num_pages, paginator.count)
-
+        paging_data = PagingData(page, paginator.num_pages, paginator.count)
         return courses, paging_data
