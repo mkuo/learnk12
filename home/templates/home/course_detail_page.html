@@ -80,9 +80,19 @@
     </section>
     <section id="reviews" class="mt-0 pt-4">
         <h2>Reviews</h2>
-        {% if page.review_count %}
-            {% include 'home/query_buttons.html' %}
-        {% endif %}
+        <div class="d-flex justify-content-between">
+            {% if page.review_count %}
+                {% include 'home/query_buttons.html' %}
+            {% endif %}
+            <button class="btn btn-success d-none d-sm-block {{ page.review_count|yesno:',mb-2' }}">
+                <span class="align-middle">Write a review</span>
+                <i class="material-icons md-15 align-middle">create</i>
+            </button>
+        </div>
+        <button class="btn btn-success d-block d-sm-none {{ page.review_count|yesno:',mb-2' }}">
+            <span class="align-middle">Write a review</span>
+            <i class="material-icons md-15 align-middle">create</i>
+        </button>
         {% include 'home/course_reviews.html' %}
         {% include 'home/page_buttons.html' %}
     </section>

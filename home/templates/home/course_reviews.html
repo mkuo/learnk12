@@ -1,9 +1,11 @@
 {% load humanize learnk12_tags %}
 
-<small class="text-muted">
-    {{ paging_data.num_records }} result{{ paging_data.num_records | pluralize }} from
-    {{ page.review_count }} total review{{ page.review_count|pluralize }}
-</small>
+{% if page.review_count %}
+    <small class="text-muted">
+        {{ paging_data.num_records }} result{{ paging_data.num_records | pluralize }} from
+        {{ page.review_count }} total review{{ page.review_count|pluralize }}
+    </small>
+{% endif %}
 <div>
     {% for review in reviews %}
         <div class="border rounded p-4 mb-3">
