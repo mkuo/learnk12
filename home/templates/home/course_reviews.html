@@ -2,7 +2,7 @@
 
 <small class="text-muted">
     {{ paging_data.num_records }} result{{ paging_data.num_records | pluralize }} from
-    {{ review_count }} total review{{ review_count|pluralize }}
+    {{ page.review_count }} total review{{ page.review_count|pluralize }}
 </small>
 <div>
     {% for review in reviews %}

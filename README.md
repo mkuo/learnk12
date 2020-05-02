@@ -59,5 +59,5 @@ $ ssh mike@learnk12.org
 
 To run custom Django commands, see command files in `learnk12/home/management/commands`.
 ```
-(venv) [mike@learnk12 learnk12 (master)]$ ./manage.py update_courses_avg_score
+(venv) [mike@learnk12 learnk12 (master)]$ ./manage.py update_courses_agg_fields
 ```

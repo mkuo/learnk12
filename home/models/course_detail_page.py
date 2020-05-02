@@ -39,6 +39,7 @@ class CourseDetailPage(Page):
     difficulty = models.PositiveSmallIntegerField(db_index=True, choices=CourseDifficulty.choices)
     tags = ClusterTaggableManager(through=CourseTag, blank=True)
     avg_score = models.FloatField(db_index=True, blank=True, null=True)
+    review_count = models.IntegerField(default=0)
 
     # editor fields
     content_panels = Page.content_panels + [
