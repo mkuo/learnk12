@@ -6,16 +6,16 @@
     <h1>Online Computer Science Courses</h1>
     <div class="my-1">
         <div class="dropdown d-inline">
-            <button class="btn btn-sm border mb-1 {{ sort_btn.selected_label|yesno:'btn-primary,btn-light' }}"
+            <button class="btn btn-sm border mb-1 {{ sort_btn.selected_labels|yesno:'btn-primary,btn-light' }}"
                data-toggle="dropdown"
                aria-haspopup="true"
                aria-expanded="false">
-                <span class="align-middle">{{ sort_btn.selected_label|default:'Sort' }}</span>
+                <span class="align-middle">{{ sort_btn.selected_labels|default:'Sort' }}</span>
                 <i class="material-icons md-15 align-middle md-narrow">unfold_more</i>
             </button>
             <div class="dropdown-menu">
                 {% for col, label in sort_btn.choices.items %}
-                    <a class="dropdown-item {% if sort_btn.selected_label|eq:label %}d-none{% endif %}"
+                    <a class="dropdown-item {% if sort_btn.selected_labels|eq:label %}d-none{% endif %}"
                        href="{% build_url 'sort' col %}">
                             {{ label }}
                     </a>
@@ -36,7 +36,7 @@
                 </button>
                 <div class="dropdown-menu">
                     {% for col, label in filter_btn.choices.items %}
-                        <a class="dropdown-item {% if col|isin:filter_btn.selected_args %}badge-primary {% endif %}"
+                        <a class="dropdown-item {% if col|is_in:filter_btn.selected_args %}badge-primary {% endif %}"
                             href="{% build_url category col %}">
                                 {{ label | title }}
                         </a>
@@ -47,52 +47,11 @@
         <a href="{{ page.url }}" class="ml-1"><small>Reset</small></a>
     </div>
     <small class="text-muted">
-        {{ courses_paged.num_courses }} result{{ courses_paged.num_courses | pluralize }} returned
+        {{ paging_data.num_courses }} result{{ paging_data.num_courses | pluralize }} returned
     </small>
     <div class="list-group">
         {% include 'home/courses_table.html' %}
     </div>
-    <div class="text-center my-2">
-        <div class="btn-group btn-group-sm flex-wrap" role="group" aria-label="Navigation">
-            {% with curr_pg=courses_paged.current_page %}
-            {% with num_pg=courses_paged.num_pages %}
-            {% with enabled="btn border btn-light" %}
-            {% with disabled="btn border btn-light disabled" %}
-            {% with active="btn border btn-secondary disabled" %}
-            {% with hide_xs="d-none d-sm-block" %}
-            {% with prev_page=courses_paged.current_page|add:-1 %}
-            {% with next_page=courses_paged.current_page|add:1 %}
-                <a class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
-                   href="{% build_url 'page' 1 %}">
-                    First
-                </a>
-                <a class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %} {{ hide_xs }}"
-                   href="{% build_url 'page' prev_page %}">
-                    Previous
-                </a>
-                {% for page_num in courses_paged.page_range %}
-                    <a class="{% if curr_pg == page_num %}{{ active }}{% else %}{{ enabled }}{% endif %}"
-                       href="{% build_url 'page' page_num %}">
-                        {{ page_num }}
-                    </a>
-                {% endfor %}
-                <a class="{% if curr_pg >= num_pg %}{{ disabled }}{% else %}{{ enabled }}{% endif %} {{ hide_xs }}"
-                   href="{% build_url 'page' next_page %}">
-                    Next
-                </a>
-                <a class="{% if curr_pg >= num_pg %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
-                   href="{% build_url 'page' num_pg %}">
-                    Last
-                </a>
-            {% endwith %}
-            {% endwith %}
-            {% endwith %}
-            {% endwith %}
-            {% endwith %}
-            {% endwith %}
-            {% endwith %}
-            {% endwith %}
-        </div>
-    </div>
+    {% include 'home/page_buttons.html' %}
 </div>
 {% endblock content %}

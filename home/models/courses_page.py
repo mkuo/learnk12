@@ -1,6 +1,7 @@
 from wagtail.core.models import Page
 
 from home.models.courses_mixin import CoursesMixin
+from home.models.util_models import ParamData
 
 
 class CoursesPage(CoursesMixin, Page):
@@ -14,7 +15,7 @@ class CoursesPage(CoursesMixin, Page):
         context = super().get_context(request)
 
         # paging
-        page = self._sanitize_int_arg(request, 'page', default=1)
+        page = ParamData.sanitize_int_arg(request, 'page', default=1)
 
         # sorting
         context['sort_btn'] = self._get_course_sort_data(request, default_sort='-avg_score')
@@ -26,11 +27,12 @@ class CoursesPage(CoursesMixin, Page):
             'provider': self._get_course_provider_data(request)
         }
 
-        context['courses_paged'] = self._get_courses_paged(
+        # courses
+        context['courses_paged'], context['paging_data'] = self._get_courses_paged(
             page,
-            context['sort_btn']['selected_arg'],
-            context['filter_btns']['tag']['selected_args'],
-            context['filter_btns']['difficulty']['selected_args'],
-            context['filter_btns']['provider']['selected_args']
+            context['sort_btn'].selected_args[0],
+            context['filter_btns']['tag'].selected_args,
+            context['filter_btns']['difficulty'].selected_args,
+            context['filter_btns']['provider'].selected_args
         )
         return context

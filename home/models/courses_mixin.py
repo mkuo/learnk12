@@ -2,51 +2,35 @@ from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q, F
 
 from home.models import CourseDetailPage, CourseTag
+from home.models.util_models import ParamData, PagingData
 
 
 class CoursesMixin:
-    def _get_course_sort_data(self, request, default_sort=None):
+    def _get_course_sort_data(self, request, default_sort):
         sort_column_labels = {
             '-avg_score': 'Rating',
             'title': 'Title',
             'cost': 'Cost',
             'duration_hours': 'Duration'
         }
-        sort_arg = self._sanitize_arg(request, 'sort', sort_column_labels.keys(), default_sort)
-        return {
-            'selected_arg': sort_arg,
-            'selected_label': sort_column_labels[sort_arg],
-            'choices': sort_column_labels
-        }
+        return ParamData(request, 'sort', sort_column_labels, is_list=False, default=default_sort)
 
-    def _get_course_tag_data(self, request):
+    @staticmethod
+    def _get_course_tag_data(request):
         results = CourseTag.objects.values('tag__slug', 'tag__name').distinct()
         tags = {res['tag__slug']: res['tag__name'] for res in results}
-        tag_args = self._sanitize_args(request, 'tag', tags.keys())
-        return {
-            'selected_args': tag_args,
-            'selected_labels': [tags[arg] for arg in tag_args],
-            'choices': tags
-        }
+        return ParamData(request, 'tag', tags)
 
-    def _get_course_difficulty_data(self, request):
+    @staticmethod
+    def _get_course_difficulty_data(request):
         diffs = {str(val): label for val, label in CourseDetailPage.CourseDifficulty.choices}
-        diff_args = self._sanitize_args(request, 'difficulty', diffs.keys())
-        return {
-            'selected_args': diff_args,
-            'selected_labels': [diffs[arg] for arg in diff_args],
-            'choices': diffs
-        }
+        return ParamData(request, 'difficulty', diffs)
 
-    def _get_course_provider_data(self, request):
+    @staticmethod
+    def _get_course_provider_data(request):
         results = CourseDetailPage.objects.live().order_by().values('provider').distinct()
         providers = {res['provider']: res['provider'] for res in results}
-        provider_args = self._sanitize_args(request, 'provider', providers.keys())
-        return {
-            'selected_args': provider_args,
-            'selected_labels': [providers[arg] for arg in provider_args],
-            'choices': providers
-        }
+        return ParamData(request, 'provider', providers)
 
     @staticmethod
     def _get_courses_paged(page, sort_arg, tag_args, difficulty_args, provider_args):
@@ -83,34 +67,6 @@ class CoursesMixin:
         # get page numbers and parse for front-end
         range_start = max(page - 2, 1)
         range_stop = min(range_start + 5, paginator.num_pages + 1)
-        page_range = range(range_start, range_stop)
+        paging_data = PagingData(range_start, range_stop, page, paginator.num_pages, paginator.count)
 
-        return {
-            'courses': courses,
-            'page_range': page_range,
-            'current_page': page,
-            'num_pages': paginator.num_pages,
-            'num_courses': paginator.count
-        }
-
-    @staticmethod
-    def _sanitize_arg(request, param, allowed, default=None):
-        arg = request.GET.get(param, default)
-        if arg not in allowed:
-            arg = default
-        return arg
-
-    @staticmethod
-    def _sanitize_args(request, param, allowed):
-        args = request.GET.getlist(param, [])
-        if not all(arg in allowed for arg in args):
-            args = []
-        return set(args)
-
-    @staticmethod
-    def _sanitize_int_arg(request, param, default=None):
-        page = request.GET.get(param, default)
-        try:
-            return int(page)
-        except ValueError:
-            return default
+        return courses, paging_data

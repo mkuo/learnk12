@@ -8,7 +8,11 @@ register = Library()
 
 
 @register.filter
-def isin(el, iterable):
+def gr_than_eq(first, second):
+    return first >= second
+
+@register.filter
+def is_in(el, iterable):
     return el in iterable
 
 
