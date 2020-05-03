@@ -14,16 +14,14 @@
             </div>
         {% endif %}
         {% if page.review_count %}
-            <div class="d-inline-block text-nowrap">
+            <a href="#reviews" class="d-inline-block text-nowrap text-decoration-none">
                 {% for icon in page.avg_score|get_stars %}
                     <i class="material-icons md-narrow align-middle text-warning">{{ icon }}</i>
                 {% endfor %}
-            </div>
-            <div class="d-inline-block text-nowrap">
-                <a href="#reviews" class="ml-1 align-middle text-secondary">
-                    {{ page.review_count }} review{{ page.review_count|pluralize }}
-                </a>
-            </div>
+            </a>
+            <a href="#reviews" class="d-inline-block text-nowrap ml-1 align-middle text-secondary">
+                {{ page.review_count }} review{{ page.review_count|pluralize }}
+            </a>
         {% endif %}
         {% if page.summary %}
             <div class="my-2">
@@ -94,27 +92,27 @@
                 <i class="material-icons md-15 align-middle">create</i>
             </button>
         </div>
-        <button class="btn-success d-block d-sm-none {{ page.review_count|yesno:',mb-2' }}"
+        <button class="btn btn-success d-block d-sm-none {{ page.review_count|yesno:',mb-2' }}"
                 data-toggle="collapse"
                 data-target="#write-review">
             <span class="align-middle">Write a review</span>
             <i class="material-icons md-15 align-middle">create</i>
         </button>
         <div id="write-review" class="border rounded p-4 my-2 bg-light collapse {{ show_form|yesno:'show,' }}">
-            <form method="post">
+            <form method="post" action="{{ page.url }}#reviews">
                 {% csrf_token %}
                 <div class="row">
-                    <div class="col-sm-2">
-                        {{ form.score | as_crispy_field }}
-                    </div>
-                    <div class="col-sm-2">
-                        {{ form.reviewer_type | as_crispy_field }}
-                    </div>
-                    <div class="col-sm-4">
+                    <div class="col-md-3">
                         {{ form.name | as_crispy_field }}
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-md-3">
                         {{ form.email | as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form.reviewer_type | as_crispy_field }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form.score | as_crispy_field }}
                     </div>
                 </div>
                 <div class="row">

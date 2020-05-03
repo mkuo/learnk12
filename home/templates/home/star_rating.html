@@ -1,0 +1,32 @@
+<style>
+    #stars-list {
+        cursor: pointer;
+    }
+    .star-yellow,
+    #stars-list:hover i {
+        color: #ffc107;
+    }
+    .star-gray,
+    #stars-list i:hover ~ i {
+        color: gray;
+    }
+</style>
+
+<script>
+    const starClick = (el) => {
+        const val = $(el).attr('value')
+        $('#score').attr('value', val)
+        const stars = $(el).parent().children()
+        stars.slice(0, val).addClass('star-yellow').removeClass('star-gray')
+        stars.slice(val).addClass('star-gray').removeClass('star-yellow')
+    }
+</script>
+
+<input type="hidden" id="score" name="score">
+<div id="stars-list" class="mt-1 star-gray">
+    <i class="material-icons md-24" value="1" onclick="starClick(this)">star</i>
+    <i class="material-icons md-24" value="2" onclick="starClick(this)">star</i>
+    <i class="material-icons md-24" value="3" onclick="starClick(this)">star</i>
+    <i class="material-icons md-24" value="4" onclick="starClick(this)">star</i>
+    <i class="material-icons md-24" value="5" onclick="starClick(this)">star</i>
+</div>
