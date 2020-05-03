@@ -14,11 +14,16 @@
 
 <script>
     const starClick = (el) => {
-        const val = $(el).attr('value')
-        $('#score').attr('value', val)
-        const stars = $(el).parent().children()
-        stars.slice(0, val).addClass('star-yellow').removeClass('star-gray')
-        stars.slice(val).addClass('star-gray').removeClass('star-yellow')
+        const val = el.getAttribute('value')
+        document.querySelector('#score').setAttribute('value', val)
+        for (selected of stars.slice(0, val)) {
+            selected.classList.add('star-yellow')
+            selected.classList.remove('star-gray')
+        }
+        for (unselected of stars.slice(val)) {
+            unselected.classList.add('star-gray')
+            unselected.classList.remove('star-yellow')
+        }
     }
 </script>
 
@@ -30,3 +35,9 @@
     <i class="material-icons md-24" value="4" onclick="starClick(this)">star</i>
     <i class="material-icons md-24" value="5" onclick="starClick(this)">star</i>
 </div>
+
+<script>
+    const stars = Array.prototype.slice.call(
+        document.querySelectorAll('#stars-list i')
+    )
+</script>
