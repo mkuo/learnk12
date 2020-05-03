@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load humanize learnk12_tags static wagtailcore_tags wagtailimages_tags %}
+{% load crispy_forms_tags humanize learnk12_tags static wagtailcore_tags wagtailimages_tags %}
 
 {% block content %}
 <div class="container">
@@ -80,19 +80,63 @@
     </section>
     <section id="reviews" class="mt-0 pt-4">
         <h2>Reviews</h2>
+        {% if review_success %}
+            <div class="alert alert-success" role="alert">Thank you for your review! 😊</div>
+        {% endif %}
         <div class="d-flex justify-content-between">
             {% if page.review_count %}
                 {% include 'home/query_buttons.html' %}
             {% endif %}
-            <button class="btn btn-success d-none d-sm-block {{ page.review_count|yesno:',mb-2' }}">
+            <button class="btn btn-success d-none d-sm-block {{ page.review_count|yesno:',mb-2' }}"
+                    data-toggle="collapse"
+                    data-target="#write-review">
                 <span class="align-middle">Write a review</span>
                 <i class="material-icons md-15 align-middle">create</i>
             </button>
         </div>
-        <button class="btn btn-success d-block d-sm-none {{ page.review_count|yesno:',mb-2' }}">
+        <button class="btn-success d-block d-sm-none {{ page.review_count|yesno:',mb-2' }}"
+                data-toggle="collapse"
+                data-target="#write-review">
             <span class="align-middle">Write a review</span>
             <i class="material-icons md-15 align-middle">create</i>
         </button>
+        <div id="write-review" class="border rounded p-4 my-2 bg-light collapse {{ show_form|yesno:'show,' }}">
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-sm-2">
+                        {{ form.score | as_crispy_field }}
+                    </div>
+                    <div class="col-sm-2">
+                        {{ form.reviewer_type | as_crispy_field }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form.name | as_crispy_field }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form.email | as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ form.subject | as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ form.description | as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{ form.is_anonymous | as_crispy_field }}
+                    </div>
+                    <div class="col text-right">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
         {% include 'home/course_reviews.html' %}
         {% include 'home/page_buttons.html' %}
     </section>

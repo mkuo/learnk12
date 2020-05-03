@@ -1,4 +1,4 @@
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, MinLengthValidator
 from django.db import models, connection
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
@@ -18,7 +18,7 @@ class CourseReview(models.Model):
 
     # database fields
     score = models.PositiveSmallIntegerField(db_index=True, validators=[MaxValueValidator(5)])
-    publish_date = models.DateField(db_index=True)
+    publish_date = models.DateField(db_index=True, auto_now_add=True)
     subject = models.TextField(db_index=True)
     description = models.TextField(db_index=True)
     date_modified = models.DateTimeField(db_index=True, auto_now=True)

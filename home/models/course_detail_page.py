@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator, EmptyPage
 from django.db import models
 from django.db.models import F, Q
+from django.shortcuts import render
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from wagtail.admin.edit_handlers import (
     FieldPanel,
@@ -12,6 +13,7 @@ from wagtail.admin.edit_handlers import (
 from wagtail.core.fields import RichTextField
 from wagtail.core.models import Page
 
+from home.forms.course_review_form import CourseReviewForm
 from home.models.course_review import CourseReview
 from home.models.course_tag import CourseTag
 from home.models.util_models import ParamData, PagingData
@@ -125,4 +127,23 @@ class CourseDetailPage(Page):
             context['sort_btn'].selected_args[0],
             reviewer_type_data.selected_args
         )
+        context['form'] = CourseReviewForm()
         return context
+
+    def serve(self, request):
+        context = self.get_context(request)
+        if request.method == 'POST':
+            form = CourseReviewForm(request.POST)
+            if form.is_valid():
+                obj = form.save(commit=False)
+                obj.course_detail_page_id = self.page_ptr_id
+                obj.save()
+                context['review_success'] = True
+            else:
+                context['form'] = form
+                context['show_form'] = form
+        return render(
+            request,
+            self.get_template(request),
+            context
+        )
