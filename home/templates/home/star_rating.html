@@ -2,14 +2,6 @@
     #stars-list {
         cursor: pointer;
     }
-    .star-yellow,
-    #stars-list:hover i {
-        color: #ffc107;
-    }
-    .star-gray,
-    #stars-list i:hover ~ i {
-        color: gray;
-    }
 </style>
 
 <script>
@@ -17,23 +9,68 @@
         const val = el.getAttribute('value')
         document.querySelector('#score').setAttribute('value', val)
         for (selected of stars.slice(0, val)) {
-            selected.classList.add('star-yellow')
-            selected.classList.remove('star-gray')
+            selected.classList.add('text-warning')
+            selected.classList.remove('text-secondary')
         }
         for (unselected of stars.slice(val)) {
-            unselected.classList.add('star-gray')
-            unselected.classList.remove('star-yellow')
+            unselected.classList.add('text-secondary')
+            unselected.classList.remove('text-warning')
         }
+    }
+    const starMouseover = (el) => {
+        const val = el.getAttribute('value')
+        for (selected of stars.slice(0, val)) {
+            selected.classList.add('text-warning')
+            selected.classList.remove('text-secondary')
+        }
+        for (unselected of stars.slice(val)) {
+            unselected.classList.add('text-secondary')
+            unselected.classList.remove('text-warning')
+        }
+    }
+    const starMouseout = () => {
+        const input = document.querySelector('#score')
+        starClick(input)
     }
 </script>
 
 <input type="hidden" id="score" name="score">
-<div id="stars-list" class="mt-1 star-gray">
-    <i class="material-icons md-24" value="1" onclick="starClick(this)">star</i>
-    <i class="material-icons md-24" value="2" onclick="starClick(this)">star</i>
-    <i class="material-icons md-24" value="3" onclick="starClick(this)">star</i>
-    <i class="material-icons md-24" value="4" onclick="starClick(this)">star</i>
-    <i class="material-icons md-24" value="5" onclick="starClick(this)">star</i>
+<div id="stars-list" class="mt-1">
+    <div class="d-inline"
+         value="1"
+         onmouseout="starMouseout()"
+         onmouseover="starMouseover(this)"
+         onclick="starClick(this)">
+        <i class="material-icons md-24 text-secondary">star</i>
+    </div>
+    <div class="d-inline"
+         value="2"
+         onmouseout="starMouseout()"
+         onmouseover="starMouseover(this)"
+         onclick="starClick(this)">
+        <i class="material-icons md-24 text-secondary">star</i>
+    </div>
+    <div class="d-inline"
+         value="3"
+         onmouseout="starMouseout()"
+         onmouseover="starMouseover(this)"
+         onclick="starClick(this)">
+        <i class="material-icons md-24 text-secondary">star</i>
+    </div>
+    <div class="d-inline"
+         value="4"
+         onmouseout="starMouseout()"
+         onmouseover="starMouseover(this)"
+         onclick="starClick(this)">
+        <i class="material-icons md-24 text-secondary">star</i>
+    </div>
+    <div class="d-inline"
+         value="5"
+         onmouseout="starMouseout()"
+         onmouseover="starMouseover(this)"
+         onclick="starClick(this)">
+        <i class="material-icons md-24 text-secondary">star</i>
+    </div>
 </div>
 
 <script>
