@@ -141,7 +141,7 @@ class CourseDetailPage(Page):
                 context['review_success'] = True
             else:
                 context['form'] = form
-                context['show_form'] = form
+                context['show_form'] = True
         return render(
             request,
             self.get_template(request),

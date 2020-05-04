@@ -85,19 +85,23 @@
             {% if page.review_count %}
                 {% include 'home/query_buttons.html' %}
             {% endif %}
-            <button class="btn btn-success d-none d-sm-block {{ page.review_count|yesno:',mb-2' }}"
+            {% if not review_success %}
+                <button class="btn btn-success d-none d-sm-block {{ page.review_count|yesno:',mb-2' }}"
+                        data-toggle="collapse"
+                        data-target="#write-review">
+                    <span class="align-middle">Write a review</span>
+                    <i class="material-icons md-15 align-middle">create</i>
+                </button>
+            {% endif %}
+        </div>
+        {% if not review_success %}
+            <button class="btn btn-success d-block d-sm-none {{ page.review_count|yesno:',mb-2' }}"
                     data-toggle="collapse"
                     data-target="#write-review">
                 <span class="align-middle">Write a review</span>
                 <i class="material-icons md-15 align-middle">create</i>
             </button>
-        </div>
-        <button class="btn btn-success d-block d-sm-none {{ page.review_count|yesno:',mb-2' }}"
-                data-toggle="collapse"
-                data-target="#write-review">
-            <span class="align-middle">Write a review</span>
-            <i class="material-icons md-15 align-middle">create</i>
-        </button>
+        {% endif %}
         <div id="write-review" class="border rounded p-4 my-2 bg-light collapse {{ show_form|yesno:'show,' }}">
             <form method="post" action="{{ page.url }}#reviews">
                 {% csrf_token %}

@@ -34,37 +34,37 @@
     }
 </script>
 
-<input type="hidden" id="score" name="score">
+<input type="hidden" id="score" name="{{ widget.name }}" value="0" {% include "django/forms/widgets/attrs.html" %}>
 <div id="stars-list" class="mt-1">
-    <div class="d-inline"
+    <div class="rating-star d-inline"
          value="1"
          onmouseout="starMouseout()"
          onmouseover="starMouseover(this)"
          onclick="starClick(this)">
         <i class="material-icons md-24 text-secondary">star</i>
     </div>
-    <div class="d-inline"
+    <div class="rating-star d-inline"
          value="2"
          onmouseout="starMouseout()"
          onmouseover="starMouseover(this)"
          onclick="starClick(this)">
         <i class="material-icons md-24 text-secondary">star</i>
     </div>
-    <div class="d-inline"
+    <div class="rating-star d-inline"
          value="3"
          onmouseout="starMouseout()"
          onmouseover="starMouseover(this)"
          onclick="starClick(this)">
         <i class="material-icons md-24 text-secondary">star</i>
     </div>
-    <div class="d-inline"
+    <div class="rating-star d-inline"
          value="4"
          onmouseout="starMouseout()"
          onmouseover="starMouseover(this)"
          onclick="starClick(this)">
         <i class="material-icons md-24 text-secondary">star</i>
     </div>
-    <div class="d-inline"
+    <div class="rating-star d-inline"
          value="5"
          onmouseout="starMouseout()"
          onmouseover="starMouseover(this)"
@@ -77,4 +77,10 @@
     const stars = Array.prototype.slice.call(
         document.querySelectorAll('#stars-list i')
     )
+    {% if widget.value %}
+        const selectedStar = document.querySelector(
+            'div.rating-star[value="' + {{ widget.value|safe }}[0] + '"]'
+        )
+        starClick(selectedStar)
+    {% endif %}
 </script>
