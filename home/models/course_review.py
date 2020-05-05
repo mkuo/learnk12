@@ -20,7 +20,7 @@ class CourseReview(models.Model):
     score = models.PositiveSmallIntegerField(db_index=True, validators=[
         MinValueValidator(1), MaxValueValidator(5)
     ])
-    publish_date = models.DateField(db_index=True, auto_now_add=True)
+    publish_date = models.DateTimeField(db_index=True, auto_now_add=True)
     subject = models.TextField(db_index=True)
     description = models.TextField(db_index=True)
     date_modified = models.DateTimeField(db_index=True, auto_now=True)
