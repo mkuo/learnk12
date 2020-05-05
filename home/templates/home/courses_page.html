@@ -2,9 +2,33 @@
 
 {% block content %}
 <div class="container">
-    <h1>Online Computer Science Courses</h1>
-    {% include 'home/query_buttons.html' %}
-    {% include 'home/courses_table.html' %}
-    {% include 'home/page_buttons.html' %}
+    <div id="courses-table">
+        <h1>Online Computer Science Courses</h1>
+        {% include 'home/query_buttons.html' with anchor='#courses-table' %}
+        {% include 'home/courses_table.html' %}
+        {% include 'home/page_buttons.html' with anchor='#courses-table' %}
+    </div>
 </div>
 {% endblock content %}
+
+{% block extra_js %}
+<script>
+    const getPagedData = (url) => {
+        const anchor = '#courses-table'
+        $.ajax({
+            url : url,
+            type : 'GET',
+            dataType: 'html',
+            success : function(data) {
+                $(anchor).html($(anchor, data));
+                $('html,body').animate({
+                    scrollTop: $(anchor).offset().top
+                }, 'fast')
+            },
+            error : function(request, error) {
+                console.log(error);
+            }
+        });
+    };
+</script>
+{% endblock extra_js %}

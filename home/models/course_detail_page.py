@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator, EmptyPage
 from django.db import models
 from django.db.models import F, Q
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from wagtail.admin.edit_handlers import (
     FieldPanel,
@@ -138,7 +138,15 @@ class CourseDetailPage(Page):
                 obj = form.save(commit=False)
                 obj.course_detail_page_id = self.page_ptr_id
                 obj.save()
-                context['review_success'] = True
+                # append operations do not get saved to the request object
+                # https://code.djangoproject.com/wiki/NewbieMistakes#Appendingtoalistinsessiondoesntwork
+                if 'reviewed_courses' not in request.session:
+                    reviewed_courses = []
+                else:
+                    reviewed_courses = request.session['reviewed_courses']
+                reviewed_courses.append(self.page_ptr_id)
+                request.session['reviewed_courses'] = reviewed_courses
+                return redirect(self.url)
             else:
                 context['form'] = form
                 context['show_form'] = True

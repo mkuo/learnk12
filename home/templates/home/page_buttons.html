@@ -8,28 +8,28 @@
         {% with disabled="btn border btn-light disabled" %}
         {% with active="btn border btn-secondary disabled" %}
         {% with hide_xs="d-none d-sm-block" %}
-            <a class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
-               href="{% build_url 'page' 1 %}#{{ anchor }}">
+            <button class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
+               onclick="getPagedData('{% build_url 'page' 1 %}')">
                 First
-            </a>
-            <a class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %} {{ hide_xs }}"
-               href="{% build_url 'page' paging_data.previous_page %}#{{ anchor }}">
+            </button>
+            <button class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %} {{ hide_xs }}"
+               onclick="getPagedData('{% build_url 'page' paging_data.previous_page %}')">
                 Previous
-            </a>
+            </button>
             {% for page_num in paging_data.page_range %}
-                <a class="{% if curr_pg == page_num %}{{ active }}{% else %}{{ enabled }}{% endif %}"
-                   href="{% build_url 'page' page_num %}#{{ anchor }}">
+                <button class="{% if curr_pg == page_num %}{{ active }}{% else %}{{ enabled }}{% endif %}"
+                   onclick="getPagedData('{% build_url 'page' page_num %}')">
                     {{ page_num }}
-                </a>
+                </button>
             {% endfor %}
-            <a class="{% if curr_pg >= num_pg %}{{ disabled }}{% else %}{{ enabled }}{% endif %} {{ hide_xs }}"
-               href="{% build_url 'page' paging_data.next_page %}#{{ anchor }}">
+            <button class="{% if curr_pg >= num_pg %}{{ disabled }}{% else %}{{ enabled }}{% endif %} {{ hide_xs }}"
+               onclick="getPagedData('{% build_url 'page' paging_data.next_page %}')">
                 Next
-            </a>
-            <a class="{% if curr_pg >= num_pg %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
-               href="{% build_url 'page' num_pg %}#{{ anchor }}">
+            </button>
+            <button class="{% if curr_pg >= num_pg %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
+               onclick="getPagedData('{% build_url 'page' num_pg %}')">
                 Last
-            </a>
+            </button>
         {% endwith %}
         {% endwith %}
         {% endwith %}

@@ -72,20 +72,22 @@
             <span class="align-middle">{{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}</span>
         </div>
     </section>
-    <section class="mb-0">
+    <section>
         <h2>Overview</h2>
         <p class="my-0 py-0">{{ page.overview | richtext }}</p>
     </section>
-    <section id="reviews" class="mt-0 pt-4">
+    <section id="reviews" class="pt-2">
         <h2>Reviews</h2>
-        {% if review_success %}
+        {% if page.page_ptr_id in request.session.reviewed_courses %}
             <div class="alert alert-success" role="alert">Thank you for your review! 😊</div>
         {% endif %}
         <div class="d-flex justify-content-between">
-            {% if page.review_count %}
-                {% include 'home/query_buttons.html' %}
-            {% endif %}
-            {% if not review_success %}
+            <div id="query-buttons">
+                {% if page.review_count %}
+                    {% include 'home/query_buttons.html' %}
+                {% endif %}
+            </div>
+            {% if 'reviewed_courses' not in request.session or page.page_ptr_id not in request.session.reviewed_courses %}
                 <button class="btn btn-success d-none d-sm-block {{ page.review_count|yesno:',mb-2' }}"
                         data-toggle="collapse"
                         data-target="#write-review">
@@ -94,7 +96,7 @@
                 </button>
             {% endif %}
         </div>
-        {% if not review_success %}
+        {% if 'reviewed_courses' not in request.session or page.page_ptr_id not in request.session.reviewed_courses %}
             <button class="btn btn-success d-block d-sm-none {{ page.review_count|yesno:',mb-2' }}"
                     data-toggle="collapse"
                     data-target="#write-review">
@@ -139,8 +141,32 @@
                 </div>
             </form>
         </div>
-        {% include 'home/course_reviews.html' %}
-        {% include 'home/page_buttons.html' %}
+        <div id="course-reviews">
+            {% include 'home/course_reviews.html' %}
+            {% include 'home/page_buttons.html' %}
+        </div>
     </section>
 </div>
 {% endblock content %}
+
+{% block extra_js %}
+<script>
+    const getPagedData = (url) => {
+        $.ajax({
+            url : url,
+            type : 'GET',
+            dataType: 'html',
+            success : function(data) {
+                $('#query-buttons').html($('#query-buttons', data));
+                $('#course-reviews').html($('#course-reviews', data));
+                $('html,body').animate({
+                    scrollTop: $('#reviews').offset().top
+                }, 'fast')
+            },
+            error : function(request, error) {
+                console.log(error);
+            }
+        });
+    };
+</script>
+{% endblock extra_js %}

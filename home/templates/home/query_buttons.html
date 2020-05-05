@@ -11,10 +11,10 @@
         </button>
         <div class="dropdown-menu">
             {% for col, label in sort_btn.choices.items %}
-                <a class="dropdown-item {% if sort_btn.selected_labels|eq:label %}d-none{% endif %}"
-                   href="{% build_url 'sort' col %}">
+                <button class="dropdown-item {% if sort_btn.selected_labels|eq:label %}d-none{% endif %}"
+                    onclick="getPagedData('{% build_url 'sort' col %}')">
                         {{ label }}
-                </a>
+                </button>
             {% endfor %}
         </div>
     </div>
@@ -32,13 +32,15 @@
             </button>
             <div class="dropdown-menu">
                 {% for col, label in filter_btn.choices.items %}
-                    <a class="dropdown-item {% if col|is_in:filter_btn.selected_args %}badge-primary {% endif %}"
-                        href="{% build_url category.0 col True %}#{{ anchor }}">
+                    <button class="dropdown-item {% if col|is_in:filter_btn.selected_args %}badge-primary {% endif %}"
+                        onclick="getPagedData('{% build_url category.0 col True %}')">
                             {{ label | title }}
-                    </a>
+                    </button>
                 {% endfor %}
             </div>
         </div>
     {% endfor %}
-    <a href="{{ page.url }}#{{ anchor }}" class="ml-1"><small>Reset</small></a>
+    <button onclick="getPagedData('{{ page.url }}')" class="btn btn-link p-0 ml-1">
+        <small>Reset</small>
+    </button>
 </div>
