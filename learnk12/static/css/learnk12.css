@@ -2,9 +2,15 @@ body {
     font-family: 'Lato', sans-serif;
 }
 
-.navbar-brand {
-    font-family: 'Baloo Bhaina 2', sans-serif;
-    font-size: 24px;
+.navbar-brand span {
+    color: darkslategray;
+    font-weight: 500;
+}
+
+.navbar-brand:hover span,
+.navbar-brand:hover img {
+    opacity: 0.8;
+    color: gray;
 }
 
 nav,
