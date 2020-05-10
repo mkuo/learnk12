@@ -29,7 +29,6 @@ class CourseReview(models.Model):
         STUDENT = 'student'
         PARENT = 'parent'
         TEACHER = 'teacher'
-        BUSINESS = 'business'
     reviewer_type = models.CharField(choices=ReviewerType.choices, max_length=24)
 
     name = models.CharField(max_length=255)
