@@ -36,7 +36,7 @@ class CoursesPage(Page):
 
     @staticmethod
     def _get_course_provider_data(request):
-        results = CourseDetailPage.objects.live().order_by().values('provider').distinct()
+        results = CourseDetailPage.objects.live().public().order_by().values('provider').distinct()
         providers = {res['provider']: res['provider'] for res in results}
         return ParamData(request, 'provider', providers)
 
