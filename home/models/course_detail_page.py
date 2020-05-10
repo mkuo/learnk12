@@ -130,28 +130,46 @@ class CourseDetailPage(Page):
         context['form'] = CourseReviewForm()
         return context
 
-    def serve(self, request):
-        context = self.get_context(request)
-        if request.method == 'POST':
-            form = CourseReviewForm(request.POST)
-            if form.is_valid():
+    def append_to_reviewed_courses(self, request):
+        # append operations do not get saved to the request object
+        # https://code.djangoproject.com/wiki/NewbieMistakes#Appendingtoalistinsessiondoesntwork
+        if 'reviewed_courses' not in request.session:
+            reviewed_courses = []
+        else:
+            reviewed_courses = request.session['reviewed_courses']
+        reviewed_courses.append(self.page_ptr_id)
+        request.session['reviewed_courses'] = reviewed_courses
+
+    def process_form(self, request, context):
+        form = CourseReviewForm(request.POST)
+        do_redirect = False
+        if form.is_valid():
+            existing_review = CourseReview.objects.filter(
+                course_detail_page_id=self.page_ptr_id,
+                email=form.cleaned_data['email']
+            ).exists()
+            if existing_review:
+                form.add_error('email', "A review already exists for this course and email.")
+                context['form'] = form
+                context['show_form'] = True
+            else:
                 obj = form.save(commit=False)
                 obj.course_detail_page_id = self.page_ptr_id
                 obj.save()
-                # append operations do not get saved to the request object
-                # https://code.djangoproject.com/wiki/NewbieMistakes#Appendingtoalistinsessiondoesntwork
-                if 'reviewed_courses' not in request.session:
-                    reviewed_courses = []
-                else:
-                    reviewed_courses = request.session['reviewed_courses']
-                reviewed_courses.append(self.page_ptr_id)
-                request.session['reviewed_courses'] = reviewed_courses
-                return redirect(self.url)
-            else:
-                context['form'] = form
-                context['show_form'] = True
-        return render(
-            request,
-            self.get_template(request),
-            context
-        )
+                self.append_to_reviewed_courses(request)
+                do_redirect = True
+        else:
+            context['form'] = form
+            context['show_form'] = True
+
+        return do_redirect, request, context
+
+    def serve(self, request):
+        context = self.get_context(request)
+        do_redirect = False
+        if request.method == 'POST':
+            do_redirect, request, context = self.process_form(request, context)
+        if do_redirect:
+            return redirect(self.url)
+        else:
+            return render(request, self.get_template(request), context)
