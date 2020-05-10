@@ -66,14 +66,38 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% slugurl 'courses' %}">Courses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% slugurl 'tutors' %}">Tutors</a>
-                    </li>
+                    {% get_menu_items as nested_menu_items %}
+                    {% for parent, children in nested_menu_items.items %}
+                        {% if children %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"
+                                   href="#" id="navbarDropdown"
+                                   role="button"
+                                   data-toggle="dropdown"
+                                   aria-haspopup="true"
+                                   aria-expanded="false">
+                                    {{ parent.title}}
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    {% for child in children %}
+                                    <a class="dropdown-item" href="{% slugurl child.page.slug %}">
+                                        {{ child.title }}
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% slugurl parent.page.slug %}">
+                                    {{ parent.title}}
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
                 </ul>
+                {% comment %}
                 <a class="nav-link px-0 text-info" href="#">Register or Sign in</a>
+                {% endcomment %}
             </div>
         </nav>
 

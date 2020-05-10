@@ -7,6 +7,7 @@ from wagtail.contrib.modeladmin.options import (
 from wagtail.core import hooks
 
 from home.models.course_review import CourseReview
+from home.models.menu_item import MenuItem
 
 
 class CourseReviewAdmin(ModelAdmin):
@@ -30,8 +31,20 @@ class TagAdmin(ModelAdmin):
     search_fields = ['name', 'slug']
 
 
+class MenuItemAdmin(ModelAdmin):
+    model = MenuItem
+    menu_icon = 'list-ul'
+    menu_order = 100
+    list_display = ['title', 'page', 'parent_item', 'order']
+    list_filter = ['parent_item']
+    search_fields = ['title', 'page']
+    add_to_settings_menu = True
+    exclude_from_explorer = True
+
+
 modeladmin_register(CourseReviewAdmin)
 modeladmin_register(TagAdmin)
+modeladmin_register(MenuItemAdmin)
 
 
 @hooks.register('register_admin_search_area')

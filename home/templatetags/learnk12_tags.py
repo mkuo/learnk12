@@ -3,6 +3,7 @@ from django.template import Library
 from urllib import parse
 
 from home.models.course_detail_page import CourseDetailPage
+from home.models.menu_item import MenuItem
 
 register = Library()
 
@@ -49,6 +50,17 @@ def get_stars(score):
             icons.append('star_outline')
         score -= 2
     return icons
+
+
+@register.simple_tag
+def get_menu_items():
+    query = MenuItem.objects.all()
+    nested_menu_items = {}
+    for item in query.filter(parent_item__isnull=True).order_by('order'):
+        nested_menu_items[item] = []
+    for item in query.filter(parent_item__isnull=False).order_by('order'):
+        nested_menu_items[item.parent_item].append(item)
+    return nested_menu_items
 
 
 @register.simple_tag
