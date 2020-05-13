@@ -1,7 +1,6 @@
 from wagtail.core.models import Page
 
 from home.models.course_detail_page import CourseDetailPage
-from home.models.tutor_detail_page import TutorDetailPage
 
 
 class HomePage(Page):
@@ -10,6 +9,7 @@ class HomePage(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        context['courses'] = Page.objects.type(CourseDetailPage)
-        context['tutors'] = Page.objects.type(TutorDetailPage)
+        course_query = CourseDetailPage.objects.live().public()
+        context['best_free'] = course_query.filter(cost=0).order_by('avg_score')[:3]
+        context['highest_rated'] = course_query.order_by('avg_score')[:3]
         return context

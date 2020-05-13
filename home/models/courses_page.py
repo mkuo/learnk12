@@ -43,7 +43,7 @@ class CoursesPage(Page):
     @staticmethod
     def _get_courses_paged(page, sort_arg, tag_args, difficulty_args, provider_args):
         # get courses from database
-        course_query = CourseDetailPage.objects.live()
+        course_query = CourseDetailPage.objects.live().public()
         if sort_arg[0] == '-':
             course_query = course_query.order_by(F(sort_arg[1:]).desc(nulls_last=True))
         else:

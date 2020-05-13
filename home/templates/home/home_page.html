@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load learnk12_tags static wagtailimages_tags %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/home_page.css' %}">
@@ -7,29 +7,19 @@
 
 {% block content %}
 <div class="splash d-flex justify-content-center align-items-center text-white">
-    <div class="text-center font-weight-bold">
-        <h1 class="display-1 text-white font-weight-normal">Your resource for K-12 online learning</h1>
-        <p class="display-3 font-weight-normal">Search courses. Read reviews.</p>
+    <div class="container text-center">
+        <h1 class="display-2 text-white font-weight-normal">
+            Your resource for <span class="text-nowrap">K-12</span> online education
+        </h1>
+        <p class="display-4">Find and compare online courses for young students.</p>
     </div>
 </div>
 <div class="container">
-    <h1 class="mt-4">2020 Best Online Computer Science Courses</h1>
-    <div>
-        {% for page in courses %}
-            <div>
-                <span>{{ page.title }}</span>
-                <a href="{{ page.url }}">click here</a>
-            </div>
-        {% endfor %}
-    </div>
-    <h1 class="mt-4">2020 Best Online Computer Science Tutors</h1>
-    <div>
-        {% for page in tutors %}
-            <div>
-                <span>{{ page.title }}</span>
-                <a href="{{ page.url }}">click here</a>
-            </div>
-        {% endfor %}
-    </div>
+    <h1 class="mt-5 mb-2">Best Free Coding Courses</h1>
+    <p class="lead">Free coding courses to get you started.</p>
+    {% include 'home/home_course_cards.html' with courses=best_free %}
+    <h1 class="mt-5">Highest Rated Coding Courses</h1>
+    <p class="lead">The best reviewed courses on Learn K12.</p>
+    {% include 'home/home_course_cards.html' with courses=highest_rated %}
 </div>
 {% endblock content %}

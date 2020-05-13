@@ -10,7 +10,7 @@
                 {% with page.course_images.all|first as first_image %}
                     {% if first_image %}
                         <div class="col-md-auto my-1 px-0 ml-3">
-                            {% image first_image.image fill-128x128-c100 class="d-inline-block rounded shadow-sm" %}
+                            {% image first_image.image fill-128x128 class="d-inline-block rounded shadow-sm" %}
                         </div>
                     {% endif %}
                 {% endwith %}
