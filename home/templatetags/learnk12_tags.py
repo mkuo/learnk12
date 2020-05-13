@@ -53,14 +53,19 @@ def get_stars(score):
 
 
 @register.simple_tag
-def get_menu_items():
-    query = MenuItem.objects.all()
+def get_nav_menu():
+    query = MenuItem.objects.exclude(title='footer').exclude(parent_item__title='footer')
     nested_menu_items = {}
     for item in query.filter(parent_item__isnull=True).order_by('order'):
         nested_menu_items[item] = []
     for item in query.filter(parent_item__isnull=False).order_by('order'):
         nested_menu_items[item.parent_item].append(item)
     return nested_menu_items
+
+
+@register.simple_tag
+def get_footer_menu():
+    return MenuItem.objects.filter(parent_item__title='footer').order_by('order')
 
 
 @register.simple_tag

@@ -55,8 +55,11 @@
     <body class="{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}">
         {% wagtailuserbar %}
         {% include 'navbar.html' %}
-
-        {% block content %}{% endblock %}
+        {% block heading %}{% endblock %}
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+        {% include 'footer.html' %}
 
         {# Global javascript #}
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"

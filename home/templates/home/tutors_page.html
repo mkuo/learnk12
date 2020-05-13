@@ -2,13 +2,11 @@
 {% load static %}
 
 {% block content %}
-<div class="container my-5">
-    <h1>Online Computer Science Tutors</h1>
-    {% for page in self.get_children.specific %}
-        <div>
-            <span>{{ page.title }}</span>
-            <a href="{{ page.url }}">click here</a>
-        </div>
-    {% endfor %}
-</div>
+<h1>Online Computer Science Tutors</h1>
+{% for page in self.get_children.specific %}
+    <div>
+        <span>{{ page.title }}</span>
+        <a href="{{ page.url }}">click here</a>
+    </div>
+{% endfor %}
 {% endblock content %}

@@ -2,151 +2,149 @@
 {% load crispy_forms_tags humanize learnk12_tags static wagtailcore_tags wagtailimages_tags %}
 
 {% block content %}
-<div class="container">
-    <section>
-    <h1 class="mb-0">{{ page.title }}</h1>
-        {% if page.tags.count %}
-            <div class="mb-1">
-                {% for tag in page.tags.all %}
-                    <a href="{{ self.get_parent.url }}?tag={{ tag.slug }}"
-                       class="badge badge-pill badge-info">{{ tag | title }}</a>
-                {% endfor %}
-            </div>
-        {% endif %}
-        {% if page.review_count %}
-            <a href="#reviews" class="d-inline-block text-nowrap text-decoration-none">
-                {% for icon in page.avg_score|get_stars %}
-                    <i class="material-icons md-narrow align-middle text-warning">{{ icon }}</i>
-                {% endfor %}
-            </a>
-            <a href="#reviews" class="d-inline-block text-nowrap ml-1 align-middle text-secondary">
-                {{ page.review_count }} review{{ page.review_count|pluralize }}
-            </a>
-        {% endif %}
-        {% if page.summary %}
-            <div class="my-2">
-                <span class="font-weight-bold">Learn K12 takeaway:</span>
-                <span>{{ page.summary }}</span>
-            </div>
-        {% endif %}
-        <hr>
-    </section>
-    <section>
-        <h2>Course Details</h2>
-        {% if page.course_images %}
-            <div class="overflow-auto text-nowrap pb-3">
-                {% for course_image in page.course_images.all %}
-                    {% image course_image.image fill-256x256-c100 class="rounded mr-2 shadow-sm" %}
-                {% endfor %}
-            </div>
-        {% endif %}
-        <div>
-            <i class="material-icons md-18 align-middle">signal_cellular_alt</i>
-            <span class="font-weight-bold align-middle mx-1">Difficulty:</span>
-            <a href="{{ self.get_parent.url }}?difficulty={{ page.difficulty }}"
-               class="align-middle">{{ page.difficulty | course_difficulty_enum }}</a>
+<section>
+<h1 class="mb-0">{{ page.title }}</h1>
+    {% if page.tags.count %}
+        <div class="mb-1">
+            {% for tag in page.tags.all %}
+                <a href="{{ self.get_parent.url }}?tag={{ tag.slug }}"
+                   class="badge badge-pill badge-info">{{ tag | title }}</a>
+            {% endfor %}
         </div>
-        <div>
-            <i class="material-icons md-18 align-middle">face</i>
-            <span class="font-weight-bold align-middle mx-1">Provider:</span>
-            {% if page.course_url %}
-                <a href="{{ page.course_url }}" target="_blank" class="align-middle">{{ page.provider }}</a>
+    {% endif %}
+    {% if page.review_count %}
+        <a href="#reviews" class="d-inline-block text-nowrap text-decoration-none">
+            {% for icon in page.avg_score|get_stars %}
+                <i class="material-icons md-narrow align-middle text-warning">{{ icon }}</i>
+            {% endfor %}
+        </a>
+        <a href="#reviews" class="d-inline-block text-nowrap ml-1 align-middle text-secondary">
+            {{ page.review_count }} review{{ page.review_count|pluralize }}
+        </a>
+    {% endif %}
+    {% if page.summary %}
+        <div class="my-2">
+            <span class="font-weight-bold">Learn K12 takeaway:</span>
+            <span>{{ page.summary }}</span>
+        </div>
+    {% endif %}
+    <hr>
+</section>
+<section>
+    <h2>Course Details</h2>
+    {% if page.course_images %}
+        <div class="overflow-auto text-nowrap pb-3">
+            {% for course_image in page.course_images.all %}
+                {% image course_image.image fill-256x256-c100 class="rounded mr-2 shadow-sm" %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div>
+        <i class="material-icons md-18 align-middle">signal_cellular_alt</i>
+        <span class="font-weight-bold align-middle mx-1">Difficulty:</span>
+        <a href="{{ self.get_parent.url }}?difficulty={{ page.difficulty }}"
+           class="align-middle">{{ page.difficulty | course_difficulty_enum }}</a>
+    </div>
+    <div>
+        <i class="material-icons md-18 align-middle">face</i>
+        <span class="font-weight-bold align-middle mx-1">Provider:</span>
+        {% if page.course_url %}
+            <a href="{{ page.course_url }}" target="_blank" class="align-middle">{{ page.provider }}</a>
+        {% else %}
+            <span class="align-middle">{{ page.provider }}</span>
+        {% endif %}
+    </div>
+    <div>
+        <i class="material-icons md-18 align-middle">credit_card</i>
+        <span class="font-weight-bold align-middle mx-1">Cost:</span>
+        <span class="align-middle">
+            {% if page.cost == 0%}
+                Free
             {% else %}
-                <span class="align-middle">{{ page.provider }}</span>
+                ${{ page.cost | floatformat:"0" | intcomma }}
             {% endif %}
-        </div>
-        <div>
-            <i class="material-icons md-18 align-middle">credit_card</i>
-            <span class="font-weight-bold align-middle mx-1">Cost:</span>
-            <span class="align-middle">
-                {% if page.cost == 0%}
-                    Free
-                {% else %}
-                    ${{ page.cost | floatformat:"0" | intcomma }}
-                {% endif %}
-            </span>
-        </div>
-        <div>
-            <i class="material-icons md-18 align-middle">schedule</i>
-            <span class="font-weight-bold align-middle mx-1">Duration:</span>
-            <span class="align-middle">{{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}</span>
-        </div>
-    </section>
-    <section>
-        <h2>Overview</h2>
-        <p class="my-0 py-0">{{ page.overview | richtext }}</p>
-    </section>
-    <section id="reviews" class="pt-2">
-        <h2>Reviews</h2>
-        {% if page.page_ptr_id in request.session.reviewed_courses %}
-            <div class="alert alert-success" role="alert">Thank you for your review! 😊</div>
-        {% endif %}
-        <div class="d-flex justify-content-between">
-            <div id="query-buttons">
-                {% if page.review_count %}
-                    {% include 'home/query_buttons.html' %}
-                {% endif %}
-            </div>
-            {% if 'reviewed_courses' not in request.session or page.page_ptr_id not in request.session.reviewed_courses %}
-                <button class="btn btn-success d-none d-sm-block {{ page.review_count|yesno:',mb-2' }}"
-                        data-toggle="collapse"
-                        data-target="#write-review">
-                    <span class="align-middle">Write a review</span>
-                    <i class="material-icons md-15 align-middle">create</i>
-                </button>
+        </span>
+    </div>
+    <div>
+        <i class="material-icons md-18 align-middle">schedule</i>
+        <span class="font-weight-bold align-middle mx-1">Duration:</span>
+        <span class="align-middle">{{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}</span>
+    </div>
+</section>
+<section>
+    <h2>Overview</h2>
+    <p class="my-0 py-0">{{ page.overview | richtext }}</p>
+</section>
+<section id="reviews" class="pt-2">
+    <h2>Reviews</h2>
+    {% if page.page_ptr_id in request.session.reviewed_courses %}
+        <div class="alert alert-success" role="alert">Thank you for your review! 😊</div>
+    {% endif %}
+    <div class="d-flex justify-content-between">
+        <div id="query-buttons">
+            {% if page.review_count %}
+                {% include 'home/query_buttons.html' %}
             {% endif %}
         </div>
         {% if 'reviewed_courses' not in request.session or page.page_ptr_id not in request.session.reviewed_courses %}
-            <button class="btn btn-success d-block d-sm-none {{ page.review_count|yesno:',mb-2' }}"
+            <button class="btn btn-success d-none d-sm-block {{ page.review_count|yesno:',mb-2' }}"
                     data-toggle="collapse"
                     data-target="#write-review">
                 <span class="align-middle">Write a review</span>
                 <i class="material-icons md-15 align-middle">create</i>
             </button>
         {% endif %}
-        <div id="write-review" class="border rounded p-4 my-2 bg-light collapse {{ show_form|yesno:'show,' }}">
-            <form method="post" action="{{ page.url }}#reviews">
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-3">
-                        {{ form.name | as_crispy_field }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form.email | as_crispy_field }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form.reviewer_type | as_crispy_field }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form.score | as_crispy_field }}
-                    </div>
+    </div>
+    {% if 'reviewed_courses' not in request.session or page.page_ptr_id not in request.session.reviewed_courses %}
+        <button class="btn btn-success d-block d-sm-none {{ page.review_count|yesno:',mb-2' }}"
+                data-toggle="collapse"
+                data-target="#write-review">
+            <span class="align-middle">Write a review</span>
+            <i class="material-icons md-15 align-middle">create</i>
+        </button>
+    {% endif %}
+    <div id="write-review" class="border rounded p-4 my-2 bg-light collapse {{ show_form|yesno:'show,' }}">
+        <form method="post" action="{{ page.url }}#reviews">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-3">
+                    {{ form.name | as_crispy_field }}
                 </div>
-                <div class="row">
-                    <div class="col">
-                        {{ form.subject | as_crispy_field }}
-                    </div>
+                <div class="col-md-3">
+                    {{ form.email | as_crispy_field }}
                 </div>
-                <div class="row">
-                    <div class="col">
-                        {{ form.description | as_crispy_field }}
-                    </div>
+                <div class="col-md-3">
+                    {{ form.reviewer_type | as_crispy_field }}
                 </div>
-                <div class="row">
-                    <div class="col">
-                        {{ form.is_anonymous | as_crispy_field }}
-                    </div>
-                    <div class="col text-right">
-                        <button type="submit" class="btn btn-success">Submit</button>
-                    </div>
+                <div class="col-md-3">
+                    {{ form.score | as_crispy_field }}
                 </div>
-            </form>
-        </div>
-        <div id="course-reviews">
-            {% include 'home/course_reviews.html' %}
-            {% include 'home/page_buttons.html' %}
-        </div>
-    </section>
-</div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form.subject | as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form.description | as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ form.is_anonymous | as_crispy_field }}
+                </div>
+                <div class="col text-right">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="course-reviews">
+        {% include 'home/course_reviews.html' %}
+        {% include 'home/page_buttons.html' %}
+    </div>
+</section>
 {% endblock content %}
 
 {% block extra_js %}

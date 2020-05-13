@@ -1,13 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-    <div id="courses-table">
-        <h1>Online Coding Courses</h1>
-        {% include 'home/query_buttons.html' with anchor='#courses-table' %}
-        {% include 'home/courses_table.html' %}
-        {% include 'home/page_buttons.html' with anchor='#courses-table' %}
-    </div>
+<div id="courses-table">
+    <h1>Online Coding Courses</h1>
+    {% include 'home/query_buttons.html' with anchor='#courses-table' %}
+    {% include 'home/courses_table.html' %}
+    {% include 'home/page_buttons.html' with anchor='#courses-table' %}
 </div>
 {% endblock content %}
 

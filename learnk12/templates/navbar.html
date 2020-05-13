@@ -11,7 +11,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
-            {% get_menu_items as nested_menu_items %}
+            {% get_nav_menu as nested_menu_items %}
             {% for parent, children in nested_menu_items.items %}
                 {% if children %}
                     <li class="nav-item dropdown">
