@@ -1,13 +1,10 @@
 {% load learnk12_tags static %}
 
+{% with curr_pg=paging_data.current_page num_pg=paging_data.num_pages %}
+{% with enabled="btn border btn-light" disabled="btn border btn-light disabled" %}
+{% with active="btn border btn-secondary disabled" hide_xs="d-none d-sm-block" %}
 <div class="text-center my-2">
     <div class="btn-group btn-group-sm flex-wrap" role="group" aria-label="Navigation">
-        {% with curr_pg=paging_data.current_page %}
-        {% with num_pg=paging_data.num_pages %}
-        {% with enabled="btn border btn-light" %}
-        {% with disabled="btn border btn-light disabled" %}
-        {% with active="btn border btn-secondary disabled" %}
-        {% with hide_xs="d-none d-sm-block" %}
             <button class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
                onclick="getPagedData('{% build_url 'page' 1 %}')">
                 First
@@ -30,11 +27,8 @@
                onclick="getPagedData('{% build_url 'page' num_pg %}')">
                 Last
             </button>
-        {% endwith %}
-        {% endwith %}
-        {% endwith %}
-        {% endwith %}
-        {% endwith %}
-        {% endwith %}
     </div>
 </div>
+{% endwith %}
+{% endwith %}
+{% endwith %}
