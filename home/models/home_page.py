@@ -6,6 +6,7 @@ from home.models.course_detail_page import CourseDetailPage
 class HomePage(Page):
     max_count = 1
     parent_page_type = ['Page']
+    subpage_types = ['CoursesPage', 'TutorsPage', 'InfoPage']
 
     def get_context(self, request):
         context = super().get_context(request)
