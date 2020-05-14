@@ -3,7 +3,7 @@
 
 {% block content %}
 <section>
-<h1 class="mb-0">{{ page.title }}</h1>
+<h1 class="darkslategray mb-0">{{ page.title }}</h1>
     {% if page.tags.count %}
         <div class="mb-1">
             {% for tag in page.tags.all %}
@@ -31,7 +31,7 @@
     <hr>
 </section>
 <section>
-    <h2>Course Details</h2>
+    <h2 class="text-dark">Course Details</h2>
     {% if page.course_images %}
         <div class="overflow-auto text-nowrap pb-3">
             {% for course_image in page.course_images.all %}
@@ -72,11 +72,11 @@
     </div>
 </section>
 <section>
-    <h2>Overview</h2>
+    <h2 class="text-dark">Overview</h2>
     {{ page.overview | richtext }}
 </section>
 <section id="reviews" class="pt-2">
-    <h2>Reviews</h2>
+    <h2 class="text-dark">Reviews</h2>
     {% if page.page_ptr_id in request.session.reviewed_courses %}
         <div class="alert alert-success" role="alert">Thank you for your review! 😊</div>
     {% endif %}
