@@ -30,7 +30,7 @@
                             {% endfor %}
                         </div>
                         <div class="d-inline-block text-nowrap align-middle ml-1">
-                            {{ page.review_count }} reviews
+                            {{ page.review_count }} review{{ page.review_count | pluralize }}
                         </div>
                     {% endif %}
                     <p class="my-1">{{ page.summary }}</p>
