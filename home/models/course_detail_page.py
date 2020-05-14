@@ -74,8 +74,8 @@ class CourseDetailPage(Page):
     @staticmethod
     def _get_sort_data(request):
         sort_columns = {
-            '-publish_date': 'Recent',
-            '-score': 'Rating'
+            '-publish_date': 'Most Recent',
+            '-score': 'Highest Rated'
         }
         return ParamData(request, 'sort', sort_columns, is_list=False, default='-publish_date')
 
@@ -117,7 +117,7 @@ class CourseDetailPage(Page):
         # review filtering
         reviewer_type_data = self._get_reviewer_type_data(request)
         context['filter_btns'] = {
-            ('reviewer_type', 'Type'): reviewer_type_data
+            ('reviewer_type', 'Reviewer Type'): reviewer_type_data
         }
 
         # query reviews

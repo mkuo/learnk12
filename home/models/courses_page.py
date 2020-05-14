@@ -16,10 +16,10 @@ class CoursesPage(Page):
     @staticmethod
     def _get_sort_data(request):
         sort_columns = {
-            '-avg_score': 'Rating',
-            'title': 'Title',
-            'cost': 'Cost',
-            'duration_hours': 'Duration'
+            '-avg_score': 'Highest Rated',
+            'title': 'Course Title (a-z)',
+            'cost': 'Lowest Cost',
+            'duration_hours': 'Shortest Duration'
         }
         return ParamData(request, 'sort', sort_columns, is_list=False, default='-avg_score')
 
