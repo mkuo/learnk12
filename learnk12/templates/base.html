@@ -45,11 +45,10 @@
               href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
               integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
               crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-rfs.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/learnk12.css' %}">
 
-        {% block extra_css %}
-            {# Override this in templates to add extra stylesheets #}
-        {% endblock %}
+        {% block extra_css %} {% endblock %}
     </head>
 
     <body class="{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}">
