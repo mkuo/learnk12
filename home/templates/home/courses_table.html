@@ -9,12 +9,12 @@
             <div class="d-flex flex-row align-items-center row">
                 {% with page.course_images.all|first as first_image %}
                     {% if first_image %}
-                        <div class="col-md-auto my-1 px-0 ml-3">
-                            {% image first_image.image fill-128x128 class="d-inline-block rounded shadow-sm" %}
+                        <div class="col-auto my-1 px-0 ml-3 mr-2">
+                            {% image first_image.image fill-160x160 class="img-fluid rounded shadow-sm" %}
                         </div>
                     {% endif %}
                 {% endwith %}
-                <div class="col-md-auto my-1 px-0 mx-3">
+                <div class="col my-1 p-0 mx-3">
                     <h2 class="mb-1">{{ page.title }}</h2>
                     {% if page.tags %}
                         <div>
@@ -35,15 +35,15 @@
                     {% endif %}
                     <p class="my-1">{{ page.summary }}</p>
                     <div>
-                        <div class="d-inline-block mr-2">
+                        <div class="d-inline-block mr-2 text-nowrap">
                             <i class="material-icons md-18 align-middle">signal_cellular_alt</i>
                             <span class="align-middle">{{ page.difficulty | course_difficulty_enum }}</span>
                         </div>
-                        <div class="d-inline-block mr-2">
+                        <div class="d-inline-block mr-2 text-nowrap">
                             <i class="material-icons md-18 align-middle">face</i>
                             <span class="align-middle">{{ page.provider }}</span>
                         </div>
-                        <div class="d-inline-block mr-2">
+                        <div class="d-inline-block mr-2 text-nowrap">
                             <i class="material-icons md-18 align-middle">credit_card</i>
                             <span class="align-middle">
                                 {% if page.cost == 0%}
@@ -53,7 +53,7 @@
                                 {% endif %}
                             </span>
                         </div>
-                        <div class="d-inline-block mr-2">
+                        <div class="d-inline-block mr-2 text-nowrap">
                             <i class="material-icons md-18 align-middle">schedule</i>
                             <span class="mr-1 align-middle">
                                 {{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}
