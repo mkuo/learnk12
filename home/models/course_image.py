@@ -12,7 +12,6 @@ class CourseImage(Orderable):
         on_delete=models.CASCADE,
         related_name='course_images'
     )
-
     image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
