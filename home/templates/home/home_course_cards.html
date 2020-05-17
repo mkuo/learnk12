@@ -1,9 +1,9 @@
 {% load learnk12_tags wagtailimages_tags %}
 
+{% if courses.count > 2 %}
 <div class="card-deck">
     {% for page in courses %}
         <div class="card {{ forloop.counter|gr_than_eq:3|yesno:'d-none d-lg-flex,' }}">
-            {% if courses.count > 2 %}
                 {% with page.course_images.all|first as first_image %}
                     <div class="mb-0 rounded shadow-sm">
                         {% if first_image %}
@@ -15,7 +15,6 @@
                         {% endif %}
                     </div>
                 {% endwith %}
-            {% endif %}
             <div class="card-body">
                 <h2 class="card-title darkslategray">{{ page.title }}</h2>
                 <p class="card-text mb-1">{{ page.summary }}</p>
@@ -31,8 +30,11 @@
                     <div class="d-inline-block text-nowrap align-middle ml-1">
                         {{ page.review_count }} review{{ page.review_count | pluralize }}
                     </div>
+                {% else %}
+                    <div class="text-muted">No reviews yet</div>
                 {% endif %}
             </div>
         </div>
     {% endfor %}
 </div>
+{% endif %}
