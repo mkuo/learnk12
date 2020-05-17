@@ -38,11 +38,20 @@ Gunicorn, nginx, and SSL settings were initially set up according to [this guide
 
 To deploy new code
 ```
+# authenticate with GitHub
+$ ssh -T git@github.com
+
 $ ssh mike@learnk12.org
 [mike@learnk12 ~ ]$ cd projects/learnk12
 [mike@learnk12 learnk12 (master)]$ git pull
 
 [mike@learnk12 learnk12 (master)]$ source venv/bin/activate
+
+# (optional) declare environment settings
+export DJANGO_SETTINGS_MODULE="learnk12.settings.production"
+
+# (optional) check prod and deploy environment
+[mike@learnk12 learnk12 (master)]$ ./manage.py check --deploy 
 
 # if there are new python packages in the deploy 
 (venv) [mike@learnk12 learnk12 (master)]$ pip install -r requirements.txt
