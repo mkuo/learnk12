@@ -17,7 +17,7 @@ div.splash {
 
 .img-rect {
     height: 0;
-    padding-bottom: 60%;
+    padding-bottom: calc(100% / 3 * 2);
 }
 
 .centered {

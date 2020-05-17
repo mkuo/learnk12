@@ -7,7 +7,7 @@
                 {% with page.course_images.all|first as first_image %}
                     <div class="mb-0 rounded shadow-sm">
                         {% if first_image %}
-                            {% image first_image.image fill-600x360 class="card-img-top img-fluid" alt="{{ page.title }}" %}
+                            {% image first_image.image fill-600x400 class="card-img-top img-fluid" alt="{{ page.title }}" %}
                         {% else %}
                             <div class="img-rect bg-light text-center">
                                 <i class="material-icons text-secondary centered">menu_book</i>
