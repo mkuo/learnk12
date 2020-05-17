@@ -1,5 +1,5 @@
 asgiref==3.2.7
-beautifulsoup4==4.6.0
+beautifulsoup4<4.9,>=4.8
 certifi==2020.4.5.1
 chardet==3.0.4
 Django==3.0.5
@@ -21,6 +21,6 @@ six==1.14.0
 sqlparse==0.3.1
 Unidecode==1.1.1
 urllib3==1.25.8
-wagtail==2.8.1
+wagtail>=2.9,<2.10
 webencodings==0.5.1
 Willow==1.3
