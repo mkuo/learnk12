@@ -1,5 +1,7 @@
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import F, Q
+from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.core.fields import RichTextField
 from wagtail.core.models import Page
 
 from home.models import CourseTag, CourseDetailPage
@@ -12,6 +14,11 @@ class CoursesPage(Page):
     max_count = 1
     subpage_types = ['CourseDetailPage']
     parent_page_type = ['HomePage']
+    heading = RichTextField(blank=True, null=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('heading'),
+    ]
 
     @staticmethod
     def _get_sort_data(request):
