@@ -14,7 +14,7 @@ class MenuItem(models.Model):
     order = models.PositiveSmallIntegerField()
 
     def __str__(self):
-        return self.title
+        return self.title if self.title else ''
 
     def __unicode__(self):
         return self.title
