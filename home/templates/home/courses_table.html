@@ -10,7 +10,7 @@
                 {% with page.course_images.all|first as first_image %}
                     {% if first_image %}
                         <div class="col-auto my-1 px-0 ml-3 mr-2">
-                            {% image first_image.image fill-240x160 class="img-fluid rounded shadow-sm" %}
+                            {% image first_image.image fill-240x160 class="img-fluid rounded border shadow-sm" %}
                         </div>
                     {% endif %}
                 {% endwith %}

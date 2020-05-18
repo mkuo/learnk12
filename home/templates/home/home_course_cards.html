@@ -5,7 +5,7 @@
     {% for page in courses %}
         <div class="card {{ forloop.counter|gr_than_eq:3|yesno:'d-none d-lg-flex,' }}">
                 {% with page.course_images.all|first as first_image %}
-                    <div class="mb-0 rounded shadow-sm">
+                    <div class="mb-0">
                         {% if first_image %}
                             {% image first_image.image fill-600x400 class="card-img-top img-fluid" alt="{{ page.title }}" %}
                         {% else %}
@@ -15,7 +15,7 @@
                         {% endif %}
                     </div>
                 {% endwith %}
-            <div class="card-body">
+            <div class="card-body border-top">
                 <h2 class="card-title darkslategray">{{ page.title }}</h2>
                 <p class="card-text mb-1">{{ page.summary }}</p>
                 <a href="{{ page.url }}" class="stretched-link"></a>
