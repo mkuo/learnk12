@@ -12,16 +12,7 @@
             {% endfor %}
         </div>
     {% endif %}
-    {% if page.review_count %}
-        <a href="#reviews" class="d-inline-block text-nowrap text-decoration-none">
-            {% for icon in page.avg_score|get_stars %}
-                <i class="material-icons md-narrow align-middle text-warning">{{ icon }}</i>
-            {% endfor %}
-        </a>
-        <a href="#reviews" class="d-inline-block text-nowrap ml-1 align-middle text-secondary">
-            {{ page.review_count }} review{{ page.review_count|pluralize }}
-        </a>
-    {% endif %}
+    {% include 'home/page_star_rating.html' with inline=True %}
     {% if page.takeaway %}
         <div class="my-2">
             <span class="font-weight-bold">Learn K12 takeaway:</span>

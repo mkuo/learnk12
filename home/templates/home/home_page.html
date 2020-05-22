@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load learnk12_tags static wagtailimages_tags %}
+{% load humanize learnk12_tags static wagtailimages_tags %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/home_page.css' %}">
@@ -19,7 +19,7 @@
 {% block content %}
     <h1 class="mt-5 mb-2 text-dark">Best Free Coding Courses</h1>
     <p class="lead">Free coding courses to get you started.</p>
-    {% include 'home/courses_table.html' with courses=best_free paged=False%}
+    {% include 'home/courses_table.html' with courses=best_free shortened=True %}
     <h1 class="mt-5 text-dark">Highest Rated Coding Courses</h1>
     <p class="lead">The best reviewed courses on Learn K12.</p>
     {% include 'home/courses_table.html' with courses=highest_rated paged=False%}

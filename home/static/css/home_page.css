@@ -14,13 +14,3 @@ div.splash {
     min-height: 240px;
     height: 12vw;
 }
-
-.img-rect {
-    height: 0;
-    padding-bottom: calc(100% / 3 * 2);
-}
-
-.centered {
-    font-size: 48px;
-    padding-top: calc(30% - 24px);
-}

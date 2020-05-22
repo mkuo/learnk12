@@ -6,7 +6,7 @@
     <h1>Find an Online Course</h1>
     {{ page.heading | richtext }}
     {% include 'home/query_buttons.html' with anchor='#courses-table' %}
-    {% include 'home/courses_table.html' with courses=courses_paged paged=True%}
+    {% include 'home/courses_table.html' with courses=courses_paged %}
     {% include 'home/page_buttons.html' with anchor='#courses-table' %}
 </div>
 {% endblock content %}

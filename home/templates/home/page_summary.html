@@ -26,7 +26,7 @@
         <span class="font-weight-bold mx-1">Provider:</span>
         <span>{{ page.provider }}</span>
     </div>
-    {% if not div_inline and page.course_url %}
+    {% if show_course_button and page.course_url %}
         <a href="{{ page.course_url }}"
            target="_blank"
            class="d-flex align-self-start align-items-center btn btn-sm btn-light border">

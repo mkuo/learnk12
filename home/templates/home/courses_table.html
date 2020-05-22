@@ -1,48 +1,68 @@
 {% load humanize learnk12_tags wagtailimages_tags %}
 
-{% if paged %}
+{% if paging_data %}
     <small class="text-muted">
         {{ paging_data.num_records }} result{{ paging_data.num_records | pluralize }} returned
     </small>
 {% endif %}
-<div class="list-group">
-    {% for page in courses %}
-        <a href="{{ page.url }}" class="list-group-item list-group-item-action py-3">
-            <div class="d-flex flex-row align-items-center row">
-                {% with page.course_images.all|first as first_image %}
-                    {% if first_image %}
-                        <div class="col-auto my-1 px-0 ml-3 mr-2">
-                            {% image first_image.image fill-240x160 class="img-fluid rounded border shadow-sm" %}
-                        </div>
-                    {% endif %}
-                {% endwith %}
-                <div class="col my-1 p-0 mx-3">
-                    <h2 class="mb-1">{{ page.title }}</h2>
-                    {% if page.tags %}
-                        <div>
-                            {% for tag in page.tags.all %}
-                                <span class="badge badge-pill badge-info">{{ tag }}</span>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                    {% if page.review_count %}
-                        <div class="d-inline-block text-nowrap">
-                            {% for icon in page.avg_score|get_stars %}
-                                <i class="material-icons md-narrow align-middle text-warning">{{ icon }}</i>
-                            {% endfor %}
-                        </div>
-                        <div class="d-inline-block text-nowrap align-middle ml-1">
-                            {{ page.review_count }} review{{ page.review_count | pluralize }}
-                        </div>
-                    {% endif %}
-                    <p class="my-1">{{ page.snippet|truncatewords:48 }}</p>
-                    {% include 'home/page_summary.html' with div_inline=True%}
-                </div>
-            </div>
-        </a>
-    {% empty %}
-        {% if paged %}
-            <p class="border text-center py-5">No courses were returned. Please try updating your filters. 😊</p>
-        {% endif %}
-    {% endfor %}
+<div class="table-responsive">
+    <table class="table table-hover border-bottom">
+        <thead class="thead-light">
+            <tr>
+                <th class="d-none d-lg-table-cell"></th>
+                <th>Course</th>
+                <th class="d-none d-lg-table-cell">Difficulty</th>
+                <th class="d-none d-lg-table-cell">Cost</th>
+                <th class="d-none d-lg-table-cell">Duration</th>
+                <th class="d-none d-lg-table-cell">Provider</th>
+                <th class="d-none d-lg-table-cell">Reviews</th>
+                <th class="d-lg-none">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for page in courses %}
+                <tr style="transform: rotate(0);">
+                    <td class="d-none d-lg-table-cell">
+                        {% with page.course_images.all|first as first_image %}
+                            {% if first_image %}
+                                {% image first_image.image fill-180x120 class="rounded border shadow-sm" %}
+                            {% else %}
+                                <div class="img-rect bg-light text-center rounded border shadow-sm">
+                                    <i class="material-icons text-secondary centered">menu_book</i>
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+                    </td>
+                    <td>
+                        <a href="{{ page.url }}" class="stretched-link font-weight-bold darkslategray">{{ page.title }}</a>
+                        {% if page.tags %}
+                            <div>
+                                {% for tag in page.tags.all %}
+                                    <span class="badge badge-pill badge-info">{{ tag }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <p class="my-1">{{ page.snippet|truncatewords:24 }}</p>
+                    </td>
+                    <td class="d-none d-lg-table-cell">{{ page.difficulty | course_difficulty_enum }}</td>
+                    <td class="d-none d-lg-table-cell">
+                        {% if page.cost == 0%}
+                            Free
+                        {% else %}
+                            ${{ page.cost | floatformat:"0" | intcomma }}
+                        {% endif %}
+                    </td>
+                    <td class="d-none d-lg-table-cell">{{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}</td>
+                    <td class="d-none d-lg-table-cell">{{ page.provider }}</td>
+                    <td class="d-none d-lg-table-cell">
+                        {% include 'home/page_star_rating.html' %}
+                    </td>
+                    <td class="d-lg-none">
+                        {% include 'home/page_star_rating.html' with inline=True %}
+                        {% include 'home/page_summary.html' %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>

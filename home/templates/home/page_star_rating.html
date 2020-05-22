@@ -1,0 +1,16 @@
+{% load learnk12_tags %}
+
+<div class="{{ inline|yesno:'mb-2,'}}">
+    {% if page.review_count %}
+        <div class="text-nowrap {{ inline|yesno:'d-inline pr-1,'}}">
+            {% for icon in page.avg_score|get_stars %}
+                <i class="material-icons md-narrow align-middle text-warning">{{ icon }}</i>
+            {% endfor %}
+        </div>
+        <div class="text-nowrap align-middle text-secondary {{ inline|yesno:'d-inline,'}}">
+            {{ page.review_count }} review{{ page.review_count | pluralize }}
+        </div>
+    {% else %}
+        <span class="text-secondary">No reviews</span>
+    {% endif %}
+</div>
