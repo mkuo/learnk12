@@ -26,14 +26,12 @@ class CourseDetailPage(Page):
 
     class CourseDifficulty(models.IntegerChoices):
         BEGINNER = 0
-        EASY = 1
-        MEDIUM = 2
-        HARD = 3
-        ADVANCED = 4
+        INTERMEDIATE = 1
+        ADVANCED = 2
 
     # database fields
-    summary = models.TextField(blank=True, null=True)
-    overview = RichTextField()
+    takeaway = models.TextField(blank=True, null=True)
+    description = RichTextField()
     provider = models.CharField(db_index=True, max_length=255)
     course_url = models.CharField(max_length=2048, blank=True, null=True)
     cost = models.DecimalField(db_index=True, max_digits=9, decimal_places=2)
@@ -45,8 +43,8 @@ class CourseDetailPage(Page):
 
     # editor fields
     content_panels = Page.content_panels + [
-        FieldPanel('summary'),
-        FieldPanel('overview'),
+        FieldPanel('takeaway'),
+        FieldPanel('description'),
         MultiFieldPanel(
             [
                 FieldPanel('provider'),

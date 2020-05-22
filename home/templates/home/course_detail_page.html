@@ -22,16 +22,16 @@
             {{ page.review_count }} review{{ page.review_count|pluralize }}
         </a>
     {% endif %}
-    {% if page.summary %}
+    {% if page.takeaway %}
         <div class="my-2">
             <span class="font-weight-bold">Learn K12 takeaway:</span>
-            <span>{{ page.summary }}</span>
+            <span>{{ page.takeaway }}</span>
         </div>
     {% endif %}
     <hr>
 </section>
 <section>
-    <h2 class="text-dark">Course Details</h2>
+    <h2 class="text-dark">Course Summary</h2>
     {% if page.course_images %}
         <div class="overflow-auto text-nowrap pb-3">
             {% for course_image in page.course_images.all %}
@@ -78,8 +78,8 @@
     </div>
 </section>
 <section>
-    <h2 class="text-dark">Overview</h2>
-    {{ page.overview | richtext }}
+    <h2 class="text-dark">Description</h2>
+    {{ page.description | richtext }}
 </section>
 <section id="reviews" class="pt-2">
     <h2 class="text-dark">Reviews</h2>
