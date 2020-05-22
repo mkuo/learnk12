@@ -21,7 +21,7 @@
                     {% if page.tags %}
                         <div>
                             {% for tag in page.tags.all %}
-                                <span class="badge badge-pill badge-info">{{ tag | title }}</span>
+                                <span class="badge badge-pill badge-info">{{ tag }}</span>
                             {% endfor %}
                         </div>
                     {% endif %}
