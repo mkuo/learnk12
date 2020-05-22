@@ -19,8 +19,8 @@
 {% block content %}
     <h1 class="mt-5 mb-2 text-dark">Best Free Coding Courses</h1>
     <p class="lead">Free coding courses to get you started.</p>
-    {% include 'home/home_course_cards.html' with courses=best_free %}
+    {% include 'home/courses_table.html' with courses=best_free paged=False%}
     <h1 class="mt-5 text-dark">Highest Rated Coding Courses</h1>
     <p class="lead">The best reviewed courses on Learn K12.</p>
-    {% include 'home/home_course_cards.html' with courses=highest_rated %}
+    {% include 'home/courses_table.html' with courses=highest_rated paged=False%}
 {% endblock content %}
