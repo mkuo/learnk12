@@ -34,32 +34,7 @@
                         </div>
                     {% endif %}
                     <p class="my-1">{{ page.snippet|truncatewords:48 }}</p>
-                    <div>
-                        <div class="d-inline-block mr-2 text-nowrap">
-                            <i class="material-icons md-18 align-middle">signal_cellular_alt</i>
-                            <span class="align-middle">{{ page.difficulty | course_difficulty_enum }}</span>
-                        </div>
-                        <div class="d-inline-block mr-2 text-nowrap">
-                            <i class="material-icons md-18 align-middle">face</i>
-                            <span class="align-middle">{{ page.provider }}</span>
-                        </div>
-                        <div class="d-inline-block mr-2 text-nowrap">
-                            <i class="material-icons md-18 align-middle">credit_card</i>
-                            <span class="align-middle">
-                                {% if page.cost == 0%}
-                                    Free
-                                {% else %}
-                                    ${{ page.cost | floatformat:"0" | intcomma }}
-                                {% endif %}
-                            </span>
-                        </div>
-                        <div class="d-inline-block mr-2 text-nowrap">
-                            <i class="material-icons md-18 align-middle">schedule</i>
-                            <span class="mr-1 align-middle">
-                                {{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}
-                            </span>
-                        </div>
-                    </div>
+                    {% include 'home/page_summary.html' with div_inline=True%}
                 </div>
             </div>
         </a>

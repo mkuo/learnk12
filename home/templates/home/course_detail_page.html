@@ -33,10 +33,10 @@
 <section>
     <h2 class="text-dark">Course Summary</h2>
     {% if page.course_images %}
-        <div class="overflow-auto text-nowrap pb-3">
+        <div class="overflow-auto text-nowrap mb-1">
             {% for course_image in page.course_images.all %}
                 {% image course_image.image original as img_original %}
-                <button class="btn btn-link px-0 img-btn"
+                <button class="btn btn-link p-0 mb-1 img-btn"
                         data-toggle="modal"
                         data-target="#imageModal"
                         original="{{ img_original.url }}">
@@ -45,37 +45,7 @@
             {% endfor %}
         </div>
     {% endif %}
-    <div>
-        <i class="material-icons md-18 align-middle">signal_cellular_alt</i>
-        <span class="font-weight-bold align-middle mx-1">Difficulty:</span>
-        <a href="{{ self.get_parent.url }}?difficulty={{ page.difficulty }}"
-           class="align-middle">{{ page.difficulty | course_difficulty_enum }}</a>
-    </div>
-    <div>
-        <i class="material-icons md-18 align-middle">face</i>
-        <span class="font-weight-bold align-middle mx-1">Provider:</span>
-        {% if page.course_url %}
-            <a href="{{ page.course_url }}" target="_blank" class="align-middle">{{ page.provider }}</a>
-        {% else %}
-            <span class="align-middle">{{ page.provider }}</span>
-        {% endif %}
-    </div>
-    <div>
-        <i class="material-icons md-18 align-middle">credit_card</i>
-        <span class="font-weight-bold align-middle mx-1">Cost:</span>
-        <span class="align-middle">
-            {% if page.cost == 0%}
-                Free
-            {% else %}
-                ${{ page.cost | floatformat:"0" | intcomma }}
-            {% endif %}
-        </span>
-    </div>
-    <div>
-        <i class="material-icons md-18 align-middle">schedule</i>
-        <span class="font-weight-bold align-middle mx-1">Duration:</span>
-        <span class="align-middle">{{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}</span>
-    </div>
+    {% include 'home/page_summary.html' %}
 </section>
 <section>
     <h2 class="text-dark">Description</h2>
@@ -97,7 +67,7 @@
                     data-toggle="collapse"
                     data-target="#write-review">
                 <span class="align-middle">Write a review</span>
-                <i class="material-icons md-15 align-middle">create</i>
+                <i class="material-icons font-size-16 align-middle">create</i>
             </button>
         {% endif %}
     </div>
@@ -106,7 +76,7 @@
                 data-toggle="collapse"
                 data-target="#write-review">
             <span class="align-middle">Write a review</span>
-            <i class="material-icons md-15 align-middle">create</i>
+            <i class="material-icons font-size-16 align-middle">create</i>
         </button>
     {% endif %}
     <div id="write-review" class="border rounded p-4 my-2 bg-light collapse {{ show_form|yesno:'show,' }}">

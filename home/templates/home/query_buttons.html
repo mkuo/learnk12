@@ -7,7 +7,7 @@
            aria-haspopup="true"
            aria-expanded="false">
             <span class="align-middle">{{ sort_btn.selected_labels|default:'Sort' }}</span>
-            <i class="material-icons md-15 align-middle md-narrow">unfold_more</i>
+            <i class="material-icons font-size-16 align-middle md-narrow">unfold_more</i>
         </button>
         <div class="dropdown-menu">
             {% for col, label in sort_btn.choices.items %}
@@ -28,7 +28,7 @@
                 {% if filter_btn.selected_args %}
                     <span class="align-middle">({{ filter_btn.selected_args|length }})</span>
                 {% endif %}
-                <i class="material-icons md-15 align-middle">filter_list</i>
+                <i class="material-icons font-size-16 align-middle">filter_list</i>
             </button>
             <div class="dropdown-menu">
                 {% for col, label in filter_btn.choices.items %}
