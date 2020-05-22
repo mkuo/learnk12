@@ -33,7 +33,7 @@
                             {{ page.review_count }} review{{ page.review_count | pluralize }}
                         </div>
                     {% endif %}
-                    <p class="my-1">{{ page.takeaway }}</p>
+                    <p class="my-1">{{ page.snippet|truncatewords:48 }}</p>
                     <div>
                         <div class="d-inline-block mr-2 text-nowrap">
                             <i class="material-icons md-18 align-middle">signal_cellular_alt</i>

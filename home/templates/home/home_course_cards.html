@@ -17,7 +17,7 @@
                 {% endwith %}
             <div class="card-body border-top">
                 <h2 class="card-title darkslategray">{{ page.title }}</h2>
-                <p class="card-text mb-1">{{ page.takeaway }}</p>
+                <p class="card-text mb-1">{{ page.snippet|truncatewords:24 }}</p>
                 <a href="{{ page.url }}" class="stretched-link"></a>
             </div>
             <div class="card-footer">

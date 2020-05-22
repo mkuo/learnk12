@@ -1,3 +1,4 @@
+from bs4 import BeautifulSoup
 from django.core.paginator import Paginator, EmptyPage
 from django.db import models
 from django.db.models import F, Q
@@ -68,6 +69,13 @@ class CourseDetailPage(Page):
         ObjectList(Page.promote_panels, heading='Promote'),
         ObjectList(Page.settings_panels, heading='Settings', classname="settings"),
     ])
+
+    @property
+    def snippet(self):
+        if self.takeaway:
+            return self.takeaway
+        else:
+            return BeautifulSoup(self.description).get_text(' ', True)
 
     @staticmethod
     def _get_sort_data(request):
