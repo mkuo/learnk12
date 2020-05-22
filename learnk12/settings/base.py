@@ -169,6 +169,3 @@ WAGTAIL_SITE_NAME = "learnk12"
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'https://learnk12.org'
-
-# Django taggit settings
-TAGGIT_CASE_INSENSITIVE = True

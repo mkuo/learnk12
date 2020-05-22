@@ -34,7 +34,7 @@
                 {% for col, label in filter_btn.choices.items %}
                     <button class="dropdown-item {% if col|is_in:filter_btn.selected_args %}badge-primary {% endif %}"
                         onclick="getPagedData('{% build_url category.0 col True %}')">
-                            {{ label | title }}
+                            {{ label }}
                     </button>
                 {% endfor %}
             </div>
