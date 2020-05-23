@@ -34,7 +34,9 @@
                         {% endwith %}
                     </td>
                     <td>
-                        <a href="{{ page.url }}" class="stretched-link font-weight-bold darkslategray">{{ page.title }}</a>
+                        <a href="{{ page.url }}" class="stretched-link lead font-weight-bold darkslategray">
+                            {{ page.title }}
+                        </a>
                         {% if page.tags %}
                             <div>
                                 {% for tag in page.tags.all %}
@@ -42,7 +44,7 @@
                                 {% endfor %}
                             </div>
                         {% endif %}
-                        <p class="my-1">{{ page.snippet|truncatewords:24 }}</p>
+                        <p class="my-1">{{ page.snippet|truncatewords:20 }}</p>
                     </td>
                     <td class="d-none d-lg-table-cell">{{ page.difficulty | course_difficulty_enum }}</td>
                     <td class="d-none d-lg-table-cell">
