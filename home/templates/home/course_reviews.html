@@ -21,7 +21,7 @@
             </div>
             <div class="d-inline-block text-nowrap mr-1">
                 {% for icon in review.score|get_stars %}
-                    <i class="material-icons md-narrow text-warning align-middle">{{ icon }}</i>
+                    <i class="material-icons font-size-20 md-narrow text-warning align-middle">{{ icon }}</i>
                 {% endfor %}
             </div>
             <div class="d-inline-block text-nowrap align-middle">{{ review.publish_date | naturalday | title }}</div>
