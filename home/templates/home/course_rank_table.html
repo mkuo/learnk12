@@ -1,9 +1,10 @@
 {% load humanize learnk12_tags wagtailimages_tags %}
 
-{% if paging_data %}
-    <small class="text-muted">
-        {{ paging_data.num_records }} result{{ paging_data.num_records | pluralize }} returned
-    </small>
+{% if value.heading %}
+    <h1 class="mt-5 mb-2 text-dark">{{ value.heading }}</h1>
+{% endif %}
+{% if value.caption %}
+    <p class="lead">{{ value.caption }}</p>
 {% endif %}
 <div class="table-responsive">
     <table class="table table-hover border-bottom">

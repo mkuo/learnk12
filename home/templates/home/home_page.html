@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load humanize learnk12_tags static wagtailimages_tags %}
+{% load humanize learnk12_tags static wagtailcore_tags wagtailimages_tags %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/home_page.css' %}">
@@ -8,19 +8,17 @@
 {% block heading %}
     <div class="splash d-flex justify-content-center align-items-center text-white">
         <div class="container text-center">
-            <h1 class="font-weight-normal">
-                Your resource for <span class="text-nowrap">K-12</span> online education
-            </h1>
-            <h2 class="font-weight-light">Find and compare online courses for young students.</h2>
+            <h1 class="font-weight-normal">{{ page.heading }}</h1>
+            {% if page.caption %}
+                <h2 class="font-weight-light">{{ page.caption }}</h2>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
-    <h1 class="mt-5 mb-2 text-dark">Best Free Coding Courses</h1>
-    <p class="lead">Free coding courses to get you started.</p>
-    {% include 'home/course_rank_table.html' with courses=best_free %}
-    <h1 class="mt-5 text-dark">Highest Rated Coding Courses</h1>
-    <p class="lead">The best reviewed courses on Learn K12.</p>
-    {% include 'home/course_rank_table.html' with courses=highest_rated %}
+    {% for block in page.course_rank_tables %}
+        {% include_block block %}
+    {% empty %}
+    {% endfor %}
 {% endblock content %}
