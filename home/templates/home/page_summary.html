@@ -2,13 +2,13 @@
 <div class="d-flex {{ div_inline|yesno:'align-items-center flex-wrap,flex-column' }}">
     <div class="{{ div_inline|yesno:'d-inline-flex mr-3,d-flex mb-1' }} align-items-center text-nowrap">
             <i class="material-icons">signal_cellular_alt</i>
-            <span class="font-weight-bold mx-1">Difficulty:</span>
-            <span>{{ page.difficulty | course_difficulty_enum }}</span>
+            <span class="{{ hide_labels_xs|yesno:'d-none d-sm-block,' }} font-weight-bold mx-1">Difficulty:</span>
+            <span class="{{ hide_labels_xs|yesno:'ml-1,'}}">{{ page.difficulty | course_difficulty_enum }}</span>
     </div>
     <div class="{{ div_inline|yesno:'d-inline-flex mr-3,d-flex mb-1' }} align-items-center text-nowrap">
         <i class="material-icons">credit_card</i>
-        <span class="font-weight-bold mx-1">Cost:</span>
-        <span>
+        <span class="{{ hide_labels_xs|yesno:'d-none d-sm-block,' }} font-weight-bold mx-1">Cost:</span>
+        <span class="{{ hide_labels_xs|yesno:'ml-1,'}}">
             {% if page.cost == 0%}
                 Free
             {% else %}
@@ -18,13 +18,15 @@
     </div>
     <div class="{{ div_inline|yesno:'d-inline-flex mr-3,d-flex mb-1' }} align-items-center text-nowrap">
         <i class="material-icons">schedule</i>
-        <span class="font-weight-bold mx-1">Duration:</span>
-        <span>{{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}</span>
+        <span class="{{ hide_labels_xs|yesno:'d-none d-sm-block,' }} font-weight-bold mx-1">Duration:</span>
+        <span class="{{ hide_labels_xs|yesno:'ml-1,'}}">
+            {{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}
+        </span>
     </div>
     <div class="{{ div_inline|yesno:'d-inline-flex mr-3,d-flex mb-2' }} align-items-center text-nowrap">
         <i class="material-icons">face</i>
-        <span class="font-weight-bold mx-1">Provider:</span>
-        <span>{{ page.provider }}</span>
+        <span class="{{ hide_labels_xs|yesno:'d-none d-sm-block,' }} font-weight-bold mx-1">Provider:</span>
+        <span class="{{ hide_labels_xs|yesno:'ml-1,'}}">{{ page.provider }}</span>
     </div>
     {% if show_course_button and page.course_url %}
         <a href="{{ page.course_url }}"
