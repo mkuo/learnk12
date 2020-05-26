@@ -3,8 +3,10 @@
 
 {% block content %}
 <div id="courses-table">
-    <h1>Find an Online Course</h1>
-    {{ page.heading | richtext }}
+    <h1>{{ page.heading }}</h1>
+    {% if page.caption %}
+        <p>{{ page.caption }}</p>
+    {% endif %}
     {% include 'home/query_buttons.html' with anchor='#courses-table' %}
     {% include 'home/courses_table.html' with courses=courses_paged %}
     {% include 'home/page_buttons.html' with anchor='#courses-table' %}
