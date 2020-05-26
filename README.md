@@ -48,7 +48,7 @@ $ ssh mike@learnk12.org
 [mike@learnk12 learnk12 (master)]$ source venv/bin/activate
 
 # (optional) declare environment settings
-export DJANGO_SETTINGS_MODULE="learnk12.settings.production"
+[mike@learnk12 learnk12 (master)]$ export DJANGO_SETTINGS_MODULE="learnk12.settings.production"
 
 # (optional) check prod and deploy environment
 [mike@learnk12 learnk12 (master)]$ ./manage.py check --deploy 
