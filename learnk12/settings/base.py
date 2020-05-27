@@ -174,6 +174,12 @@ BASE_URL = 'https://learnk12.org'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'timestamp': {
+            'format': '{asctime} {levelname} {message}',
+            'style': '{',
+        },
+    },
     'handlers': {
         'file': {
             'level': 'WARNING',
