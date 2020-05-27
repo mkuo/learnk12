@@ -30,7 +30,8 @@
 7. Access the application at [http://localhost:8000/](http://localhost:8000/)
 
 # Production Environment Setup
-Gunicorn, nginx, and SSL settings were initially set up according to [this guide](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04).
+Gunicorn and nginx were initially set up according to [this guide](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04).
+Let's Encrypt SSL was initially set up according to [this guide](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04).
 
 1. Set up ssh access to the remote server on DigitalOcean.
 2. Generate ssh keys for your Github account and [use ssh agent forwarding](https://developer.github.com/v3/guides/using-ssh-agent-forwarding/).
@@ -69,4 +70,29 @@ $ ssh mike@learnk12.org
 To run custom Django commands, see command files in `learnk12/home/management/commands`.
 ```
 (venv) [mike@learnk12 learnk12 (master)]$ ./manage.py update_courses_agg_fields
+```
+
+# Production Debugging and Logging
+```
+$ ssh mike@learnk12.org
+
+# Check service statuses
+[mike@learnk12 ~ ]$ sudo systemctl status postgresql
+[mike@learnk12 ~ ]$ sudo systemctl status gunicorn
+[mike@learnk12 ~ ]$ sudo systemctl status nginx
+[mike@learnk12 ~ ]$ sudo ufw status
+
+# Check logs
+[mike@learnk12 ~ ]$ tail ~/projects/learnk12/log
+[mike@learnk12 ~ ]$ sudo journalctl -u nginx
+[mike@learnk12 ~ ]$ sudo tail /var/log/nginx/access.log
+[mike@learnk12 ~ ]$ sudo tail /var/log/nginx/error.log
+[mike@learnk12 ~ ]$ sudo journalctl -u gunicorn
+[mike@learnk12 ~ ]$ sudo journalctl -u gunicorn.socket
+
+# Check production settings
+[mike@learnk12 ~ ]$ nano ~/projects/learnk12/learnk12/settings/local.py
+[mike@learnk12 ~ ]$ nano /etc/systemd/system/gunicorn.socket
+[mike@learnk12 ~ ]$ nano /etc/systemd/system/gunicorn.service
+[mike@learnk12 ~ ]$ nano /etc/nginx/sites-available/learnk12
 ```
