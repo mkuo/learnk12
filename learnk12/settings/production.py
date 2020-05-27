@@ -6,7 +6,11 @@ except ImportError:
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['learnk12.org', 'www.learnk12.org']
+ALLOWED_HOSTS = [
+    'learnk12.org',
+    'www.learnk12.org',
+    '64.225.44.184',
+]
 
 DATABASES['default']['PASSWORD'] = DATABASE_PASSWORD
 
