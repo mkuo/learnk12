@@ -8,12 +8,9 @@ except ImportError:
 DEBUG = True
 
 # SQL statement logging, can be noisy
-# LOGGING = {
-#     'version': 1,
-#     'handlers': {'console': {'class': 'logging.StreamHandler'}},
-#     'loggers': {'django.db.backends': {'level': 'DEBUG'}},
-#     'root': {'handlers': ['console']}
-# }
+# LOGGING['handlers']['console'] = {'class': 'logging.StreamHandler'}
+# LOGGING['loggers']['django.db.backends'] = {'level': 'DEBUG'}
+# LOGGING['root'] = {'handlers': ['console']}
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'yk*+79g^z#6g5w!o)5)g3c743-+(&k=jh_yn=za3=y5xgt4!xj'
