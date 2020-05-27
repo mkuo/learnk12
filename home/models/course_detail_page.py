@@ -77,7 +77,7 @@ class CourseDetailPage(Page):
         if self.takeaway:
             return self.takeaway
         else:
-            return BeautifulSoup(self.description).get_text(' ', True)
+            return BeautifulSoup(self.description, features='html5lib').get_text(' ', True)
 
     @staticmethod
     def _get_sort_data(request):
