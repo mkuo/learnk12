@@ -12,7 +12,9 @@
             {% endfor %}
         </div>
     {% endif %}
-    {% include 'home/page_star_rating.html' with inline=True %}
+    <a href="#reviews">
+        {% include 'home/page_star_rating.html' with inline=True %}
+    </a>
     {% if page.takeaway %}
         <div class="my-2">
             <span class="font-weight-bold">Learn K12 takeaway:</span>
@@ -40,7 +42,7 @@
             {% endfor %}
         </div>
     {% endif %}
-    {% include 'home/page_summary.html' %}
+    {% include 'home/page_summary.html' with show_course_button=True %}
 </section>
 <section>
     <h2 class="text-dark">Description</h2>
