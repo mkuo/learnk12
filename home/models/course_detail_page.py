@@ -27,8 +27,10 @@ class CourseDetailPage(Page):
 
     class CourseDifficulty(models.IntegerChoices):
         BEGINNER = 0
-        INTERMEDIATE = 1
-        ADVANCED = 2
+        EASY = 1
+        MEDIUM = 2
+        HARD = 3
+        ADVANCED = 4
 
     # database fields
     takeaway = models.TextField(blank=True, null=True)
