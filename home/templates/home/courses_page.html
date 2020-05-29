@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
 
-{% block content %}
+{% block head %}
+    <link rel="canonical" href="{{ page.full_url }}" />
+{% endblock %}
+
+{% block body_in_container %}
 <div id="courses-table">
     <h1>{{ page.heading }}</h1>
     {% if page.caption %}
@@ -11,7 +15,7 @@
     {% include 'home/courses_table.html' with courses=courses_paged %}
     {% include 'home/page_buttons.html' with anchor='#courses-table' %}
 </div>
-{% endblock content %}
+{% endblock %}
 
 {% block extra_js %}
 <script>

@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block content %}
-<h1>Online Computer Science Tutors</h1>
-{% for page in self.get_children.specific %}
-    <div>
-        <span>{{ page.title }}</span>
-        <a href="{{ page.url }}">click here</a>
-    </div>
-{% endfor %}
-{% endblock content %}
+{% block body_in_container %}
+    <h1>Online Computer Science Tutors</h1>
+    {% for page in self.get_children.specific %}
+        <div>
+            <span>{{ page.title }}</span>
+            <a href="{{ page.url }}">click here</a>
+        </div>
+    {% endfor %}
+{% endblock %}

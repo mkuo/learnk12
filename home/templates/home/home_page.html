@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% load humanize learnk12_tags static wagtailcore_tags wagtailimages_tags %}
 
-{% block extra_css %}
+{% block head %}
     <link rel="stylesheet" href="{% static 'css/home_page.css' %}">
-{% endblock extra_css %}
+{% endblock %}
 
-{% block heading %}
+{% block body_outside_container %}
     <div class="splash d-flex justify-content-center align-items-center text-white">
         <div class="container text-center">
             <h1 class="font-weight-normal">{{ page.heading }}</h1>
@@ -16,9 +16,9 @@
     </div>
 {% endblock %}
 
-{% block content %}
+{% block body_in_container %}
     {% for block in page.course_rank_tables %}
         {% include_block block %}
     {% empty %}
     {% endfor %}
-{% endblock content %}
+{% endblock %}

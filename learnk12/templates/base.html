@@ -38,15 +38,15 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-rfs.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/learnk12.css' %}">
 
-        {% block extra_css %} {% endblock %}
+        {% block head %} {% endblock %}
     </head>
 
     <body class="{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}">
         {% wagtailuserbar %}
         {% include 'navbar.html' %}
-        {% block heading %}{% endblock %}
+        {% block body_outside_container %}{% endblock %}
         <div class="container">
-            {% block content %}{% endblock %}
+            {% block body_in_container %}{% endblock %}
         </div>
         {% include 'footer.html' %}
 
