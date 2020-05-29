@@ -73,6 +73,14 @@ class CourseDetailPage(Page):
     ])
 
     @property
+    def override_title(self):
+        return self.title + ' Reviews'
+
+    @property
+    def override_description(self):
+        return self.snippet
+
+    @property
     def snippet(self):
         if self.takeaway:
             return self.takeaway
