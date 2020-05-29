@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin
+
+Host: https://www.learnk12.org
+Sitemap: https://www.learnk12.org/sitemap.xml
