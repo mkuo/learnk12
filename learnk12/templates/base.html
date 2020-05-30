@@ -6,11 +6,18 @@
         <meta charset="utf-8" />
         {% with seo=page.seo_title override=page.override_title title=page.title site_name=page.get_site.site_name %}
             <title>{{ seo|default:override|default:title }}{% if site_name %} | {{ site_name }}{% endif %}</title>
+            <meta property="og:site_name" content="{{ site_name}}"/>
+            <meta property="og:title" content="{{ seo|default:override|default:title }}"/>
         {% endwith %}
         {% with search=page.search_description override=page.override_description %}
-        <meta name="description"
-              content="{{ search|default:override }}" />
+            <meta name="description" content="{{ search|default:override }}"/>
+            <meta property="og:description" content="{{ search|default:override }}"/>
         {% endwith %}
+        <meta property="og:type" content="website"/>
+        <meta property="og:image"
+              content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/learnk12-logo-sm.png' %}"/>
+        <meta property="og:image" content="400"/>
+        <meta property="og:height" content="400"/>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
         <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
@@ -27,7 +34,7 @@
               crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-rfs.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/learnk12.css' %}">
-        {% block head %}{% endblock %}
+        {% block extra_head %}{% endblock %}
     </head>
     <body>
         {% wagtailuserbar %}

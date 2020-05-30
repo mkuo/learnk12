@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags humanize learnk12_tags static wagtailcore_tags wagtailimages_tags %}
 
-{% block head %}
+{% block extra_head %}
     <link rel="canonical" href="{{ page.full_url }}" />
+    <meta property="og:url" content="{{ page.full_url }}"/>
 {% endblock %}
 
 {% block body_in_container %}

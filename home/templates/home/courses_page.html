@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
 
-{% block head %}
+{% block extra_head %}
     <link rel="canonical" href="{{ page.full_url }}" />
+    <meta property="og:url" content="{{ page.full_url }}"/>
 {% endblock %}
 
 {% block body_in_container %}
