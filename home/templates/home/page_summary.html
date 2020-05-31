@@ -9,11 +9,7 @@
         <i class="material-icons">credit_card</i>
         <span class="{{ hide_labels_xs|yesno:'d-none d-sm-block,' }} font-weight-bold mx-1">Cost:</span>
         <span class="{{ hide_labels_xs|yesno:'ml-1,'}}">
-            {% if page.cost == 0%}
-                Free
-            {% else %}
-                ${{ page.cost | floatformat:"0" | intcomma }}
-            {% endif %}
+            {% if page.cost == 0 %}Free{% else %}${{ page.cost | floatformat:"0" | intcomma }}{% endif %}
         </span>
     </div>
     <div class="{{ div_inline|yesno:'d-inline-flex mr-3,d-flex mb-1' }} align-items-center text-nowrap">

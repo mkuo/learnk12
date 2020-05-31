@@ -6,27 +6,17 @@
 <div class="text-center my-2">
     <div class="btn-group btn-group-sm flex-wrap" role="group" aria-label="Navigation">
             <button class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
-               onclick="getPagedData('{% build_url 'page' 1 %}')">
-                First
-            </button>
+               onclick="getPagedData('{% build_url 'page' 1 %}')">First</button>
             <button class="{% if curr_pg == 1 %}{{ disabled }}{% else %}{{ enabled }}{% endif %} {{ hide_xs }}"
-               onclick="getPagedData('{% build_url 'page' paging_data.previous_page %}')">
-                Previous
-            </button>
+               onclick="getPagedData('{% build_url 'page' paging_data.previous_page %}')">Previous</button>
             {% for page_num in paging_data.page_range %}
                 <button class="{% if curr_pg == page_num %}{{ active }}{% else %}{{ enabled }}{% endif %}"
-                   onclick="getPagedData('{% build_url 'page' page_num %}')">
-                    {{ page_num }}
-                </button>
+                   onclick="getPagedData('{% build_url 'page' page_num %}')">{{ page_num }}</button>
             {% endfor %}
             <button class="{% if curr_pg >= num_pg %}{{ disabled }}{% else %}{{ enabled }}{% endif %} {{ hide_xs }}"
-               onclick="getPagedData('{% build_url 'page' paging_data.next_page %}')">
-                Next
-            </button>
+               onclick="getPagedData('{% build_url 'page' paging_data.next_page %}')">Next</button>
             <button class="{% if curr_pg >= num_pg %}{{ disabled }}{% else %}{{ enabled }}{% endif %}"
-               onclick="getPagedData('{% build_url 'page' num_pg %}')">
-                Last
-            </button>
+               onclick="getPagedData('{% build_url 'page' num_pg %}')">Last</button>
     </div>
 </div>
 {% endwith %}

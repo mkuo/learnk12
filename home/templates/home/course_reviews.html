@@ -1,10 +1,7 @@
 {% load humanize learnk12_tags %}
 
 {% if page.review_count %}
-    <small class="text-muted">
-        {{ paging_data.num_records }} result{{ paging_data.num_records | pluralize }} from
-        {{ page.review_count }} total review{{ page.review_count|pluralize }}
-    </small>
+    <small class="text-muted">{% page_result_figures paging_data page %}</small>
 {% endif %}
 <div>
     {% for review in reviews %}
@@ -28,8 +25,6 @@
             <p class="mt-1 mb-0">{{ review.description }}</p>
         </div>
     {% empty %}
-        <p class="border rounded p-4 mb-3 text-center">
-            No reviews were returned. Would you like to write one? 😊
-        </p>
+        <p class="border rounded p-4 mb-3 text-center">No reviews were returned. Would you like to write one? 😊</p>
     {% endfor %}
 </div>

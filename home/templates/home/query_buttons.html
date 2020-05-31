@@ -12,9 +12,7 @@
         <div class="dropdown-menu">
             {% for col, label in sort_btn.choices.items %}
                 <button class="dropdown-item {% if sort_btn.selected_labels|eq:label %}d-none{% endif %}"
-                    onclick="getPagedData('{% build_url 'sort' col %}')">
-                        {{ label }}
-                </button>
+                    onclick="getPagedData('{% build_url 'sort' col %}')">{{ label }}</button>
             {% endfor %}
         </div>
     </div>
@@ -33,9 +31,7 @@
             <div class="dropdown-menu">
                 {% for col, label in filter_btn.choices.items %}
                     <button class="dropdown-item {% if col|is_in:filter_btn.selected_args %}badge-primary {% endif %}"
-                        onclick="getPagedData('{% build_url category.0 col True %}')">
-                            {{ label }}
-                    </button>
+                        onclick="getPagedData('{% build_url category.0 col True %}')">{{ label }}</button>
                 {% endfor %}
             </div>
         </div>

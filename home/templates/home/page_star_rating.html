@@ -1,5 +1,6 @@
 {% load learnk12_tags %}
 
+{% with base_cls='text-nowrap text-secondary' %}
 <div class="{{ inline|yesno:'mb-2,text-right'}}">
     {% if page.review_count %}
         <div class="text-nowrap {{ inline|yesno:'d-inline pr-1,'}}">
@@ -7,17 +8,16 @@
                 <i class="material-icons font-size-20 md-narrow align-middle text-warning">{{ icon }}</i>
             {% endfor %}
         </div>
-        <div class="text-nowrap align-middle text-secondary {{ inline|yesno:'d-inline,'}}">
+        <div class="{{ base_cls }} align-middle {{ inline|yesno:'d-inline,'}}">
             {{ page.review_count }} review{{ page.review_count | pluralize }}
         </div>
     {% else %}
-        <div class="text-nowrap {{ inline|yesno:'d-inline pr-1,'}} text-secondary">
+        <div class="{{ base_cls }} {{ inline|yesno:'d-inline pr-1,'}}">
             {% for i in 5|times %}
                 <i class="material-icons font-size-20 md-narrow align-middle">star_outline</i>
             {% endfor %}
         </div>
-        <div class="text-nowrap align-middle text-secondary {{ inline|yesno:'d-inline,'}}">
-            0 reviews
-        </div>
+        <div class="{{ base_cls }} align-middle {{ inline|yesno:'d-inline,'}}">0 reviews</div>
     {% endif %}
 </div>
+{% endwith %}

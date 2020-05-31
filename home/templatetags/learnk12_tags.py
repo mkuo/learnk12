@@ -1,5 +1,8 @@
 from collections import defaultdict
+
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template import Library
+from django.template.defaultfilters import floatformat, pluralize
 from urllib import parse
 
 from home.models.course_detail_page import CourseDetailPage
@@ -46,6 +49,22 @@ def get_stars(score):
             icons.append('star_outline')
         score -= 2
     return icons
+
+
+@register.simple_tag
+def page_result_figures(paging_data, page=None):
+    figures = '{} result{}'.format(
+        paging_data.num_records,
+        pluralize(paging_data.num_records)
+    )
+    if page:
+        figures += ' from {} total review{}'.format(
+            page.review_count,
+            pluralize(page.review_count)
+        )
+    else:
+        figures += ' returned'
+    return figures
 
 
 @register.simple_tag
