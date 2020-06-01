@@ -5,8 +5,11 @@
     <head>
         <meta charset="utf-8" />
         {% with seo=page.seo_title override=page.override_title title=page.title site_name=page.get_site.site_name %}
-            <title>{{ seo|default:override|default:title }}{% if site_name %} | {{ site_name }}{% endif %}</title>
-            <meta property="og:site_name" content="{{ site_name}}"/>
+            <title>
+                {{ seo|default:override|default:title }}
+                {% if site_name and ' | ' not in seo %} | {{ site_name }}{% endif %}
+            </title>
+            <meta property="og:site_name" content="{{ site_name }}"/>
             <meta property="og:title" content="{{ seo|default:override|default:title }}"/>
         {% endwith %}
         {% with search=page.search_description override=page.override_description %}
