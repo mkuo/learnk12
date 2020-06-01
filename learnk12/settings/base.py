@@ -68,6 +68,10 @@ MIDDLEWARE = [
 
     'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+
+    # HTML minify should go after caching middleware: https://pypi.org/project/django-htmlmin/
+    'htmlmin.middleware.HtmlMinifyMiddleware',
+    'htmlmin.middleware.MarkRequestMiddleware',
 ]
 
 ROOT_URLCONF = 'learnk12.urls'
@@ -198,3 +202,6 @@ LOGGING = {
         },
     },
 }
+
+# Minify HTML
+HTML_MINIFY = True

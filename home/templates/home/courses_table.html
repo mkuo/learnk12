@@ -49,9 +49,15 @@
                         <div class="text-nowrap">Age {{ page.difficulty | course_difficulty_age }}</div>
                     </td>
                     <td class="d-none d-lg-table-cell">
-                        {% if page.cost == 0 %}Free{% else %}${{ page.cost | floatformat:"0" | intcomma }}{% endif %}
+                        {% if page.cost == 0 %}
+                            Free
+                        {% else %}
+                            ${{ page.cost | floatformat:"0" | intcomma }}
+                        {% endif %}
                     </td>
-                    <td class="d-none d-lg-table-cell">{{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}</td>
+                    <td class="d-none d-lg-table-cell">
+                        {{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}
+                    </td>
                     <td class="d-none d-lg-table-cell">{{ page.provider }}</td>
                     <td class="d-none d-lg-table-cell">
                         {% include 'home/page_star_rating.html' %}

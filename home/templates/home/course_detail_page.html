@@ -38,11 +38,15 @@
         <div class="mb-1">
             {% for tag in page.tags.all %}
                 <a href="{{ self.get_parent.url }}?tag={{ tag.slug }}"
-                   class="badge badge-pill badge-info">{{ tag | title }}</a>
+                   class="badge badge-pill badge-info">
+                    {{ tag | title }}
+                </a>
             {% endfor %}
         </div>
     {% endif %}
-    <a href="#reviews">{% include 'home/page_star_rating.html' with inline=True %}</a>
+    <a href="#reviews">
+        {% include 'home/page_star_rating.html' with inline=True %}
+    </a>
     {% if page.takeaway %}
         <div class="my-2">
             <span class="font-weight-bold">Learn K12 takeaway:</span>
@@ -82,7 +86,9 @@
         <div class="alert alert-success" role="alert">Thank you for your review! 😊</div>
     {% endif %}
     <div class="d-flex justify-content-between">
-        <div id="query-buttons">{% if page.review_count %}{% include 'home/query_buttons.html' %}{% endif %}</div>
+        <div id="query-buttons">
+            {% if page.review_count %}{% include 'home/query_buttons.html' %}{% endif %}
+        </div>
         {% if 'reviewed_courses' not in request.session or page.page_ptr_id not in request.session.reviewed_courses %}
             <button class="btn btn-success d-none d-sm-block {{ page.review_count|yesno:',mb-2' }}"
                     data-toggle="collapse"

@@ -9,7 +9,9 @@
     <div class="splash d-flex justify-content-center align-items-center text-white">
         <div class="container text-center">
             <h1 class="font-weight-normal">{{ page.heading }}</h1>
-            {% if page.caption %}<h2 class="font-weight-light">{{ page.caption }}</h2>{% endif %}
+            {% if page.caption %}
+                <h2 class="font-weight-light">{{ page.caption }}</h2>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
@@ -17,6 +19,5 @@
 {% block body_in_container %}
     {% for block in page.course_rank_tables %}
         {% include_block block %}
-    {% empty %}
     {% endfor %}
 {% endblock %}

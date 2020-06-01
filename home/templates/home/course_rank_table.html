@@ -4,7 +4,9 @@
     <h1 class="mt-5 mb-2 text-dark">
         {% if value.link %}
             <a href="{{ value.link.url }}" class="text-dark text-decoration-none">{{ value.heading }}</a>
-        {% else %}{{ value.heading }}{% endif %}
+        {% else %}
+            {{ value.heading }}
+        {% endif %}
     </h1>
 {% endif %}
 {% if value.caption %}
@@ -26,7 +28,9 @@
                 <tr style="transform: rotate(0);">
                     <th class="d-none d-md-table-cell text-center">{{ forloop.counter }}</th>
                     <td>
-                        <a href="{{ page.url }}" class="stretched-link font-weight-bold darkslategray">{{ page.title }}</a>
+                        <a href="{{ page.url }}" class="stretched-link font-weight-bold darkslategray">
+                            {{ page.title }}
+                        </a>
                         {% if page.tags %}
                             <div>
                                 {% for tag in page.tags.all %}
