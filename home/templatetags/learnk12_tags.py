@@ -1,8 +1,7 @@
 from collections import defaultdict
 
-from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template import Library
-from django.template.defaultfilters import floatformat, pluralize
+from django.template.defaultfilters import pluralize
 from urllib import parse
 
 from home.models.course_detail_page import CourseDetailPage
@@ -32,7 +31,12 @@ def times(number):
 
 
 @register.filter
-def course_difficulty_enum(text):
+def course_difficulty_name(text):
+    return CourseDetailPage.CourseDifficulty(int(text)).name
+
+
+@register.filter
+def course_difficulty_age(text):
     return CourseDetailPage.CourseDifficulty(int(text)).label
 
 

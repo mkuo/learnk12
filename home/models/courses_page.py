@@ -40,7 +40,11 @@ class CoursesPage(Page):
 
     @staticmethod
     def _get_course_difficulty_data(request):
-        diffs = {str(val): label for val, label in CourseDetailPage.CourseDifficulty.choices}
+        course_difficulty = CourseDetailPage.CourseDifficulty
+        diffs = {
+            str(val): '{}, Age {}'.format(course_difficulty(val).name.title(), age_group)
+            for val, age_group in course_difficulty.choices
+        }
         return ParamData(request, 'difficulty', diffs)
 
     @staticmethod

@@ -1,12 +1,15 @@
 {% load humanize learnk12_tags %}
 <div class="d-flex {{ div_inline|yesno:'align-items-center flex-wrap,flex-column' }}">
     <div class="{{ div_inline|yesno:'d-inline-flex mr-3,d-flex mb-1' }} align-items-center text-nowrap">
-            <i class="material-icons">signal_cellular_alt</i>
+            <i class="material-icons">face</i>
             <span class="{{ hide_labels_xs|yesno:'d-none d-sm-block,' }} font-weight-bold mx-1">Difficulty:</span>
-            <span class="{{ hide_labels_xs|yesno:'ml-1,'}}">{{ page.difficulty | course_difficulty_enum }}</span>
+            <span class="{{ hide_labels_xs|yesno:'ml-1,'}}">
+                <span>{{ page.difficulty | course_difficulty_name | title }},</span>
+                <span class="text-nowrap">Age {{ page.difficulty | course_difficulty_age }}</span>
+            </span>
     </div>
     <div class="{{ div_inline|yesno:'d-inline-flex mr-3,d-flex mb-1' }} align-items-center text-nowrap">
-        <i class="material-icons">credit_card</i>
+        <i class="material-icons">payment</i>
         <span class="{{ hide_labels_xs|yesno:'d-none d-sm-block,' }} font-weight-bold mx-1">Cost:</span>
         <span class="{{ hide_labels_xs|yesno:'ml-1,'}}">
             {% if page.cost == 0 %}Free{% else %}${{ page.cost | floatformat:"0" | intcomma }}{% endif %}
@@ -20,7 +23,7 @@
         </span>
     </div>
     <div class="{{ div_inline|yesno:'d-inline-flex mr-3,d-flex mb-2' }} align-items-center text-nowrap">
-        <i class="material-icons">face</i>
+        <i class="material-icons">ondemand_video</i>
         <span class="{{ hide_labels_xs|yesno:'d-none d-sm-block,' }} font-weight-bold mx-1">Provider:</span>
         <span class="{{ hide_labels_xs|yesno:'ml-1,'}}">{{ page.provider }}</span>
     </div>

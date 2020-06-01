@@ -18,7 +18,7 @@ class ParamData:
         return arg
 
     @staticmethod
-    def sanitize_args(request, param, allowed, default=[]):
+    def sanitize_args(request, param, allowed, default=()):
         args = request.GET.getlist(param, default)
         if not all(arg in allowed for arg in args):
             args = default

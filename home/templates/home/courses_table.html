@@ -44,13 +44,12 @@
                         {% endif %}
                         <p class="my-1">{{ page.snippet|truncatewords:20 }}</p>
                     </td>
-                    <td class="d-none d-lg-table-cell">{{ page.difficulty | course_difficulty_enum }}</td>
                     <td class="d-none d-lg-table-cell">
-                        {% if page.cost == 0%}
-                            Free
-                        {% else %}
-                            ${{ page.cost | floatformat:"0" | intcomma }}
-                        {% endif %}
+                        <div>{{ page.difficulty | course_difficulty_name | title }},</div>
+                        <div class="text-nowrap">Age {{ page.difficulty | course_difficulty_age }}</div>
+                    </td>
+                    <td class="d-none d-lg-table-cell">
+                        {% if page.cost == 0 %}Free{% else %}${{ page.cost | floatformat:"0" | intcomma }}{% endif %}
                     </td>
                     <td class="d-none d-lg-table-cell">{{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}</td>
                     <td class="d-none d-lg-table-cell">{{ page.provider }}</td>
