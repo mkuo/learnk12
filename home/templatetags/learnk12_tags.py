@@ -1,9 +1,8 @@
+import re
 from collections import defaultdict
-
 from django.template import Library
 from django.template.defaultfilters import pluralize
 from urllib import parse
-
 from home.models.course_detail_page import CourseDetailPage
 from home.models.menu_item import MenuItem
 
@@ -53,6 +52,11 @@ def get_stars(score):
             icons.append('star_outline')
         score -= 2
     return icons
+
+
+@register.filter
+def minify_code(string):
+    return re.sub('\n\s*', '', string).strip()
 
 
 @register.simple_tag

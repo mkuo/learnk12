@@ -34,7 +34,9 @@
               crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-rfs.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/learnk12.css' %}">
-        {% block extra_head %}{% endblock %}
+        {% filter minify_code %}
+            {% block extra_head %}{% endblock %}
+        {% endfilter %}
     </head>
     <body>
         {% wagtailuserbar %}
@@ -44,7 +46,6 @@
             {% block body_in_container %}{% endblock %}
         </div>
         {% include 'footer.html' %}
-        {# Global javascript #}
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"
                 integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
                 crossorigin="anonymous"></script>
@@ -55,8 +56,8 @@
                 integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
                 crossorigin="anonymous"></script>
         <script type="text/javascript" src="{% static 'js/learnk12.js' %}"></script>
-        {% block extra_js %}
-            {# Override this in templates to add extra javascript #}
-        {% endblock %}
+        {% filter minify_code %}
+            {% block extra_js %}{% endblock %}
+        {% endfilter %}
     </body>
 </html>
