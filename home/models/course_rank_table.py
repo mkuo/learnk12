@@ -5,6 +5,7 @@ from home.models import CourseDetailPage
 
 class CourseRankTableBlock(blocks.StructBlock):
     heading = blocks.CharBlock(required=False)
+    link = blocks.PageChooserBlock(required=False)
     caption = blocks.CharBlock(required=False)
     filters = blocks.ListBlock(blocks.StructBlock([
         ('column', blocks.CharBlock()),

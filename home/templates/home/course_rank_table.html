@@ -1,7 +1,11 @@
 {% load humanize learnk12_tags wagtailimages_tags %}
 
 {% if value.heading %}
-    <h1 class="mt-5 mb-2 text-dark">{{ value.heading }}</h1>
+    <h1 class="mt-5 mb-2 text-dark">
+        {% if value.link %}
+            <a href="{{ value.link.url }}" class="text-dark text-decoration-none">{{ value.heading }}</a>
+        {% else %}{{ value.heading }}{% endif %}
+    </h1>
 {% endif %}
 {% if value.caption %}
     <p class="lead">{{ value.caption }}</p>
