@@ -4,6 +4,31 @@
 {% block extra_head %}
     <link rel="canonical" href="{{ page.full_url }}" />
     <meta property="og:url" content="{{ page.full_url }}"/>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Course",
+            "@id": "{{ page.url }}",
+            "name": "{{ page.title }}",
+            "description": "{{ page.snippet }}",
+            "url": "{{ page.full_url }}",
+            {% image page.course_images.all.first.image fill-320x240 as img_first %}
+            "image": ["{{ img_first.url }}"],
+            {% if page.course_url %}
+            {% endif %}
+            {% if page.avg_score and page.review_count %}
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "{{ page.avg_score }}",
+                "ratingCount": {{ page.review_count }}
+            },
+            {% endif %}
+            "provider": {
+                "@type": "Organization",
+                "name": "{{ page.provider }}"
+            }
+        }
+    </script>
 {% endblock %}
 
 {% block body_in_container %}
