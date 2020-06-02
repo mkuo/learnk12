@@ -15,7 +15,7 @@
                     onclick="getPagedData('{% build_url 'sort' col %}')">{{ label }}</button>
             {% endfor %}
         </div>
-    </div>
+    </div>&nbsp
     {% for category, filter_btn in filter_btns.items %}
         <div class="dropdown d-inline">
             <button class="btn btn-sm border mb-1 {{ filter_btn.selected_args|yesno:'btn-primary,btn-light' }}"
@@ -34,7 +34,7 @@
                         onclick="getPagedData('{% build_url category.0 col True %}')">{{ label }}</button>
                 {% endfor %}
             </div>
-        </div>
+        </div>&nbsp
     {% endfor %}
     <button onclick="getPagedData('{{ page.url }}')" class="btn btn-link p-0 ml-1">
         <small>Reset</small>
