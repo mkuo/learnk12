@@ -37,6 +37,37 @@ Let's Encrypt SSL was initially set up according to [this guide](https://www.dig
 2. Generate ssh keys for your Github account and [use ssh agent forwarding](https://developer.github.com/v3/guides/using-ssh-agent-forwarding/).
 3. Pull code from this repo.
 
+To run custom Django commands, see command files in `learnk12/home/management/commands`.
+```
+(venv) [mike@learnk12 learnk12 (master)]$ ./manage.py update_courses_agg_fields
+```
+
+# Production Debugging and Logging
+```
+$ ssh mike@learnk12.org
+
+# Check service statuses
+[mike@learnk12 ~ ]$ sudo systemctl status postgresql
+[mike@learnk12 ~ ]$ sudo systemctl status gunicorn
+[mike@learnk12 ~ ]$ sudo systemctl status nginx
+[mike@learnk12 ~ ]$ sudo ufw status
+
+# Check logs
+[mike@learnk12 ~ ]$ tail ~/projects/learnk12/log
+[mike@learnk12 ~ ]$ sudo journalctl -u nginx
+[mike@learnk12 ~ ]$ sudo tail /var/log/nginx/access.log
+[mike@learnk12 ~ ]$ sudo tail /var/log/nginx/error.log
+[mike@learnk12 ~ ]$ sudo journalctl -u gunicorn
+[mike@learnk12 ~ ]$ sudo journalctl -u gunicorn.socket
+
+# Check production settings
+[mike@learnk12 ~ ]$ nano ~/projects/learnk12/learnk12/settings/local.py
+[mike@learnk12 ~ ]$ nano /etc/systemd/system/gunicorn.socket
+[mike@learnk12 ~ ]$ nano /etc/systemd/system/gunicorn.service
+[mike@learnk12 ~ ]$ nano /etc/nginx/sites-available/learnk12
+```
+
+# Production Deploy
 To deploy new code
 ```
 # authenticate with GitHub
@@ -67,32 +98,33 @@ $ ssh mike@learnk12.org
 [mike@learnk12 learnk12 (master)]$ sudo systemctl reload gunicorn
 ```
 
-To run custom Django commands, see command files in `learnk12/home/management/commands`.
+Here is a Zshell script based on the above instructions to simplify deploys.
+For example, create file `~/deploy.sh` and run with `zsh deploy.sh`.
 ```
-(venv) [mike@learnk12 learnk12 (master)]$ ./manage.py update_courses_agg_fields
-```
+#!/bin/zsh
+confirm () {
+    read -q "reply?$1 (y/n)?"
+    echo  # new line
+    if [[ $reply =~ ^[Yy]$ ]]; then $2; fi
+}
 
-# Production Debugging and Logging
-```
-$ ssh mike@learnk12.org
+install_requirements () { pip install -r requirements.txt }
+collect_static_files () { ./manage.py collectstatic }
+migrate_database () { ./manage.py migrate }
+reload_nginx () { sudo systemctl reload nginx }
+reload_gunicorn () { sudo systemctl reload gunicorn }
+update_courses_agg_fields () { ./manage.py update_courses_agg_fields }
 
-# Check service statuses
-[mike@learnk12 ~ ]$ sudo systemctl status postgresql
-[mike@learnk12 ~ ]$ sudo systemctl status gunicorn
-[mike@learnk12 ~ ]$ sudo systemctl status nginx
-[mike@learnk12 ~ ]$ sudo ufw status
+cd ~/projects/learnk12
+git pull
+source venv/bin/activate
+export DJANGO_SETTINGS_MODULE="learnk12.settings.production"
+./manage.py check --deploy
 
-# Check logs
-[mike@learnk12 ~ ]$ tail ~/projects/learnk12/log
-[mike@learnk12 ~ ]$ sudo journalctl -u nginx
-[mike@learnk12 ~ ]$ sudo tail /var/log/nginx/access.log
-[mike@learnk12 ~ ]$ sudo tail /var/log/nginx/error.log
-[mike@learnk12 ~ ]$ sudo journalctl -u gunicorn
-[mike@learnk12 ~ ]$ sudo journalctl -u gunicorn.socket
-
-# Check production settings
-[mike@learnk12 ~ ]$ nano ~/projects/learnk12/learnk12/settings/local.py
-[mike@learnk12 ~ ]$ nano /etc/systemd/system/gunicorn.socket
-[mike@learnk12 ~ ]$ nano /etc/systemd/system/gunicorn.service
-[mike@learnk12 ~ ]$ nano /etc/nginx/sites-available/learnk12
+confirm "Update dependencies" install_requirements;
+confirm "Collect static files" collect_static_files;
+confirm "Run migrations" migrate_database;
+confirm "Reload nginx" reload_nginx;
+confirm "Reload gunicorn" reload_gunicorn;
+confirm "Update courses aggregate fields" update_courses_agg_fields
 ```
