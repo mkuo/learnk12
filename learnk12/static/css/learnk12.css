@@ -56,3 +56,8 @@ section {
     font-size: 48px;
     padding-top: calc(30% - 24px);
 }
+
+.vert-adj-top-1 {
+    margin-top: -1px;
+    margin-bottom: 1px;
+}

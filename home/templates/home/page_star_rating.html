@@ -3,7 +3,7 @@
 {% with base_cls='text-nowrap text-secondary' %}
 <div class="{{ inline|yesno:'mb-2,text-right'}}">
     {% if page.review_count %}
-        <div class="text-nowrap {{ inline|yesno:'d-inline pr-1,'}}">
+        <div class="text-nowrap {{ inline|yesno:'d-inline pr-1,'}} vert-adj-top-1">
             {% for icon in page.avg_score|get_stars %}
                 <i class="material-icons font-size-20 md-narrow align-middle text-warning">{{ icon }}</i>
             {% endfor %}
