@@ -30,12 +30,7 @@ def times(number):
 
 
 @register.filter
-def course_difficulty_name(text):
-    return CourseDetailPage.CourseDifficulty(int(text)).name
-
-
-@register.filter
-def course_difficulty_age(text):
+def course_difficulty_enum(text):
     return CourseDetailPage.CourseDifficulty(int(text)).label
 
 
@@ -57,6 +52,21 @@ def get_stars(score):
 @register.filter
 def minify_code(string):
     return re.sub('\n\s*', '', string).strip()
+
+
+@register.filter
+def course_difficulty(enum_int_value):
+    content = {
+        'dashes_filled': '',
+        'dashes_empty': '',
+        'label': CourseDetailPage.CourseDifficulty(enum_int_value).label.title()
+    }
+    for i in range(5):
+        if i <= enum_int_value:
+            content['dashes_filled'] += '●'
+        else:
+            content['dashes_empty'] += '○'
+    return content
 
 
 @register.simple_tag

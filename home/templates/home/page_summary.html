@@ -1,12 +1,19 @@
 {% load humanize learnk12_tags %}
 <div class="d-flex {{ div_inline|yesno:'align-items-center flex-wrap,flex-column' }}">
     <div class="{{ div_inline|yesno:'d-inline-flex mr-3,d-flex mb-1' }} align-items-center text-nowrap">
-            <i class="material-icons">face</i>
-            <span class="{{ hide_labels_xs|yesno:'d-none d-sm-block,' }} font-weight-bold mx-1">Difficulty:</span>
-            <span class="{{ hide_labels_xs|yesno:'ml-1,'}}">
-                <span>{{ page.difficulty | course_difficulty_name | title }},</span>
-                <span class="text-nowrap">Age {{ page.difficulty | course_difficulty_age }}</span>
+        <i class="material-icons">signal_cellular_alt</i>
+        <span class="{{ hide_labels_xs|yesno:'d-none d-sm-block,' }} font-weight-bold mx-1">Difficulty:</span>
+        {% with page.difficulty|course_difficulty as difficulty_content %}
+        <span class="{{ hide_labels_xs|yesno:'ml-1,'}}">
+            <span>{{ difficulty_content.label }}</span>
+            <span class="text-nowrap">
+                {% spaceless %}
+                <span class="text-info">{{ difficulty_content.dashes_filled }}</span>
+                <span class="text-muted">{{ difficulty_content.dashes_empty }}</span>
+                {% endspaceless %}
             </span>
+        </span>
+        {% endwith %}
     </div>
     <div class="{{ div_inline|yesno:'d-inline-flex mr-3,d-flex mb-1' }} align-items-center text-nowrap">
         <i class="material-icons">payment</i>

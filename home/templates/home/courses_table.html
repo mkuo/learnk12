@@ -9,7 +9,7 @@
             <tr>
                 <th class="d-none d-lg-table-cell"></th>
                 <th>Course</th>
-                <th class="d-none d-lg-table-cell">Difficulty</th>
+                <th class="d-none d-lg-table-cell text-nowrap">Difficulty</th>
                 <th class="d-none d-lg-table-cell">Cost</th>
                 <th class="d-none d-lg-table-cell">Duration</th>
                 <th class="d-none d-lg-table-cell">Provider</th>
@@ -44,10 +44,17 @@
                         {% endif %}
                         <p class="my-1">{{ page.snippet|truncatewords:20 }}</p>
                     </td>
+                    {% with page.difficulty|course_difficulty as difficulty_content %}
                     <td class="d-none d-lg-table-cell">
-                        <div>{{ page.difficulty | course_difficulty_name | title }},</div>
-                        <div class="text-nowrap">Age {{ page.difficulty | course_difficulty_age }}</div>
+                        <div>{{ difficulty_content.label }}</div>
+                        <div class="text-nowrap mt-n2">
+                            {% spaceless %}
+                            <span class="text-info">{{ difficulty_content.dashes_filled }}</span>
+                            <span class="text-muted">{{ difficulty_content.dashes_empty }}</span>
+                            {% endspaceless %}
+                        </div>
                     </td>
+                    {% endwith %}
                     <td class="d-none d-lg-table-cell">
                         {% if page.cost == 0 %}
                             Free

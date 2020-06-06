@@ -61,3 +61,7 @@ section {
     margin-top: -1px;
     margin-bottom: 1px;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}

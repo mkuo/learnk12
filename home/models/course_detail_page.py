@@ -26,12 +26,11 @@ class CourseDetailPage(Page):
     subpage_types = []
 
     class CourseDifficulty(models.IntegerChoices):
-        # name to tuple of (value, age group)
-        BEGINNER = (0, '5-7')
-        EASY = (1, '8-10')
-        MEDIUM = (2, '11-13')
-        HARD = (3, '14-16')
-        ADVANCED = (4, '17+')
+        BEGINNER = 0
+        BASIC = 1
+        INTERMEDIATE = 2
+        PROFICIENT = 3
+        ADVANCED = 4
 
     # database fields
     takeaway = models.TextField(blank=True, null=True)

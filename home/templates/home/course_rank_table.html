@@ -39,10 +39,17 @@
                             </div>
                         {% endif %}
                     </td>
+                    {% with page.difficulty|course_difficulty as difficulty_content %}
                     <td class="d-none d-md-table-cell">
-                        <span>{{ page.difficulty | course_difficulty_name | title }},</span>
-                        <span class="text-nowrap">Age {{ page.difficulty | course_difficulty_age }}</span>
+                        <div>{{ difficulty_content.label }}</div>
+                        <div class="text-nowrap mt-n2">
+                            {% spaceless %}
+                            <span class="text-info">{{ difficulty_content.dashes_filled }}</span>
+                            <span class="text-muted">{{ difficulty_content.dashes_empty }}</span>
+                            {% endspaceless %}
+                        </div>
                     </td>
+                    {% endwith %}
                     <td class="d-none d-md-table-cell">{{ page.provider }}</td>
                     <td>
                         {% include 'home/page_star_rating.html' with inline=False %}
