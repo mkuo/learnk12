@@ -157,28 +157,35 @@
 
 {% block extra_js %}
 <script>
-    $(".img-btn").on("click", function() {
-        const imageTitle = $(this).attr("image-title");
-        $('#imageTitle').html(imageTitle);
-        const src = $(this).attr("original");
-        $('#imageExpand').attr('src', src);
+    gaTry(() => {
+        $(".img-btn").on("click", function() {
+            const imageTitle = $(this).attr("image-title");
+            $('#imageTitle').html(imageTitle);
+            const src = $(this).attr("original");
+            $('#imageExpand').attr('src', src);
+        });
     });
 
     const getPagedData = (url) => {
-        $.ajax({
-            url : url,
-            type : 'GET',
-            dataType: 'html',
-            success : function(data) {
-                $('#query-buttons').html($('#query-buttons', data));
-                $('#course-reviews').html($('#course-reviews', data));
-                $('html,body').animate({
-                    scrollTop: $('#reviews').offset().top
-                }, 'fast')
-            },
-            error : function(request, error) {
-                console.log(error);
-            }
+        gaTry(() => {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'html',
+                success: function(data) {
+                    $('#query-buttons').html($('#query-buttons', data));
+                    $('#course-reviews').html($('#course-reviews', data));
+                    $('html,body').animate({
+                        scrollTop: $('#reviews').offset().top
+                    }, 'fast')
+                },
+                error: function(xhr, status, error) {
+                    ga('send', 'exception', {
+                        'exDescription': xhr.responseText,
+                        'exFatal': false
+                    });
+                }
+            });
         });
     };
 </script>

@@ -21,20 +21,25 @@
 {% block extra_js %}
 <script>
     const getPagedData = (url) => {
-        const anchor = '#courses-table';
-        $.ajax({
-            url : url,
-            type : 'GET',
-            dataType: 'html',
-            success : function(data) {
-                $(anchor).html($(anchor, data));
-                $('html,body').animate({
-                    scrollTop: $(anchor).offset().top
-                }, 'fast')
-            },
-            error : function(request, error) {
-                console.log(error);
-            }
+        gaTry(() => {
+            const anchor = '#courses-table';
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'html',
+                success: function(data) {
+                    $(anchor).html($(anchor, data));
+                    $('html,body').animate({
+                        scrollTop: $(anchor).offset().top
+                    }, 'fast')
+                },
+                error: function(xhr, status, error) {
+                    ga('send', 'exception', {
+                        'exDescription': xhr.responseText,
+                        'exFatal': false
+                    });
+                }
+            });
         });
     };
 </script>
