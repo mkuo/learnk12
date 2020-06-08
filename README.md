@@ -32,6 +32,7 @@
 # Production Environment Setup
 Gunicorn and nginx were initially set up according to [this guide](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04).
 Let's Encrypt SSL was initially set up according to [this guide](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04).
+DDOS mitigatios was initially set up according to [this guide](https://www.nginx.com/blog/mitigating-ddos-attacks-with-nginx-and-nginx-plus/)
 
 1. Set up ssh access to the remote server on DigitalOcean.
 2. Generate ssh keys for your Github account and [use ssh agent forwarding](https://developer.github.com/v3/guides/using-ssh-agent-forwarding/).
@@ -51,6 +52,9 @@ $ ssh mike@learnk12.org
 [mike@learnk12 ~ ]$ sudo systemctl status gunicorn
 [mike@learnk12 ~ ]$ sudo systemctl status nginx
 [mike@learnk12 ~ ]$ sudo ufw status
+
+# Check nginx connections
+[mike@learnk12 ~ ]$ curl https://www.learnk12.org/nginx_status
 
 # Check logs
 [mike@learnk12 ~ ]$ tail ~/projects/learnk12/log
@@ -103,7 +107,7 @@ For example, create file `~/deploy.sh` and run with `zsh deploy.sh`.
 ```
 #!/bin/zsh
 confirm () {
-    read -q "reply?$1 (y/n)?"
+    read "reply?$1 (y/n)? "
     echo  # new line
     if [[ $reply =~ ^[Yy]$ ]]; then $2; fi
 }
