@@ -34,7 +34,7 @@ class CoursesPage(Page):
 
     @staticmethod
     def _get_course_tag_data(request):
-        results = CourseTag.objects.values('tag__slug', 'tag__name').distinct()
+        results = CourseTag.objects.order_by('tag__name').values('tag__slug', 'tag__name').distinct()
         tags = {res['tag__slug']: res['tag__name'] for res in results}
         return ParamData(request, 'tag', tags)
 
@@ -45,7 +45,7 @@ class CoursesPage(Page):
 
     @staticmethod
     def _get_course_provider_data(request):
-        results = CourseDetailPage.objects.live().public().order_by().values('provider').distinct()
+        results = CourseDetailPage.objects.live().public().order_by('provider').values('provider').distinct()
         providers = {res['provider']: res['provider'] for res in results}
         return ParamData(request, 'provider', providers)
 
