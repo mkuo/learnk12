@@ -108,7 +108,6 @@ For example, create file `~/deploy.sh` and run with `zsh deploy.sh`.
 #!/bin/zsh
 confirm () {
     read "reply?$1 (y/n)? "
-    echo  # new line
     if [[ $reply =~ ^[Yy]$ ]]; then $2; fi
 }
 
