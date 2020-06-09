@@ -71,18 +71,10 @@ def course_difficulty(enum_int_value):
 
 @register.simple_tag
 def page_result_figures(paging_data, page=None):
-    figures = '{} result{}'.format(
+    return '{} result{} returned'.format(
         paging_data.num_records,
         pluralize(paging_data.num_records)
     )
-    if page:
-        figures += ' from {} total review{}'.format(
-            page.review_count,
-            pluralize(page.review_count)
-        )
-    else:
-        figures += ' returned'
-    return figures
 
 
 @register.simple_tag
