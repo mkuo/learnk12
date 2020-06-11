@@ -9,7 +9,7 @@ from home.models import CourseTag, CourseDetailPage
 from home.models.util_models import ParamData, PagingData
 
 
-class CoursesPage(Page):
+class CourseSubjectPage(Page):
     # meta settings
     subpage_types = ['CourseDetailPage']
     parent_page_type = ['HomePage']

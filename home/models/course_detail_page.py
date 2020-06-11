@@ -23,7 +23,7 @@ from home.models.util_models import ParamData, PagingData
 
 class CourseDetailPage(Page):
     # meta settings
-    parent_page_type = ['CoursesPage']
+    parent_page_type = ['CourseSubjectPage']
     subpage_types = []
 
     # database fields
