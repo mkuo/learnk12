@@ -3,7 +3,8 @@ from collections import defaultdict
 from django.template import Library
 from django.template.defaultfilters import pluralize
 from urllib import parse
-from home.models.course_detail_page import CourseDetailPage
+
+from home.defs.enums import CourseDifficulty
 from home.models.menu_item import MenuItem
 
 register = Library()
@@ -31,7 +32,7 @@ def times(number):
 
 @register.filter
 def course_difficulty_enum(text):
-    return CourseDetailPage.CourseDifficulty(int(text)).label
+    return CourseDifficulty(int(text)).label
 
 
 @register.filter
@@ -59,7 +60,7 @@ def course_difficulty(enum_int_value):
     content = {
         'dashes_filled': '',
         'dashes_empty': '',
-        'label': CourseDetailPage.CourseDifficulty(enum_int_value).label.title()
+        'label': CourseDifficulty(enum_int_value).label.title()
     }
     for i in range(5):
         if i <= enum_int_value:

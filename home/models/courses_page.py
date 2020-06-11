@@ -4,22 +4,24 @@ from django.db.models import F, Q
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.models import Page
 
+from home.defs.enums import CourseDifficulty, CourseSubject
 from home.models import CourseTag, CourseDetailPage
 from home.models.util_models import ParamData, PagingData
 
 
 class CoursesPage(Page):
     # meta settings
-    slug = 'courses'
-    max_count = 1
     subpage_types = ['CourseDetailPage']
     parent_page_type = ['HomePage']
+
     heading = models.CharField(max_length=255)
     caption = models.TextField(blank=True, null=True)
+    subject = models.CharField(db_index=True, max_length=255, choices=CourseSubject.choices)
 
     content_panels = Page.content_panels + [
         FieldPanel('heading'),
         FieldPanel('caption'),
+        FieldPanel('subject')
     ]
 
     @staticmethod
@@ -32,27 +34,26 @@ class CoursesPage(Page):
         }
         return ParamData(request, 'sort', sort_columns, is_list=False, default='-avg_score')
 
-    @staticmethod
-    def _get_course_tag_data(request):
-        results = CourseTag.objects.order_by('tag__name').values('tag__slug', 'tag__name').distinct()
+    def _get_course_tag_data(self, request):
+        results = CourseTag.objects.filter(content_object__subject=self.subject)\
+            .order_by('tag__name').values('tag__slug', 'tag__name').distinct()
         tags = {res['tag__slug']: res['tag__name'] for res in results}
         return ParamData(request, 'tag', tags)
 
     @staticmethod
     def _get_course_difficulty_data(request):
-        diffs = {str(val): label for val, label in CourseDetailPage.CourseDifficulty.choices}
+        diffs = {str(val): label for val, label in CourseDifficulty.choices}
         return ParamData(request, 'difficulty', diffs)
 
-    @staticmethod
-    def _get_course_provider_data(request):
-        results = CourseDetailPage.objects.live().public().order_by('provider').values('provider').distinct()
+    def _get_course_provider_data(self, request):
+        results = CourseDetailPage.objects.live().public().filter(subject=self.subject)\
+            .order_by('provider').values('provider').distinct()
         providers = {res['provider']: res['provider'] for res in results}
         return ParamData(request, 'provider', providers)
 
-    @staticmethod
-    def _get_courses_paged(page, sort_arg, tag_args, difficulty_args, provider_args):
+    def _get_courses_paged(self, page, sort_arg, tag_args, difficulty_args, provider_args):
         # get courses from database
-        course_query = CourseDetailPage.objects.live().public()
+        course_query = CourseDetailPage.objects.live().public().filter(subject=self.subject)
         if sort_arg[0] == '-':
             course_query = course_query.order_by(F(sort_arg[1:]).desc(nulls_last=True))
         else:

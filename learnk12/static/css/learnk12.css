@@ -49,6 +49,7 @@ section {
 
 .img-rect {
     height: 0;
+    width: 180px;
     padding-bottom: calc(100% / 3 * 2);
 }
 

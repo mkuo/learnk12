@@ -14,6 +14,7 @@ from wagtail.admin.edit_handlers import (
 from wagtail.core.fields import RichTextField
 from wagtail.core.models import Page
 
+from home.defs.enums import CourseDifficulty, CourseSubject
 from home.forms.course_review_form import CourseReviewForm
 from home.models.course_review import CourseReview
 from home.models.course_tag import CourseTag
@@ -25,14 +26,8 @@ class CourseDetailPage(Page):
     parent_page_type = ['CoursesPage']
     subpage_types = []
 
-    class CourseDifficulty(models.IntegerChoices):
-        BEGINNER = 0
-        BASIC = 1
-        INTERMEDIATE = 2
-        PROFICIENT = 3
-        ADVANCED = 4
-
     # database fields
+    subject = models.CharField(db_index=True, max_length=255, choices=CourseSubject.choices)
     takeaway = models.TextField(blank=True, null=True)
     description = RichTextField(features=[])
     provider = models.CharField(db_index=True, max_length=255)
@@ -50,6 +45,7 @@ class CourseDetailPage(Page):
         FieldPanel('description'),
         MultiFieldPanel(
             [
+                FieldPanel('subject'),
                 FieldPanel('provider'),
                 FieldPanel('course_url'),
                 FieldPanel('cost'),
