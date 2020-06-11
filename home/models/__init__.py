@@ -1,6 +1,6 @@
 from wagtail.core.models import Page
 
-from .course_detail_page import CourseDetailPage
+from .course_page import CoursePage
 from .course_image import CourseImage
 from .course_review import CourseReview
 from .course_tag import CourseTag

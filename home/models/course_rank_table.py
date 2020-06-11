@@ -1,6 +1,6 @@
 from wagtail.core import blocks
 
-from home.models import CourseDetailPage
+from home.models import CoursePage
 
 
 class CourseRankTableBlock(blocks.StructBlock):
@@ -23,7 +23,7 @@ class CourseRankTableBlock(blocks.StructBlock):
 
     def get_context(self, value, parent_context=None):
         context = super().get_context(value, parent_context=parent_context)
-        course_query = CourseDetailPage.objects.live().public()
+        course_query = CoursePage.objects.live().public()
         if value['filters']:
             kwargs = {f['column']: f['value'] for f in value['filters']}
             course_query = course_query.filter(**kwargs)

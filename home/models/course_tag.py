@@ -5,7 +5,7 @@ from taggit.models import TaggedItemBase
 
 class CourseTag(TaggedItemBase):
     content_object = ParentalKey(
-        'CourseDetailPage',
+        'CoursePage',
         related_name='tagged_items',
         on_delete=models.CASCADE,
     )

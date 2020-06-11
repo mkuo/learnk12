@@ -3,12 +3,12 @@ from modelcluster.fields import ParentalKey
 from wagtail.core.models import Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from home.models.course_detail_page import CourseDetailPage
+from home.models.course_page import CoursePage
 
 
 class CourseImage(Orderable):
     page = ParentalKey(
-        CourseDetailPage,
+        CoursePage,
         on_delete=models.CASCADE,
         related_name='course_images'
     )

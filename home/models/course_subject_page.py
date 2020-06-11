@@ -5,13 +5,13 @@ from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.models import Page
 
 from home.defs.enums import CourseDifficulty, CourseSubject
-from home.models import CourseTag, CourseDetailPage
+from home.models import CourseTag, CoursePage
 from home.models.util_models import ParamData, PagingData
 
 
 class CourseSubjectPage(Page):
     # meta settings
-    subpage_types = ['CourseDetailPage']
+    subpage_types = ['CoursePage']
     parent_page_type = ['HomePage']
 
     heading = models.CharField(max_length=255)
@@ -46,14 +46,14 @@ class CourseSubjectPage(Page):
         return ParamData(request, 'difficulty', diffs)
 
     def _get_course_provider_data(self, request):
-        results = CourseDetailPage.objects.live().public().filter(subject=self.subject)\
+        results = CoursePage.objects.live().public().filter(subject=self.subject)\
             .order_by('provider').values('provider').distinct()
         providers = {res['provider']: res['provider'] for res in results}
         return ParamData(request, 'provider', providers)
 
     def _get_courses_paged(self, page, sort_arg, tag_args, difficulty_args, provider_args):
         # get courses from database
-        course_query = CourseDetailPage.objects.live().public().filter(subject=self.subject)
+        course_query = CoursePage.objects.live().public().filter(subject=self.subject)
         if sort_arg[0] == '-':
             course_query = course_query.order_by(F(sort_arg[1:]).desc(nulls_last=True))
         else:

@@ -21,7 +21,7 @@ from home.models.course_tag import CourseTag
 from home.models.util_models import ParamData, PagingData
 
 
-class CourseDetailPage(Page):
+class CoursePage(Page):
     # meta settings
     parent_page_type = ['CourseSubjectPage']
     subpage_types = []
@@ -157,7 +157,7 @@ class CourseDetailPage(Page):
         do_redirect = False
         if form.is_valid():
             existing_review = CourseReview.objects.filter(
-                course_detail_page_id=self.page_ptr_id,
+                course_page_id=self.page_ptr_id,
                 email=form.cleaned_data['email']
             ).exists()
             if existing_review:
@@ -166,7 +166,7 @@ class CourseDetailPage(Page):
                 context['show_form'] = True
             else:
                 obj = form.save(commit=False)
-                obj.course_detail_page_id = self.page_ptr_id
+                obj.course_page_id = self.page_ptr_id
                 obj.save()
                 self.append_to_reviewed_courses(request)
                 do_redirect = True
