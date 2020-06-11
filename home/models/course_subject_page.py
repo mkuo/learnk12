@@ -5,7 +5,7 @@ from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.models import Page
 
 from home.defs.enums import CourseDifficulty, CourseSubject
-from home.models import CoursePage, CourseTag
+from home.models import CoursePage
 from home.models.util_models import ParamData, PagingData
 
 
@@ -35,10 +35,9 @@ class CourseSubjectPage(Page):
         return ParamData(request, 'sort', sort_columns, is_list=False, default='-avg_score')
 
     def _get_course_tag_data(self, request):
-        child_page_ptr_ids = CoursePage.objects.child_of(self).values('page_ptr_id')
-        results = CourseTag.objects.filter(content_object__page_ptr_id__in=child_page_ptr_ids)\
-            .order_by('tag__name').values('tag__slug', 'tag__name').distinct()
-        tags = {res['tag__slug']: res['tag__name'] for res in results}
+        results = CoursePage.objects.child_of(self).live().public() \
+            .order_by('tagged_items__tag__name').values('tagged_items__tag__slug', 'tagged_items__tag__name').distinct()
+        tags = {res['tagged_items__tag__slug']: res['tagged_items__tag__name'] for res in results}
         return ParamData(request, 'tag', tags)
 
     @staticmethod
