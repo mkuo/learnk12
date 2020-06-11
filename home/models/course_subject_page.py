@@ -5,7 +5,7 @@ from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.models import Page
 
 from home.defs.enums import CourseDifficulty, CourseSubject
-from home.models import CourseTag, CoursePage
+from home.models import CoursePage, CourseTag
 from home.models.util_models import ParamData, PagingData
 
 
@@ -35,7 +35,8 @@ class CourseSubjectPage(Page):
         return ParamData(request, 'sort', sort_columns, is_list=False, default='-avg_score')
 
     def _get_course_tag_data(self, request):
-        results = CourseTag.objects.filter(content_object__subject=self.subject)\
+        child_page_ptr_ids = CoursePage.objects.child_of(self).values('page_ptr_id')
+        results = CourseTag.objects.filter(content_object__page_ptr_id__in=child_page_ptr_ids)\
             .order_by('tag__name').values('tag__slug', 'tag__name').distinct()
         tags = {res['tag__slug']: res['tag__name'] for res in results}
         return ParamData(request, 'tag', tags)
@@ -46,14 +47,14 @@ class CourseSubjectPage(Page):
         return ParamData(request, 'difficulty', diffs)
 
     def _get_course_provider_data(self, request):
-        results = CoursePage.objects.live().public().filter(subject=self.subject)\
+        results = CoursePage.objects.child_of(self).live().public()\
             .order_by('provider').values('provider').distinct()
         providers = {res['provider']: res['provider'] for res in results}
         return ParamData(request, 'provider', providers)
 
     def _get_courses_paged(self, page, sort_arg, tag_args, difficulty_args, provider_args):
         # get courses from database
-        course_query = CoursePage.objects.live().public().filter(subject=self.subject)
+        course_query = CoursePage.objects.child_of(self).live().public()
         if sort_arg[0] == '-':
             course_query = course_query.order_by(F(sort_arg[1:]).desc(nulls_last=True))
         else:
