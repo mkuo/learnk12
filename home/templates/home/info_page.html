@@ -1,7 +1,17 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
 {% block body_in_container %}
     <h1 class="mb-4">{{ page.title }}</h1>
-    {{ page.info | richtext }}
+    {% for block in page.body %}
+        {% if block.block_type == 'image_row' %}
+            <div class="my-4">
+                {% for image in block.value %}
+                    {% image image fill-128x128 class="d-inline rounded-circle border mx-1" alt=image.title %}
+                {% endfor %}
+            </div>
+        {% elif block.block_type == 'paragraph' %}
+            {% include_block block %}
+        {% endif %}
+    {% endfor %}
 {% endblock %}

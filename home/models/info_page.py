@@ -1,13 +1,18 @@
-from wagtail.admin.edit_handlers import FieldPanel
-from wagtail.core.fields import RichTextField
+from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtail.core import blocks
+from wagtail.core.fields import StreamField
 from wagtail.core.models import Page
+from wagtail.images.blocks import ImageChooserBlock
 
 
 class InfoPage(Page):
     parent_page_type = ['HomePage']
     subpage_types = []
-    info = RichTextField()
+    body = StreamField([
+        ('paragraph', blocks.RichTextBlock()),
+        ('image_row', blocks.ListBlock(ImageChooserBlock())),
+    ])
 
     content_panels = Page.content_panels + [
-        FieldPanel('info')
+        StreamFieldPanel('body')
     ]
