@@ -39,9 +39,9 @@ class SiteFeedbackAdmin(ModelAdmin):
     menu_order = 9000  # (000 being 1st, 100 2nd)
     add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
     exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
-    list_display = ['category', 'description', 'name', 'email']
-    list_filter = ['category', 'name', 'email']
-    search_fields = ['category', 'description', 'name', 'email']
+    list_display = ['subject', 'description', 'name', 'email']
+    list_filter = ['subject', 'name', 'email']
+    search_fields = ['subject', 'description', 'name', 'email']
 
 
 class TagAdmin(ModelAdmin):

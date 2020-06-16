@@ -6,8 +6,8 @@ from home.models import SiteFeedback
 class SiteFeedbackForm(ModelForm):
     class Meta:
         model = SiteFeedback
-        fields = ['category', 'description', 'name', 'email']
+        fields = ['subject', 'description', 'name', 'email']
         widgets = {
-            'category': Textarea(attrs={'rows': 1}),
+            'subject': Textarea(attrs={'rows': 1}),
             'description': Textarea(attrs={'rows': 4}),
         }
