@@ -9,7 +9,12 @@ from home.models.course_rank_table import CourseRankTableBlock
 class HomePage(Page):
     max_count = 1
     parent_page_type = ['Page']
-    subpage_types = ['CourseSubjectPage', 'TutorsPage', 'InfoPage']
+    subpage_types = [
+        'CourseSubjectPage',
+        'InfoPage',
+        'SiteFeedbackPage',
+        'TutorsPage',
+    ]
     heading = models.CharField(max_length=255)
     caption = models.TextField(blank=True, null=True)
     course_rank_tables = StreamField([

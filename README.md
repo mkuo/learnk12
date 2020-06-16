@@ -116,6 +116,7 @@ collect_static_files () { ./manage.py collectstatic }
 migrate_database () { ./manage.py migrate }
 reload_nginx () { sudo systemctl reload nginx }
 reload_gunicorn () { sudo systemctl reload gunicorn }
+clear_sessions () { ./manage.py clearsessions }
 update_courses_agg_fields () { ./manage.py update_courses_agg_fields }
 
 cd ~/projects/learnk12
@@ -129,5 +130,8 @@ confirm "Collect static files" collect_static_files;
 confirm "Run migrations" migrate_database;
 confirm "Reload nginx" reload_nginx;
 confirm "Reload gunicorn" reload_gunicorn;
+
+echo "Now suggesting optional manual cleanup commands..."
+confirm "Clear expired sessions" clear_sessions;
 confirm "Update courses aggregate fields" update_courses_agg_fields
 ```

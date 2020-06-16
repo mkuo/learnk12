@@ -7,6 +7,8 @@ from .course_tag import CourseTag
 from .course_subject_page import CourseSubjectPage
 from .home_page import HomePage
 from .info_page import InfoPage
+from .site_feedback import SiteFeedback
+from .site_feedback_page import SiteFeedbackPage
 from .tutor_detail_page import TutorDetailPage
 from .tutors_page import TutorsPage
 

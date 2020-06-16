@@ -6,6 +6,7 @@ from wagtail.contrib.modeladmin.options import (
 )
 from wagtail.core import hooks
 
+from home.models import SiteFeedback
 from home.models.course_review import CourseReview
 from home.models.menu_item import MenuItem
 
@@ -21,16 +22,6 @@ class CourseReviewAdmin(ModelAdmin):
     search_fields = ['subject', 'description', 'name', 'email']
 
 
-class TagAdmin(ModelAdmin):
-    model = Tag
-    menu_icon = 'tag'  # change as required
-    menu_order = 400  # (000 being 1st, 100 2nd)
-    add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
-    exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
-    list_display = ['name', 'slug']
-    search_fields = ['name', 'slug']
-
-
 class MenuItemAdmin(ModelAdmin):
     model = MenuItem
     menu_icon = 'list-ul'
@@ -42,9 +33,31 @@ class MenuItemAdmin(ModelAdmin):
     exclude_from_explorer = True
 
 
+class SiteFeedbackAdmin(ModelAdmin):
+    model = SiteFeedback
+    menu_icon = 'edit'  # change as required
+    menu_order = 9000  # (000 being 1st, 100 2nd)
+    add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
+    exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
+    list_display = ['category', 'description', 'name', 'email']
+    list_filter = ['category', 'name', 'email']
+    search_fields = ['category', 'description', 'name', 'email']
+
+
+class TagAdmin(ModelAdmin):
+    model = Tag
+    menu_icon = 'tag'  # change as required
+    menu_order = 400  # (000 being 1st, 100 2nd)
+    add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
+    exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
+    list_display = ['name', 'slug']
+    search_fields = ['name', 'slug']
+
+
 modeladmin_register(CourseReviewAdmin)
-modeladmin_register(TagAdmin)
 modeladmin_register(MenuItemAdmin)
+modeladmin_register(SiteFeedbackAdmin)
+modeladmin_register(TagAdmin)
 
 
 @hooks.register('register_admin_search_area')
