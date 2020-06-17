@@ -31,16 +31,24 @@ section {
     margin-bottom: 2rem;
 }
 
+.material-icons {
+    max-width: 24px;
+    overflow: hidden;
+}
+
 .font-size-16 {
     font-size: 16px;
+    max-width: 16px;
 }
 
 .font-size-18 {
     font-size: 18px;
+    max-width: 18px;
 }
 
 .font-size-20 {
     font-size: 20px;
+    max-width: 20px;
 }
 
 .md-narrow {
