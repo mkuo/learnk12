@@ -48,10 +48,7 @@
         {% include 'home/page_star_rating.html' with inline=True %}
     </a>
     {% if page.takeaway %}
-        <div class="my-2">
-            <span class="font-weight-bold">Learn K12 takeaway:</span>
-            <span>{{ page.takeaway }}</span>
-        </div>
+        <div class="my-2">{{ page.takeaway }}</div>
     {% endif %}
     <hr>
 </section>
