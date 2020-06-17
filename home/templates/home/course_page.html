@@ -39,7 +39,7 @@
             {% for tag in page.tags.all|dictsort:"name" %}
                 <a href="{{ self.get_parent.url }}?tag={{ tag.slug }}"
                    class="badge badge-pill badge-info">
-                    {{ tag | title }}
+                    {{ tag }}
                 </a>
             {% endfor %}
         </div>
