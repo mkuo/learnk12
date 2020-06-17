@@ -28,7 +28,7 @@ class CoursePage(Page):
 
     # database fields
     takeaway = models.TextField(blank=True, null=True)
-    description = RichTextField(features=[])
+    description = RichTextField()
     provider = models.CharField(db_index=True, max_length=255)
     course_url = models.URLField(blank=True, null=True)
     cost = models.DecimalField(db_index=True, max_digits=9, decimal_places=2)
