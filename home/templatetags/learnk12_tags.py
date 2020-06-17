@@ -5,6 +5,7 @@ from django.template.defaultfilters import pluralize
 from urllib import parse
 
 from home.defs.enums import CourseDifficulty
+from home.models import SiteFeedbackPage
 from home.models.menu_item import MenuItem
 
 register = Library()
@@ -71,7 +72,7 @@ def course_difficulty(enum_int_value):
 
 
 @register.simple_tag
-def page_result_figures(paging_data, page=None):
+def page_result_figures(paging_data):
     return '{} result{} returned'.format(
         paging_data.num_records,
         pluralize(paging_data.num_records)
@@ -102,6 +103,16 @@ def google_fonts_import_url():
            "family=Material+Icons&"
            "display=swap")
     return url
+
+
+@register.simple_tag
+def feedback_page(subject):
+    page = SiteFeedbackPage.objects.live().public()[0]
+    if page:
+        url_string = page.url
+        url_parsed = parse.urlparse(url_string)
+        encoded_query = parse.urlencode({'subject': subject})
+        return url_parsed._replace(query=encoded_query).geturl()
 
 
 @register.simple_tag(takes_context=True)

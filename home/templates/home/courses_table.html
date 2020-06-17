@@ -1,7 +1,13 @@
 {% load humanize learnk12_tags wagtailimages_tags %}
 
 {% if paging_data %}
-    <small class="text-muted">{% page_result_figures paging_data %}</small>
+    <div class="d-flex justify-content-between">
+        <small class="text-muted">{% page_result_figures paging_data %}</small>
+        {% feedback_page 'Suggest a course on '|add:page.subject as feedback_page_url %}
+        {% if feedback_page_url %}
+            <small><a href="{{ feedback_page_url }}">Suggest a course</a></small>
+        {% endif %}
+    </div>
 {% endif %}
 <div class="table-responsive">
     <table class="table table-hover border-bottom">

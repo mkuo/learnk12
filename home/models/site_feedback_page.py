@@ -1,3 +1,5 @@
+from html import unescape
+
 from django.shortcuts import render, redirect
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.fields import RichTextField
@@ -31,7 +33,10 @@ class SiteFeedbackPage(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        context['form'] = SiteFeedbackForm()
+        subject = request.GET.get('subject')
+        context['form'] = SiteFeedbackForm(
+            initial={'subject': unescape(subject)}
+        )
         return context
 
     def serve(self, request):

@@ -79,9 +79,15 @@
 <section>
     <h2 class="text-dark">Description</h2>
     {{ page.description | richtext }}
+    {% feedback_page 'Suggest an edit on '|add:page.title|add:' by '|add:page.provider as course_feedback_url %}
+    {% if course_feedback_url %}
+        <span>Do you have information on this course?</span>
+        <a href="{{ course_feedback_url }}">Suggest an edit</a>
+    {% endif %}
 </section>
 <section id="reviews" class="pt-2">
     <h2 class="text-dark">Reviews</h2>
+    {% feedback_page 'Report review on '|add:page.title|add:' by '|add:page.provider as review_feedback_url %}
     {% if page.page_ptr_id in request.session.reviewed_courses %}
         <div class="alert alert-success" role="alert">Thank you for your review! 😊</div>
     {% endif %}
