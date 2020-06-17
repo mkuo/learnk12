@@ -55,8 +55,16 @@
                         <div>{{ difficulty_content.label }}</div>
                         <div class="text-nowrap mt-n2">
                             {% spaceless %}
-                            <span class="text-info">{{ difficulty_content.dashes_filled }}</span>
-                            <span class="text-muted">{{ difficulty_content.dashes_empty }}</span>
+                                {% for _ in difficulty_content.dashes_filled %}
+                                    <i class="material-icons font-size-12 text-info">
+                                        radio_button_checked
+                                    </i>
+                                {% endfor %}
+                                {% for _ in difficulty_content.dashes_empty %}
+                                    <i class="material-icons font-size-12 text-muted">
+                                        radio_button_unchecked
+                                    </i>
+                                {% endfor %}
                             {% endspaceless %}
                         </div>
                     </td>

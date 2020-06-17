@@ -59,15 +59,10 @@ def minify_code(string):
 @register.filter
 def course_difficulty(enum_int_value):
     content = {
-        'dashes_filled': '',
-        'dashes_empty': '',
+        'dashes_filled': range(enum_int_value + 1),
+        'dashes_empty': range(5 - enum_int_value - 1),
         'label': CourseDifficulty(enum_int_value).label.title()
     }
-    for i in range(5):
-        if i <= enum_int_value:
-            content['dashes_filled'] += '●'
-        else:
-            content['dashes_empty'] += '○'
     return content
 
 
