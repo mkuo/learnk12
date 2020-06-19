@@ -60,7 +60,7 @@ def minify_code(string):
 def course_difficulty(enum_int_value):
     content = {
         'dashes_filled': range(enum_int_value + 1),
-        'dashes_empty': range(5 - enum_int_value - 1),
+        'dashes_empty': range(3 - enum_int_value - 1),
         'label': CourseDifficulty(enum_int_value).label.title()
     }
     return content
