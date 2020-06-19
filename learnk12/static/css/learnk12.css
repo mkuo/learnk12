@@ -56,17 +56,21 @@ section {
     max-width: 20px;
 }
 
+.font-size-48 {
+    font-size: 48px;
+    max-width: 48px;
+}
+
 .md-narrow {
     margin: -3px;
 }
 
 .img-rect {
-    height: 0;
-    padding-bottom: calc(100% / 3 * 2);
+    width: 180px;
+    height: 120px;
 }
 
 .centered {
-    font-size: 48px;
     padding-top: calc(30% - 24px);
 }
 
