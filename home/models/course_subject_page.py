@@ -36,8 +36,14 @@ class CourseSubjectPage(Page):
 
     def _get_course_tag_data(self, request):
         results = CoursePage.objects.child_of(self).live().public() \
-            .order_by('tagged_items__tag__name').values('tagged_items__tag__slug', 'tagged_items__tag__name').distinct()
-        tags = {res['tagged_items__tag__slug']: res['tagged_items__tag__name'] for res in results}
+            .exclude(tagged_items__tag__name__isnull=True) \
+            .order_by('tagged_items__tag__name') \
+            .values('tagged_items__tag__slug', 'tagged_items__tag__name') \
+            .distinct()
+        tags = {
+            res['tagged_items__tag__slug']: res['tagged_items__tag__name']
+            for res in results
+        }
         return ParamData(request, 'tag', tags)
 
     @staticmethod
@@ -95,8 +101,12 @@ class CourseSubjectPage(Page):
         tag_data = self._get_course_tag_data(request)
         difficulty_data = self._get_course_difficulty_data(request)
         provider_data = self._get_course_provider_data(request)
+        if self.subject == CourseSubject.COMPUTER_SCIENCE:
+            tag_label = 'Language'
+        else:
+            tag_label = 'Tag'
         context['filter_btns'] = {
-            ('tag', 'Tag'): tag_data,
+            ('tag', tag_label): tag_data,
             ('difficulty', 'Difficulty'): difficulty_data,
             ('provider', 'Provider'): provider_data
         }
