@@ -15,6 +15,7 @@
             <tr>
                 <th class="d-none d-lg-table-cell"></th>
                 <th>Course</th>
+                <th class="d-none d-lg-table-cell text-nowrap">Age</th>
                 <th class="d-none d-lg-table-cell text-nowrap">Difficulty</th>
                 <th class="d-none d-lg-table-cell">Cost</th>
                 <th class="d-none d-lg-table-cell">Duration</th>
@@ -53,6 +54,9 @@
                             </div>
                         {% endif %}
                         <p class="my-1">{{ page.snippet|truncatewords:20 }}</p>
+                    </td>
+                    <td class="d-none d-lg-table-cell">
+                        {{ page.minimum_age }}+
                     </td>
                     {% with page.difficulty|course_difficulty as difficulty_content %}
                     <td class="d-none d-lg-table-cell">

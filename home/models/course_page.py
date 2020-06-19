@@ -33,6 +33,7 @@ class CoursePage(Page):
     course_url = models.URLField(blank=True, null=True)
     cost = models.DecimalField(db_index=True, max_digits=9, decimal_places=2)
     duration_hours = models.PositiveSmallIntegerField(db_index=True)
+    minimum_age = models.PositiveSmallIntegerField(db_index=True)
     difficulty = models.PositiveSmallIntegerField(db_index=True, choices=CourseDifficulty.choices)
     tags = ClusterTaggableManager(through=CourseTag, blank=True)
     avg_score = models.FloatField(db_index=True, blank=True, null=True)
@@ -48,6 +49,7 @@ class CoursePage(Page):
                 FieldPanel('course_url'),
                 FieldPanel('cost'),
                 FieldPanel('duration_hours'),
+                FieldPanel('minimum_age'),
                 FieldPanel('difficulty'),
                 FieldPanel('tags')
             ],

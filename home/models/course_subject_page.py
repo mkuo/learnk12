@@ -4,7 +4,7 @@ from django.db.models import F, Q
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.models import Page
 
-from home.defs.enums import CourseDifficulty, CourseSubject
+from home.defs.enums import AgeGroups, CourseDifficulty, CourseSubject
 from home.models import CoursePage
 from home.models.util_models import ParamData, PagingData
 
@@ -47,6 +47,11 @@ class CourseSubjectPage(Page):
         return ParamData(request, 'tag', tags)
 
     @staticmethod
+    def _get_course_age_data(request):
+        age_groups = {name: AgeGroups[name].label for name in AgeGroups.names}
+        return ParamData(request, 'age', age_groups)
+
+    @staticmethod
     def _get_course_difficulty_data(request):
         diffs = {str(val): label for val, label in CourseDifficulty.choices}
         return ParamData(request, 'difficulty', diffs)
@@ -57,7 +62,7 @@ class CourseSubjectPage(Page):
         providers = {res['provider']: res['provider'] for res in results}
         return ParamData(request, 'provider', providers)
 
-    def _get_courses_paged(self, page, sort_arg, tag_args, difficulty_args, provider_args):
+    def _get_courses_paged(self, page, sort_arg, tag_args, age_args, difficulty_args, provider_args):
         # get courses from database
         course_query = CoursePage.objects.child_of(self).live().public()
         if sort_arg[0] == '-':
@@ -69,6 +74,15 @@ class CourseSubjectPage(Page):
         for tag in tag_args:
             tag_filter |= Q(tags__slug=tag)
         course_query = course_query.filter(tag_filter).distinct()
+
+        if age_args:
+            q_min_age = 99
+            q_max_age = 0
+            for age_group in age_args:
+                age_tuple = AgeGroups[age_group].value
+                q_min_age = min(q_min_age, age_tuple[0])
+                q_max_age = max(q_max_age, age_tuple[1])
+            course_query = course_query.filter(minimum_age__gte=q_min_age, minimum_age__lte=q_max_age)
 
         difficulty_filter = Q()
         for difficulty in difficulty_args:
@@ -99,14 +113,18 @@ class CourseSubjectPage(Page):
 
         # filtering
         tag_data = self._get_course_tag_data(request)
+        age_data = self._get_course_age_data(request)
         difficulty_data = self._get_course_difficulty_data(request)
         provider_data = self._get_course_provider_data(request)
+
         if self.subject == CourseSubject.COMPUTER_SCIENCE:
             tag_label = 'Language'
         else:
             tag_label = 'Tag'
+
         context['filter_btns'] = {
             ('tag', tag_label): tag_data,
+            ('age', 'Age'): age_data,
             ('difficulty', 'Difficulty'): difficulty_data,
             ('provider', 'Provider'): provider_data
         }
@@ -116,6 +134,7 @@ class CourseSubjectPage(Page):
             ParamData.sanitize_int_arg(request, 'page', default=1),
             context['sort_btn'].selected_args[0],
             tag_data.selected_args,
+            age_data.selected_args,
             difficulty_data.selected_args,
             provider_data.selected_args
         )
