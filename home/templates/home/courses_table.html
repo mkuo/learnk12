@@ -18,7 +18,6 @@
                 <th class="d-none d-lg-table-cell text-nowrap">Difficulty</th>
                 <th class="d-none d-lg-table-cell">Cost</th>
                 <th class="d-none d-lg-table-cell">Duration</th>
-                <th class="d-none d-lg-table-cell">Provider</th>
                 <th class="d-none d-lg-table-cell text-right">Reviews</th>
                 <th class="d-lg-none">Details</th>
             </tr>
@@ -38,9 +37,14 @@
                         {% endwith %}
                     </td>
                     <td>
-                        <a href="{{ page.url }}" class="stretched-link lead font-weight-bold darkslategray">
+                        <div>
+                        <a href="{{ page.url }}" class="stretched-link lead font-weight-bold darkslategray mr-1">
                             {{ page.title }}
                         </a>
+                        </div>
+                        <div>
+                            by {{ page.provider }}
+                        </div>
                         {% if page.tags %}
                             <div>
                                 {% for tag in page.tags.all|dictsort:"name" %}
@@ -79,7 +83,6 @@
                     <td class="d-none d-lg-table-cell">
                         {{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}
                     </td>
-                    <td class="d-none d-lg-table-cell">{{ page.provider }}</td>
                     <td class="d-none d-lg-table-cell">
                         {% include 'home/page_star_rating.html' %}
                     </td>

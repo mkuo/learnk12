@@ -33,18 +33,4 @@
             {{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}
         </span>
     </div>
-    <div class="{{ div_inline|yesno:'d-inline-flex mr-3,d-flex mb-2' }} align-items-center text-nowrap">
-        <i class="material-icons">ondemand_video</i>
-        <span class="{{ hide_labels_xs|yesno:'d-none d-sm-block,' }} font-weight-bold mx-1">Provider:</span>
-        <span class="{{ hide_labels_xs|yesno:'ml-1,'}}">{{ page.provider }}</span>
-    </div>
-    {% if show_course_button and page.course_url %}
-        <a href="{{ page.course_url }}"
-           target="_blank"
-           rel="nofollow"
-           class="d-flex align-self-start align-items-center btn btn-sm btn-light border">
-            <span class="mr-1">View Course</span>
-            <i class="material-icons text-dark font-size-18">open_in_new</i>
-        </a>
-    {% endif %}
 </div>
