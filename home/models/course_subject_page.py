@@ -4,7 +4,7 @@ from django.db.models import F, Q
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.models import Page
 
-from home.defs.enums import AgeGroups, CourseDifficulty, CourseSubject
+from home.defs.enums import AgeGroup, CourseDifficulty, CourseSubject
 from home.models import CoursePage
 from home.models.util_models import ParamData, PagingData
 
@@ -48,7 +48,7 @@ class CourseSubjectPage(Page):
 
     @staticmethod
     def _get_course_age_data(request):
-        age_groups = {name: AgeGroups[name].label for name in AgeGroups.names}
+        age_groups = {name: AgeGroup[name].label for name in AgeGroup.names}
         return ParamData(request, 'age', age_groups)
 
     @staticmethod
@@ -79,7 +79,7 @@ class CourseSubjectPage(Page):
             q_min_age = 99
             q_max_age = 0
             for age_group in age_args:
-                age_tuple = AgeGroups[age_group].value
+                age_tuple = AgeGroup[age_group].value
                 q_min_age = min(q_min_age, age_tuple[0])
                 q_max_age = max(q_max_age, age_tuple[1])
             course_query = course_query.filter(minimum_age__gte=q_min_age, minimum_age__lte=q_max_age)

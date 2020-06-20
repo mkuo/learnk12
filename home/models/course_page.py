@@ -14,10 +14,10 @@ from wagtail.admin.edit_handlers import (
 from wagtail.core.fields import RichTextField
 from wagtail.core.models import Page
 
-from home.defs.enums import CourseDifficulty
+from home.defs.enums import CourseDifficulty, CostInterval
 from home.forms.course_review_form import CourseReviewForm
 from home.models.course_review import CourseReview
-from home.models.course_tag import CourseTag
+from home.models.course_tags import LessonType, Platform, ProgrammingLanguage
 from home.models.util_models import ParamData, PagingData
 
 
@@ -27,34 +27,74 @@ class CoursePage(Page):
     subpage_types = []
 
     # database fields
-    takeaway = models.TextField(blank=True, null=True)
-    description = RichTextField()
-    provider = models.ForeignKey('ProviderPage', null=True, blank=True, on_delete=models.SET_NULL)
+    provider = models.ForeignKey('ProviderPage', blank=True, null=True, on_delete=models.SET_NULL)
+    description = RichTextField(blank=True, null=True)
     course_url = models.URLField(blank=True, null=True)
-    cost = models.DecimalField(db_index=True, max_digits=9, decimal_places=2)
-    duration_hours = models.PositiveSmallIntegerField(db_index=True)
-    minimum_age = models.PositiveSmallIntegerField(db_index=True)
-    difficulty = models.PositiveSmallIntegerField(db_index=True, choices=CourseDifficulty.choices)
-    tags = ClusterTaggableManager(through=CourseTag, blank=True)
+    scheduled = models.BooleanField(blank=True, null=True)
+
+    cost_amount = models.DecimalField(db_index=True, max_digits=9, decimal_places=2, blank=True, null=True)
+    cost_interval = models.CharField(max_length=255, choices=CostInterval.choices, blank=True, null=True)
+
+    age_low = models.PositiveSmallIntegerField(db_index=True, blank=True, null=True)
+    age_high = models.PositiveSmallIntegerField(db_index=True, blank=True, null=True)
+
+    lesson_count = models.PositiveSmallIntegerField(blank=True, null=True)
+    lesson_length_minutes = models.PositiveSmallIntegerField(blank=True, null=True)
+    course_length_hours = models.PositiveSmallIntegerField(db_index=True, blank=True, null=True)
+
+    difficulty = models.PositiveSmallIntegerField(
+        db_index=True, choices=CourseDifficulty.choices, blank=True, null=True
+    )
+
+    lesson_type_tags = ClusterTaggableManager(
+        through=LessonType,
+        blank=True,
+        related_name='lesson_types',
+        verbose_name='lesson types'
+    )
+    platform_tags = ClusterTaggableManager(
+        through=Platform,
+        blank=True,
+        related_name='platforms',
+        verbose_name='platforms'
+    )
+    programming_language_tags = ClusterTaggableManager(
+        through=ProgrammingLanguage,
+        blank=True,
+        related_name='programming_languages',
+        verbose_name='programming languages'
+    )
+
     avg_score = models.FloatField(db_index=True, blank=True, null=True)
     review_count = models.IntegerField(default=0)
 
     # editor fields
     content_panels = Page.content_panels + [
-        FieldPanel('takeaway'),
         FieldPanel('description'),
-        MultiFieldPanel(
-            [
-                FieldPanel('provider'),
-                FieldPanel('course_url'),
-                FieldPanel('cost'),
-                FieldPanel('duration_hours'),
-                FieldPanel('minimum_age'),
-                FieldPanel('difficulty'),
-                FieldPanel('tags')
-            ],
-            heading="Course Details"
-        )
+        MultiFieldPanel([
+            FieldPanel('provider'),
+            FieldPanel('course_url'),
+            FieldPanel('scheduled'),
+        ], heading="details"),
+        MultiFieldPanel([
+            FieldPanel('cost_amount'),
+            FieldPanel('cost_interval'),
+        ], heading="cost"),
+        MultiFieldPanel([
+            FieldPanel('age_low'),
+            FieldPanel('age_high'),
+        ], heading="age"),
+        MultiFieldPanel([
+            FieldPanel('lesson_count'),
+            FieldPanel('lesson_length_minutes'),
+            FieldPanel('course_length_hours'),
+            FieldPanel('difficulty'),
+        ], heading="duration"),
+        MultiFieldPanel([
+            FieldPanel('lesson_type_tags'),
+            FieldPanel('platform_tags'),
+            FieldPanel('programming_language_tags'),
+        ], heading="tags"),
     ]
 
     image_panels = [
