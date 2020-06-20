@@ -10,8 +10,10 @@ class HomePage(Page):
     max_count = 1
     parent_page_type = ['Page']
     subpage_types = [
-        'CourseSubjectPage',
+        'AllCoursesPage',
+        'AllProvidersPage',
         'InfoPage',
+        'ProviderPage',
         'SiteFeedbackPage',
         'TutorsPage',
     ]

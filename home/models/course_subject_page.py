@@ -12,7 +12,7 @@ from home.models.util_models import ParamData, PagingData
 class CourseSubjectPage(Page):
     # meta settings
     subpage_types = ['CoursePage']
-    parent_page_type = ['HomePage']
+    parent_page_type = ['AllCoursesPage']
 
     heading = models.CharField(max_length=255)
     caption = models.TextField(blank=True, null=True)

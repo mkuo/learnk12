@@ -29,7 +29,7 @@ class CoursePage(Page):
     # database fields
     takeaway = models.TextField(blank=True, null=True)
     description = RichTextField()
-    provider = models.CharField(db_index=True, max_length=255)
+    provider = models.ForeignKey('ProviderPage', null=True, blank=True, on_delete=models.SET_NULL)
     course_url = models.URLField(blank=True, null=True)
     cost = models.DecimalField(db_index=True, max_digits=9, decimal_places=2)
     duration_hours = models.PositiveSmallIntegerField(db_index=True)
