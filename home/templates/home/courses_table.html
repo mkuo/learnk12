@@ -14,13 +14,12 @@
         <thead class="thead-light">
             <tr>
                 <th class="d-none d-lg-table-cell"></th>
-                <th>Course</th>
+                <th class="d-none d-lg-table-cell">Course</th>
                 <th class="d-none d-lg-table-cell text-nowrap">Age</th>
                 <th class="d-none d-lg-table-cell text-nowrap">Difficulty</th>
                 <th class="d-none d-lg-table-cell">Cost</th>
                 <th class="d-none d-lg-table-cell">Duration</th>
                 <th class="d-none d-lg-table-cell text-right">Reviews</th>
-                <th class="d-lg-none">Details</th>
             </tr>
         </thead>
         <tbody>
@@ -46,17 +45,46 @@
                         <div>
                             by {{ page.provider }}
                         </div>
-                        {% if page.tags %}
-                            <div>
-                                {% for tag in page.tags.all|dictsort:"name" %}
-                                    <span class="badge badge-pill badge-info">{{ tag }}</span>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                        <p class="my-1">{{ page.snippet|truncatewords:20 }}</p>
+                        <div class="d-none d-lg-flex flex-wrap">
+                            {% if page.lesson_type_tags.count > 0 %}
+                                <div class="d-flex align-items-center mr-3">
+                                    <i class="material-icons text-secondary font-size-18 mr-1">description</i>
+                                    <span>
+                                        {{ page.lesson_type_tags.all|dictsort:"name"|join:", " }}
+                                    </span>
+                                </div>
+                            {% endif %}
+                            {% if page.platform_tags.count > 0 %}
+                                <div class="d-flex align-items-center mr-3">
+                                    <i class="material-icons text-secondary font-size-18 mr-1">ondemand_video</i>
+                                    <span>{{ page.platform_tags.all|dictsort:"name"|join:", " }}</span>
+                                </div>
+                            {% endif %}
+                            {% if page.programming_language_tags.count > 0 %}
+                                <div class="d-flex align-items-center mr-3">
+                                    <i class="material-icons text-secondary font-size-18 mr-1">keyboard</i>
+                                    <span>{{ page.programming_language_tags.all|dictsort:"name"|join:", " }}</span>
+                                </div>
+                            {% endif %}
+                            {% if page.override_description %}
+                                <p class="my-1">{{ page.override_description|truncatewords:20 }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="d-lg-none">
+                            {% include 'home/page_star_rating.html' with inline=True %}
+                            {% include 'home/page_summary.html' with cls_icon='pb-2' hide_labels_xs=True %}
+                        </div>
                     </td>
                     <td class="d-none d-lg-table-cell">
-                        {{ page.minimum_age }}+
+                        {% if page.age_low != None or page.age_high != None %}
+                            {% if page.age_low != None and page.age_high == None %}
+                                {{ page.age_low }}+
+                            {% elif page.age_low == page.age_high %}
+                                {{ page.age_low }}
+                            {% else %}
+                                {{ page.age_low }} to {{ page.age_high }}
+                            {% endif %}
+                        {% endif %}
                     </td>
                     {% with page.difficulty|course_difficulty as difficulty_content %}
                     <td class="d-none d-lg-table-cell">
@@ -78,21 +106,24 @@
                     </td>
                     {% endwith %}
                     <td class="d-none d-lg-table-cell">
-                        {% if page.cost == 0 %}
-                            Free
-                        {% else %}
-                            ${{ page.cost | floatformat:"0" | intcomma }}
+                        {% if page.cost_amount != None %}
+                            {% if page.cost == 0 %}
+                                Free
+                            {% else %}
+                                ${{ page.cost_amount | floatformat:"0" | intcomma }}
+                                {% if page.cost_interval != 'lifetime' and page.cost_interval %}
+                                    per {{ page.cost_interval }}
+                                {% endif %}
+                            {% endif %}
                         {% endif %}
                     </td>
                     <td class="d-none d-lg-table-cell">
-                        {{ page.duration_hours }} hour{{ page.duration_hours | pluralize }}
+                        {% if page.course_length_hours != None %}
+                            {{ page.course_length_hours }} hour{{ page.course_length_hours | pluralize }}
+                        {% endif %}
                     </td>
                     <td class="d-none d-lg-table-cell">
                         {% include 'home/page_star_rating.html' %}
-                    </td>
-                    <td class="d-lg-none">
-                        {% include 'home/page_star_rating.html' with inline=True %}
-                        {% include 'home/page_summary.html' with hide_labels_xs=True %}
                     </td>
                 </tr>
             {% endfor %}

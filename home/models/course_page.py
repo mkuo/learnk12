@@ -114,14 +114,7 @@ class CoursePage(Page):
 
     @property
     def override_description(self):
-        return self.snippet
-
-    @property
-    def snippet(self):
-        if self.takeaway:
-            return self.takeaway
-        else:
-            return BeautifulSoup(self.description, features='html5lib').get_text(' ', True)
+        return BeautifulSoup(self.description, features='html5lib').get_text(' ', True)
 
     @staticmethod
     def _get_sort_data(request):

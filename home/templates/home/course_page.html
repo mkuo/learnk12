@@ -10,7 +10,7 @@
             "@type": "Course",
             "@id": "{{ page.url }}",
             "name": "{{ page.title }}",
-            "description": "{{ page.snippet }}",
+            "description": "{{ page.override_description }}",
             "url": "{{ page.full_url }}",
             {% image page.course_images.all.first.image fill-320x240 as img_first %}
             "image": ["{{ img_first.url }}"],
@@ -34,54 +34,28 @@
 {% block body_in_container %}
 <section>
 <h1 class="darkslategray mb-0">{{ page.title }}</h1>
-    <div class="d-flex align-items-center mb-2">
-        <span class="mr-2">by {{ page.provider }}</span>
+    <div class="align-items-center mb-2">
+        <div class="mr-2">by {{ page.provider }}</div>
+        <a href="#reviews">
+            {% include 'home/page_star_rating.html' with inline=True %}
+        </a>
+        {% include 'home/course_images.html' %}
+    </div>
+</section>
+<section>
+    <div class="d-flex">
+        <h2 class="text-dark mr-3">Course Summary</h2>
         <a href="{{ page.course_url }}"
            target="_blank"
            rel="nofollow"
-           class="d-flex align-self-start align-items-center btn btn-sm btn-light border">
+           class="d-flex align-self-center align-items-center btn btn-sm btn-light border">
             <span class="mr-1">Go to Course</span>
             <i class="material-icons text-dark font-size-16">open_in_new</i>
         </a>
     </div>
-    {% if page.tags.count %}
-        <div>
-            {% for tag in page.tags.all|dictsort:"name" %}
-                <a href="{{ self.get_parent.url }}?tag={{ tag.slug }}"
-                   class="badge badge-pill badge-info">
-                    {{ tag }}
-                </a>
-            {% endfor %}
-        </div>
-    {% endif %}
-    {% if page.takeaway %}
-        <div class="my-1">{{ page.takeaway }}</div>
-    {% endif %}
-    <a href="#reviews">
-        {% include 'home/page_star_rating.html' with inline=True %}
-    </a>
-    <hr>
-</section>
-<section>
-    <h2 class="text-dark">Course Summary</h2>
-    {% if page.course_images %}
-        <div class="overflow-auto text-nowrap mb-1">
-            {% for course_image in page.course_images.all %}
-                <div class="d-inline">
-                    {% image course_image.image original as img_original %}
-                    <figure class="figure btn p-0 mb-2 img-btn"
-                            data-toggle="modal"
-                            data-target="#imageModal"
-                            original="{{ img_original.url }}"
-                            image-title="{{ page.title }}: {{ course_image.image.title }}">
-                        {% image course_image.image fill-320x240 class="figure-img rounded mr-2 mb-1 border shadow-sm" %}
-                        <figcaption class="figure-caption">{{ course_image.image.title }}</figcaption>
-                    </figure>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-    {% include 'home/page_summary.html' %}
+    <div class="col-lg-8 mt-2">
+        {% include 'home/page_summary.html' with icon_div_cls='py-1' %}
+    </div>
 </section>
 <section>
     <h2 class="text-dark">Description</h2>
