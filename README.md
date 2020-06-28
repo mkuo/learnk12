@@ -118,6 +118,7 @@ reload_nginx () { sudo systemctl reload nginx }
 reload_gunicorn () { sudo systemctl reload gunicorn }
 clear_sessions () { ./manage.py clearsessions }
 update_courses_agg_fields () { ./manage.py update_courses_agg_fields }
+check_unused_images () { ./manage.py check_unused_images }
 
 cd ~/projects/learnk12
 git pull
