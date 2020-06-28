@@ -1,5 +1,6 @@
 from django.db import models
 from modelcluster.fields import ParentalKey
+from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.models import Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
 
@@ -19,5 +20,9 @@ class CourseImage(Orderable):
         on_delete=models.SET_NULL,
         related_name="+",
     )
+    caption = models.CharField(max_length=255)
 
-    panels = [ImageChooserPanel("image")]
+    panels = [
+        ImageChooserPanel("image"),
+        FieldPanel("caption")
+    ]
