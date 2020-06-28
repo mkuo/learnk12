@@ -45,13 +45,15 @@
 <section>
     <div class="d-flex">
         <h2 class="text-dark mr-3">Course Summary</h2>
-        <a href="{{ page.course_url }}"
-           target="_blank"
-           rel="nofollow"
-           class="d-flex align-self-center align-items-center btn btn-sm btn-light border">
-            <span class="mr-1">Go to Course</span>
-            <i class="material-icons text-dark font-size-16">open_in_new</i>
-        </a>
+        {% if page.course_url %}
+            <a href="{{ page.course_url }}"
+               target="_blank"
+               rel="nofollow"
+               class="d-flex align-self-center align-items-center btn btn-sm btn-light border">
+                <span class="mr-1">Go to Course</span>
+                <i class="material-icons text-dark font-size-16">open_in_new</i>
+            </a>
+        {% endif %}
     </div>
     <div class="col-lg-8 mt-2">
         {% include 'home/page_summary.html' with icon_div_cls='py-1' %}
