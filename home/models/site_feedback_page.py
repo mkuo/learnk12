@@ -33,7 +33,7 @@ class SiteFeedbackPage(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        subject = request.GET.get('subject')
+        subject = request.GET.get('subject', '')
         context['form'] = SiteFeedbackForm(
             initial={'subject': unescape(subject)}
         )
