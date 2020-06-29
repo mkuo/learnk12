@@ -79,25 +79,7 @@
                         {{ page.age_low|render_age_range:page.age_high }}
                     </td>
                     <td class="d-none d-lg-table-cell">
-                        {% if page.difficulty is not None %}
-                        {% with page.difficulty|course_difficulty as difficulty_content %}
-                        <div>{{ difficulty_content.label }}</div>
-                        <div class="text-nowrap mt-n2">
-                            {% spaceless %}
-                                {% for _ in difficulty_content.dashes_filled %}
-                                    <i class="material-icons font-size-12 text-info">
-                                        radio_button_checked
-                                    </i>
-                                {% endfor %}
-                                {% for _ in difficulty_content.dashes_empty %}
-                                    <i class="material-icons font-size-12 text-muted">
-                                        radio_button_unchecked
-                                    </i>
-                                {% endfor %}
-                            {% endspaceless %}
-                        </div>
-                        {% endwith %}
-                        {% endif %}
+                        {{ page.difficulty | render_course_difficulty }}
                     </td>
                     <td class="d-none d-lg-table-cell">
                         {{ page.cost_amount|render_cost:page.cost_interval }}

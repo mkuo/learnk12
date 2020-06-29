@@ -40,25 +40,9 @@
                             </div>
                         {% endif %}
                     </td>
-                    {% with page.difficulty|course_difficulty as difficulty_content %}
                     <td class="d-none d-md-table-cell">
-                        <div>{{ difficulty_content.label }}</div>
-                        <div class="text-nowrap mt-n2">
-                            {% spaceless %}
-                                {% for _ in difficulty_content.dashes_filled %}
-                                    <i class="material-icons font-size-12 text-info">
-                                        radio_button_checked
-                                    </i>
-                                {% endfor %}
-                                {% for _ in difficulty_content.dashes_empty %}
-                                    <i class="material-icons font-size-12 text-muted">
-                                        radio_button_unchecked
-                                    </i>
-                                {% endfor %}
-                            {% endspaceless %}
-                        </div>
+                        {{ page.difficulty | render_course_difficulty }}
                     </td>
-                    {% endwith %}
                     <td class="d-none d-md-table-cell">{{ page.provider }}</td>
                     <td>
                         {% include 'home/page_star_rating.html' with inline=False %}

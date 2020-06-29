@@ -5,19 +5,15 @@
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">face</i></div>
         <span class="d-none d-sm-block font-weight-bold mx-1">Age:</span>
-        <span class="text-nowrap ml-1">
-            {{ page.age_low|render_age_range:page.age_high }}
-        </span>
+        <span class="text-nowrap ml-1">{{ page.age_low|render_age_range:page.age_high }}</span>
     </div>
     {% endif %}
 
-    {% if page.cost_amount is not None %}
+    {% if page.cost_amount is not None and page.cost_interval is not None %}
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">payment</i></div>
         <span class="d-none d-sm-block font-weight-bold mx-1">Cost:</span>
-        <span class="ml-1">
-            {{ page.cost_amount|render_cost:page.cost_interval }}
-        </span>
+        <span class="ml-1">{{ page.cost_amount|render_cost:page.cost_interval }}</span>
     </div>
     {% endif %}
 
@@ -25,21 +21,7 @@
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">signal_cellular_alt</i></div>
         <span class="d-none d-sm-block font-weight-bold mx-1">Difficulty:</span>
-        {% with page.difficulty|course_difficulty as difficulty_content %}
-        <span class="text-nowrap ml-1">
-            <span>{{ difficulty_content.label }}</span>
-            <span>
-                {% spaceless %}
-                    {% for _ in difficulty_content.dashes_filled %}
-                        <i class="material-icons font-size-12 text-info">radio_button_checked</i>
-                    {% endfor %}
-                    {% for _ in difficulty_content.dashes_empty %}
-                        <i class="material-icons font-size-12 text-muted">radio_button_unchecked</i>
-                    {% endfor %}
-                {% endspaceless %}
-            </span>
-        </span>
-        {% endwith %}
+        <span class="text-nowrap ml-1">{{ page.difficulty | render_course_difficulty }}</span>
     </div>
     {% endif %}
 
@@ -47,9 +29,7 @@
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">description</i></div>
         <span class="d-none d-sm-block font-weight-bold mx-1">Lesson Type:</span>
-        <span class="ml-1">
-            {{ page.lesson_type_tags.all|dictsort:"name"|join:", " }}
-        </span>
+        <span class="ml-1">{{ page.lesson_type_tags.all|dictsort:"name"|join:", " }}</span>
     </div>
     {% endif %}
 
@@ -57,9 +37,7 @@
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">schedule</i></div>
         <span class="d-none d-sm-block font-weight-bold mx-1">Duration:</span>
-        <span class="ml-1">
-            {{ page.course_length_hours | render_duration }}
-        </span>
+        <span class="ml-1">{{ page.course_length_hours | render_duration }}</span>
     </div>
     {% endif %}
 
@@ -67,9 +45,7 @@
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">ondemand_video</i></div>
         <span class="d-none d-sm-block font-weight-bold mx-1">Platform:</span>
-        <span class="ml-1">
-            {{ page.platform_tags.all|dictsort:"name"|join:", " }}
-        </span>
+        <span class="ml-1">{{ page.platform_tags.all|dictsort:"name"|join:", " }}</span>
     </div>
     {% endif %}
 
@@ -85,9 +61,7 @@
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">keyboard</i></div>
         <span class="d-none d-sm-block font-weight-bold mx-1">Language:</span>
-        <span class="ml-1">
-            {{ page.programming_language_tags.all|dictsort:"name"|join:", " }}
-        </span>
+        <span class="ml-1">{{ page.programming_language_tags.all|dictsort:"name"|join:", " }}</span>
     </div>
     {% endif %}
 </div>

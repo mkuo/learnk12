@@ -57,13 +57,11 @@ def minify_code(string):
 
 
 @register.filter
-def course_difficulty(enum_int_value):
-    content = {
-        'dashes_filled': range(enum_int_value + 1),
-        'dashes_empty': range(3 - enum_int_value - 1),
-        'label': CourseDifficulty(enum_int_value).label.title()
-    }
-    return content
+def render_course_difficulty(enum_int_value):
+    if enum_int_value is None:
+        return ''
+    else:
+        return CourseDifficulty(enum_int_value).label.title()
 
 
 @register.filter
