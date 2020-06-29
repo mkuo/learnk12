@@ -6,15 +6,7 @@
         <div><i class="material-icons text-secondary">face</i></div>
         <span class="d-none d-sm-block font-weight-bold mx-1">Age:</span>
         <span class="text-nowrap ml-1">
-            {% if page.age_low != None or page.age_high != None %}
-                {% if page.age_low != None and page.age_high == None %}
-                    {{ page.age_low }}+ years old
-                {% elif page.age_low == page.age_high %}
-                    {{ page.age_low }} years old
-                {% else %}
-                    {{ page.age_low }} to {{ page.age_high }} years old
-                {% endif %}
-            {% endif %}
+            {{ page.age_low|render_age_range:page.age_high }}
         </span>
     </div>
     {% endif %}
@@ -24,14 +16,7 @@
         <div><i class="material-icons text-secondary">payment</i></div>
         <span class="d-none d-sm-block font-weight-bold mx-1">Cost:</span>
         <span class="ml-1">
-            {% if page.cost == 0 %}
-                Free
-            {% else %}
-                ${{ page.cost_amount | floatformat:"0" | intcomma }}
-                {% if page.cost_interval != 'lifetime' and page.cost_interval %}
-                    per {{ page.cost_interval }}
-                {% endif %}
-            {% endif %}
+            {{ page.cost_amount|render_cost:page.cost_interval }}
         </span>
     </div>
     {% endif %}
@@ -73,7 +58,7 @@
         <div><i class="material-icons text-secondary">schedule</i></div>
         <span class="d-none d-sm-block font-weight-bold mx-1">Duration:</span>
         <span class="ml-1">
-            {{ page.course_length_hours }} hour{{ page.course_length_hours | pluralize }}
+            {{ page.course_length_hours | render_duration }}
         </span>
     </div>
     {% endif %}

@@ -22,8 +22,8 @@ class AgeGroup(tuple, models.Choices):
 
 
 class CostInterval(models.TextChoices):
-    LIFETIME = 'lifetime'
-    WEEK = 'week'
-    MONTH = 'month'
-    QUARTER = 'quarter'
-    YEAR = 'year'
+    LIFETIME = 'once'
+    WEEK = 'wk'
+    MONTH = 'mo'
+    QUARTER = 'qtr'
+    YEAR = 'yr'

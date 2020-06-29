@@ -75,16 +75,8 @@
                             {% include 'home/page_summary.html' with cls_icon='pb-2' %}
                         </div>
                     </td>
-                    <td class="d-none d-lg-table-cell">
-                        {% if page.age_low != None or page.age_high != None %}
-                            {% if page.age_low != None and page.age_high == None %}
-                                {{ page.age_low }}+
-                            {% elif page.age_low == page.age_high %}
-                                {{ page.age_low }}
-                            {% else %}
-                                {{ page.age_low }} to {{ page.age_high }}
-                            {% endif %}
-                        {% endif %}
+                    <td class="d-none d-lg-table-cell text-nowrap">
+                        {{ page.age_low|render_age_range:page.age_high }}
                     </td>
                     {% with page.difficulty|course_difficulty as difficulty_content %}
                     <td class="d-none d-lg-table-cell">
@@ -106,21 +98,10 @@
                     </td>
                     {% endwith %}
                     <td class="d-none d-lg-table-cell">
-                        {% if page.cost_amount != None %}
-                            {% if page.cost == 0 %}
-                                Free
-                            {% else %}
-                                ${{ page.cost_amount | floatformat:"0" | intcomma }}
-                                {% if page.cost_interval != 'lifetime' and page.cost_interval %}
-                                    per {{ page.cost_interval }}
-                                {% endif %}
-                            {% endif %}
-                        {% endif %}
+                        {{ page.cost_amount|render_cost:page.cost_interval }}
                     </td>
                     <td class="d-none d-lg-table-cell">
-                        {% if page.course_length_hours != None %}
-                            {{ page.course_length_hours }} hour{{ page.course_length_hours | pluralize }}
-                        {% endif %}
+                        {{ page.course_length_hours | render_duration }}
                     </td>
                     <td class="d-none d-lg-table-cell">
                         {% include 'home/page_star_rating.html' %}

@@ -4,7 +4,7 @@ from django.template import Library
 from django.template.defaultfilters import pluralize
 from urllib import parse
 
-from home.defs.enums import CourseDifficulty
+from home.defs.enums import CostInterval, CourseDifficulty
 from home.models import SiteFeedbackPage
 from home.models.menu_item import MenuItem
 
@@ -64,6 +64,42 @@ def course_difficulty(enum_int_value):
         'label': CourseDifficulty(enum_int_value).label.title()
     }
     return content
+
+
+@register.filter
+def render_age_range(age_low, age_high):
+    if age_low is None and age_high is None:
+        return ''
+    elif age_low is not None and age_high is None:
+        return '{}+ yrs'.format(age_low)
+    elif age_low is None and age_high == 1:
+        return '1 yrs'
+    elif age_low is None and age_high is not None:
+        return '1-{} yrs'.format(age_high)
+    elif age_low == age_high:
+        return '{} yrs'.format(age_high)
+    else:
+        return '{}-{} yrs'.format(age_low, age_high)
+
+
+@register.filter
+def render_cost(cost_amount, cost_interval):
+    if cost_amount is None or cost_interval is None:
+        return ''
+    elif cost_interval == CostInterval.LIFETIME:
+        return '${}'.format(round(cost_amount))
+    else:
+        return '${}/{}'.format(round(cost_amount), CostInterval(cost_interval).value)
+
+
+@register.filter
+def render_duration(course_length_hours):
+    if course_length_hours is None:
+        return ''
+    elif course_length_hours < 1:
+        return '<1 hr'
+    else:
+        return '{} hr{}'.format(course_length_hours, pluralize(course_length_hours))
 
 
 @register.simple_tag
