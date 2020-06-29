@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator, EmptyPage
 from django.db import models
 from django.db.models import F, Q
+from django.db.models.functions import Lower
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.models import Page
 
@@ -29,8 +30,8 @@ class CourseSubjectPage(Page):
         sort_columns = {
             '-avg_score': 'Highest Rated',
             'title': 'Course Title (a-z)',
-            'cost': 'Lowest Cost',
-            'duration_hours': 'Shortest Duration'
+            'cost_amount': 'Lowest Cost',
+            'course_length_hours': 'Shortest Duration'
         }
         return ParamData(request, 'sort', sort_columns, is_list=False, default='-avg_score')
 
@@ -46,8 +47,8 @@ class CourseSubjectPage(Page):
 
     def _get_course_provider_data(self, request):
         results = CoursePage.objects.child_of(self).live().public()\
-            .order_by('provider').values('provider').distinct()
-        providers = {res['provider']: res['provider'] for res in results}
+            .order_by(Lower('provider__title')).values('provider__title').distinct()
+        providers = {res['provider__title']: res['provider__title'] for res in results}
         return ParamData(request, 'provider', providers)
 
     def _get_courses_paged(self, page, sort_arg, age_args, difficulty_args, provider_args):
@@ -58,14 +59,13 @@ class CourseSubjectPage(Page):
         else:
             course_query = course_query.order_by(F(sort_arg).asc(nulls_last=True))
 
-        if age_args:
-            q_min_age = 99
-            q_max_age = 0
-            for age_group in age_args:
-                age_tuple = AgeGroup[age_group].value
-                q_min_age = min(q_min_age, age_tuple[0])
-                q_max_age = max(q_max_age, age_tuple[1])
-            course_query = course_query.filter(minimum_age__gte=q_min_age, minimum_age__lte=q_max_age)
+        age_filter = Q()
+        for age_group in age_args:
+            low_filter, high_filter = AgeGroup[age_group].value
+            low_q = (Q(age_low__lte=high_filter) | Q(age_low__isnull=True))
+            high_q = (Q(age_high__gte=low_filter) | Q(age_high__isnull=True))
+            age_filter |= Q(low_q, high_q)
+        course_query = course_query.filter(age_filter)
 
         difficulty_filter = Q()
         for difficulty in difficulty_args:
@@ -73,8 +73,8 @@ class CourseSubjectPage(Page):
         course_query = course_query.filter(difficulty_filter)
 
         provider_filter = Q()
-        for provider in provider_args:
-            provider_filter |= Q(provider=provider)
+        for provider_title in provider_args:
+            provider_filter |= Q(provider__title=provider_title)
         course_query = course_query.filter(provider_filter)
 
         paginator = Paginator(course_query, per_page=5)
