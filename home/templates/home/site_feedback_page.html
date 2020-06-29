@@ -6,16 +6,18 @@
 {% endblock %}
 
 {% block body_in_container %}
-    <h1>{{ page.title }}</h1>
-    <p>{{ page.subheading|richtext }}</p>
-    {% if request.session.submitted_feedback %}
-        <div class="alert alert-success" role="alert">
-            Thank you! We received your feedback with subject: {{ request.session.submitted_feedback }}.
-        </div>
-    {% endif %}
-    <form action="." method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <input type="submit" value="Submit" class="btn btn-success">
-    </form>
+    <div class="mx-lg-5 px-lg-5">
+        <h1>{{ page.title }}</h1>
+        <p>{{ page.subheading|richtext }}</p>
+        {% if request.session.submitted_feedback %}
+            <div class="alert alert-success" role="alert">
+                Thank you! We received your feedback with subject: {{ request.session.submitted_feedback }}.
+            </div>
+        {% endif %}
+        <form action="." method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" value="Submit" class="btn btn-success">
+        </form>
+    </div>
 {% endblock %}

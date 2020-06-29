@@ -17,7 +17,9 @@
 {% endblock %}
 
 {% block body_in_container %}
-    {% for block in page.course_rank_tables %}
-        {% include_block block %}
-    {% endfor %}
+    <div class="mx-lg-5 px-lg-5">
+        {% for block in page.course_rank_tables %}
+            {% include_block block %}
+        {% endfor %}
+    </div>
 {% endblock %}
