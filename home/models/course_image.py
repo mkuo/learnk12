@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import FieldPanel
@@ -32,9 +32,10 @@ class CourseImage(Orderable):
     ]
 
 
-@receiver(pre_save, sender=Image, dispatch_uid="pre_save_image_focus")
-def pre_save_image_focus(sender, instance, **kwargs):
-    if instance.focal_point_x is None and instance.focal_point_y is None:
+@receiver(post_save, sender=Image, dispatch_uid="post_save_image_focus")
+def post_save_image_focus(sender, instance, created, **kwargs):
+    if created is True and instance.focal_point_x is None and instance.focal_point_y is None:
         right = min(instance.width, 64)
         bottom = min(instance.height, 64)
         instance.set_focal_point(Rect(0, 0, right, bottom))
+        instance.save()
