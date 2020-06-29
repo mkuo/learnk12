@@ -78,8 +78,9 @@
                     <td class="d-none d-lg-table-cell text-nowrap">
                         {{ page.age_low|render_age_range:page.age_high }}
                     </td>
-                    {% with page.difficulty|course_difficulty as difficulty_content %}
                     <td class="d-none d-lg-table-cell">
+                        {% if page.difficulty is not None %}
+                        {% with page.difficulty|course_difficulty as difficulty_content %}
                         <div>{{ difficulty_content.label }}</div>
                         <div class="text-nowrap mt-n2">
                             {% spaceless %}
@@ -95,8 +96,9 @@
                                 {% endfor %}
                             {% endspaceless %}
                         </div>
+                        {% endwith %}
+                        {% endif %}
                     </td>
-                    {% endwith %}
                     <td class="d-none d-lg-table-cell">
                         {{ page.cost_amount|render_cost:page.cost_interval }}
                     </td>

@@ -1,7 +1,7 @@
 {% load humanize learnk12_tags %}
 
 <div class="d-flex flex-wrap">
-    {% if page.age_low != None or page.age_high != None %}
+    {% if page.age_low is not None or page.age_high is not None %}
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">face</i></div>
         <span class="d-none d-sm-block font-weight-bold mx-1">Age:</span>
@@ -11,7 +11,7 @@
     </div>
     {% endif %}
 
-    {% if page.cost_amount != None %}
+    {% if page.cost_amount is not None %}
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">payment</i></div>
         <span class="d-none d-sm-block font-weight-bold mx-1">Cost:</span>
@@ -21,7 +21,7 @@
     </div>
     {% endif %}
 
-    {% if page.difficulty != None %}
+    {% if page.difficulty is not None %}
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">signal_cellular_alt</i></div>
         <span class="d-none d-sm-block font-weight-bold mx-1">Difficulty:</span>
@@ -53,7 +53,7 @@
     </div>
     {% endif %}
 
-    {% if page.course_length_hours != None %}
+    {% if page.course_length_hours is not None %}
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">schedule</i></div>
         <span class="d-none d-sm-block font-weight-bold mx-1">Duration:</span>
@@ -73,7 +73,7 @@
     </div>
     {% endif %}
 
-    {% if page.scheduled != None %}
+    {% if page.scheduled is not None %}
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">calendar_today</i></div>
         <span class="d-none d-sm-block font-weight-bold mx-1">Schedule:</span>
