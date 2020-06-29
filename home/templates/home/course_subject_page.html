@@ -12,7 +12,7 @@
     {% if page.caption %}
         <p>{{ page.caption }}</p>
     {% endif %}
-    {% include 'home/query_buttons.html' with anchor='#courses-table' %}
+    {% include 'home/query_buttons.html' with anchor='#courses-table' include_search=True %}
     {% include 'home/courses_table.html' with courses=courses_paged %}
     {% include 'home/page_buttons.html' with anchor='#courses-table' %}
 </div>
@@ -20,8 +20,20 @@
 
 {% block extra_js %}
 <script>
-    const getPagedData = (url) => {
+    /** Prevents bugs with browser extensions */
+    const suppressEnterPropagation = () => {
+        $('#search-input').keydown(event => {
+            if (event.keyCode == 13) {
+                event.stopPropagation();
+            };
+        });
+    };
+    suppressEnterPropagation();
+    const getPagedData = (url, arg_selector=null) => {
         gaTry(() => {
+            if (arg_selector) {
+                url = encodeURI(url + $(arg_selector).val());
+            };
             const anchor = '#courses-table';
             $.ajax({
                 url: url,
@@ -31,7 +43,8 @@
                     $(anchor).html($(anchor, data));
                     $('html,body').animate({
                         scrollTop: $(anchor).offset().top
-                    }, 'fast')
+                    }, 'fast');
+                    suppressEnterPropagation();
                 },
                 error: function(xhr, status, error) {
                     ga('send', 'exception', {

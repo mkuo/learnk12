@@ -90,3 +90,7 @@ section {
 .mh-256 {
     max-height: 256px;
 }
+
+.mw-200 {
+    max-width: 200px;
+}

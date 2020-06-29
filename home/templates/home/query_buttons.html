@@ -1,8 +1,8 @@
 {% load learnk12_tags %}
 
-<div class="my-1">
-    <div class="dropdown d-inline">
-        <button class="btn btn-sm border mb-1 {{ sort_btn.selected_labels|yesno:'btn-primary,btn-light' }}"
+<div class="form-inline my-1">
+    <div class="dropdown text-nowrap my-1 mr-1">
+        <button class="btn btn-sm border {{ sort_btn.selected_labels|yesno:'btn-primary,btn-light' }}"
            data-toggle="dropdown"
            aria-haspopup="true"
            aria-expanded="false">
@@ -15,10 +15,10 @@
                     onclick="getPagedData('{% build_url 'sort' col %}')">{{ label }}</button>
             {% endfor %}
         </div>
-    </div>&nbsp
+    </div>
     {% for category, filter_btn in filter_btns.items %}
-        <div class="dropdown d-inline">
-            <button class="btn btn-sm border mb-1 {{ filter_btn.selected_args|yesno:'btn-primary,btn-light' }}"
+        <div class="dropdown text-nowrap my-1 mr-1">
+            <button class="btn btn-sm border {{ filter_btn.selected_args|yesno:'btn-primary,btn-light' }}"
                data-toggle="dropdown"
                aria-haspopup="true"
                aria-expanded="false">
@@ -34,9 +34,35 @@
                         onclick="getPagedData('{% build_url category.0 col True %}')">{{ label }}</button>
                 {% endfor %}
             </div>
-        </div>&nbsp
+        </div>
     {% endfor %}
-    <button onclick="getPagedData('{{ page.url }}')" class="btn btn-sm border btn-light mb-1">
-        Reset
-    </button>
+    <div class="my-1 mr-auto">
+        <button onclick="getPagedData('{{ page.url }}')" class="btn btn-sm border btn-light">
+            Reset
+        </button>
+    </div>
+    {% if include_search is True %}
+    <form
+        class="input-group input-group-sm my-1 mw-200"
+        onsubmit="getPagedData('{% build_url 'search' '' %}', '#search-input'); return false;"
+    >
+        <input
+            type="search"
+            placeholder="Search"
+            {% if search is not None %}value="{{ search }}"{% endif %}
+            class="border form-control"
+            id="search-input"
+            autocomplete="off"
+        >
+        <span class="input-group-append mr-1">
+            <button
+                class="btn {{ search|yesno:'btn-primary,btn-outline-secondary' }} border-left-0 border"
+                type="submit"
+                id="search-button"
+            >
+                <i class="material-icons font-size-18 align-text-top">search</i>
+            </button>
+        </span>
+    </form>
+    {% endif %}
 </div>

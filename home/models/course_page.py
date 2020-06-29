@@ -13,6 +13,7 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.core.fields import RichTextField
 from wagtail.core.models import Page
+from wagtail.search import index
 
 from home.defs.enums import CourseDifficulty, CostInterval
 from home.forms.course_review_form import CourseReviewForm

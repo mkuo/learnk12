@@ -51,7 +51,7 @@ class CourseSubjectPage(Page):
         providers = {res['provider__title']: res['provider__title'] for res in results}
         return ParamData(request, 'provider', providers)
 
-    def _get_courses_paged(self, page, sort_arg, age_args, difficulty_args, provider_args):
+    def _get_courses_paged(self, page, sort_arg, age_args, difficulty_args, provider_args, search_arg):
         # get courses from database
         course_query = CoursePage.objects.child_of(self).live().public()
         if sort_arg[0] == '-':
@@ -76,6 +76,13 @@ class CourseSubjectPage(Page):
         for provider_title in provider_args:
             provider_filter |= Q(provider__title=provider_title)
         course_query = course_query.filter(provider_filter)
+
+        if search_arg:
+            search_filter = Q()
+            search_filter |= Q(title__icontains=search_arg)
+            search_filter |= Q(description__icontains=search_arg)
+            search_filter |= Q(provider__title__icontains=search_arg)
+            course_query = course_query.filter(search_filter)
 
         paginator = Paginator(course_query, per_page=5)
         try:
@@ -104,6 +111,7 @@ class CourseSubjectPage(Page):
             ('difficulty', 'Difficulty'): difficulty_data,
             ('provider', 'Provider'): provider_data
         }
+        context['search'] = request.GET.get('search')
 
         # query courses
         context['courses_paged'], context['paging_data'] = self._get_courses_paged(
@@ -111,6 +119,7 @@ class CourseSubjectPage(Page):
             context['sort_btn'].selected_args[0],
             age_data.selected_args,
             difficulty_data.selected_args,
-            provider_data.selected_args
+            provider_data.selected_args,
+            context['search']
         )
         return context
