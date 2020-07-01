@@ -1,21 +1,37 @@
-from sys import stdout
-
 from django.core.management.base import BaseCommand
-from django.db import connection
-from django.db.models.signals import post_save, post_delete
 from wagtail.images.models import Image
 
-from home.models.course_review import CourseReview
+from home.models import InfoPage
 
 
 class Command(BaseCommand):
-    help = 'Logs to the console Images that are not used'
+    help = 'Logs to the console images that are not used'
+
+    '''
+    StreamFields are json fields that are not captured in get_usage()
+    so we have to search for and remove them explicitly
+    '''
+    @staticmethod
+    def check_streamfield(unused_images, page_model, block_type):
+        for page in page_model.objects.all():
+            for block in page.body:
+                if block.block_type != block_type:
+                    break
+                for img in block.value:
+                    if img in unused_images:
+                        unused_images.remove(img)
 
     def handle(self, *args, **options):
-        print("Checking for unused Images:")
-        i = 1
+        print("Checking for unused images:")
+
+        unused_images = []
         for img in Image.objects.all():
             if not img.get_usage():
-                print("{}. {}".format(i, img.title))
-                i += 1
+                unused_images.append(img)
+
+        if len(unused_images) > 0:
+            self.check_streamfield(unused_images, InfoPage, 'image_row')
+            for idx, img in enumerate(unused_images, 1):
+                print("{}. {}".format(idx, img.title))
+
         print("Check complete.")
