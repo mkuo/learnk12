@@ -72,67 +72,16 @@ $ ssh mike@learnk12.org
 ```
 
 # Production Deploy
-To deploy new code
+To deploy new code, use the zshell script `deploy.sh`.
 ```
 # authenticate with GitHub
 $ ssh -T git@github.com
-
 $ ssh mike@learnk12.org
-[mike@learnk12 ~ ]$ cd projects/learnk12
+
+# manually run first time only to pull the deploy.sh script 
+[mike@learnk12 ~ ]$ cd ~/projects/learnk12
 [mike@learnk12 learnk12 (master)]$ git pull
 
-[mike@learnk12 learnk12 (master)]$ source venv/bin/activate
-
-# (optional) declare environment settings
-[mike@learnk12 learnk12 (master)]$ export DJANGO_SETTINGS_MODULE="learnk12.settings.production"
-
-# (optional) check prod and deploy environment
-[mike@learnk12 learnk12 (master)]$ ./manage.py check --deploy 
-
-# if there are new python packages in the deploy 
-(venv) [mike@learnk12 learnk12 (master)]$ pip install -r requirements.txt
-
-# if there are new or updated static files in the deploy 
-(venv) [mike@learnk12 learnk12 (master)]$ ./manage.py collectstatic
-
-# if there are database migrations in the deploy
-(venv) [mike@learnk12 learnk12 (master)]$ ./manage.py migrate
-
-# gracefully restart gunicorn app serving
-[mike@learnk12 learnk12 (master)]$ sudo systemctl reload gunicorn
-```
-
-Here is a Zshell script based on the above instructions to simplify deploys.
-For example, create file `~/deploy.sh` and run with `zsh deploy.sh`.
-```
-#!/bin/zsh
-confirm () {
-    read "reply?$1 (y/n)? "
-    if [[ $reply =~ ^[Yy]$ ]]; then $2; fi
-}
-
-install_requirements () { pip install -r requirements.txt }
-collect_static_files () { ./manage.py collectstatic }
-migrate_database () { ./manage.py migrate }
-reload_nginx () { sudo systemctl reload nginx }
-reload_gunicorn () { sudo systemctl reload gunicorn }
-clear_sessions () { ./manage.py clearsessions }
-update_courses_agg_fields () { ./manage.py update_courses_agg_fields }
-check_unused_images () { ./manage.py check_unused_images }
-
-cd ~/projects/learnk12
-git pull
-source venv/bin/activate
-export DJANGO_SETTINGS_MODULE="learnk12.settings.production"
-./manage.py check --deploy
-
-confirm "Update dependencies" install_requirements;
-confirm "Collect static files" collect_static_files;
-confirm "Run migrations" migrate_database;
-confirm "Reload nginx" reload_nginx;
-confirm "Reload gunicorn" reload_gunicorn;
-
-echo "Now suggesting optional manual cleanup commands..."
-confirm "Clear expired sessions" clear_sessions;
-confirm "Update courses aggregate fields" update_courses_agg_fields
+[mike@learnk12 ~ ]$ echo -n 'alias deploy="zsh ~/projects/learnk12/deploy.sh"' >> ~/.zshrc
+[mike@learnk12 ~ ]$ source ~/.zshrc
 ```
