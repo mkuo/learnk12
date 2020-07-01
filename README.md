@@ -30,8 +30,8 @@
 7. Access the application at [http://localhost:8000/](http://localhost:8000/)
 
 # Production Environment Setup
-Gunicorn and nginx were initially set up according to [this guide](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04).
-Let's Encrypt SSL was initially set up according to [this guide](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04).
+Django, Gunicorn and Nginx were initially set up according to [this guide](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04).  
+Let's Encrypt SSL was initially set up according to [this guide](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04).  
 DDOS mitigatios was initially set up according to [this guide](https://www.nginx.com/blog/mitigating-ddos-attacks-with-nginx-and-nginx-plus/)
 
 1. Set up ssh access to the remote server on DigitalOcean.
