@@ -4,6 +4,11 @@ try:
 except ImportError:
     pass
 
+# Variables to include in local.py
+# DATABASE_PASSWORD
+# SECRET_KEY
+# SENDGRID_API_KEY
+
 DEBUG = False
 
 ALLOWED_HOSTS = [
@@ -22,3 +27,14 @@ SECURE_HSTS_PRELOAD = True
 SECURE_HSTS_SECONDS = 31536000
 SECURE_REFERRER_POLICY = 'same-origin'
 SECURE_SSL_REDIRECT = True
+
+# EMAIL
+LOGGING['loggers']['django']['handlers'].append('mail_admins')
+LOGGING['handlers']['mail_admins'] = {
+    'level': 'ERROR',
+    'class': 'django.utils.log.AdminEmailHandler',
+}
+DEFAULT_FROM_EMAIL = 'info@learnk12.org'
+SERVER_EMAIL = 'info@learnk12.org'
+ADMINS = [('Michael Kuo', 'mike@learnk12.org')]
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
