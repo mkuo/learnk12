@@ -10,7 +10,7 @@ class CourseReviewForm(ModelForm):
         fields = ['score', 'subject', 'description', 'reviewer_type', 'name', 'email', 'is_anonymous']
         labels = {
             'reviewer_type': 'I am a',
-            'is_anonymous': 'Make anonymous'
+            'is_anonymous': 'Hide name and email'
         }
         help_texts = {
             'email': 'Your email is not shared in your review'
