@@ -5,7 +5,7 @@
     {% for course_image in page.course_images.all %}
         <div class="d-inline">
             {% image course_image.image original as img_original %}
-            <figure class="figure btn p-0 mb-2 img-btn"
+            <figure class="figure text-center p-0 mb-2"
                     data-toggle="modal"
                     data-target="#imageModal"
                     original="{{ img_original.url }}"
