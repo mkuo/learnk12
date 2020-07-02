@@ -15,8 +15,8 @@ class Command(BaseCommand):
     def check_streamfield(unused_images, page_model, block_type):
         for page in page_model.objects.all():
             for block in page.body:
-                if block.block_type != block_type:
-                    break
+                if block.block_type != 'image_row':
+                    continue
                 for img in block.value:
                     if img in unused_images:
                         unused_images.remove(img)
@@ -33,5 +33,7 @@ class Command(BaseCommand):
             self.check_streamfield(unused_images, InfoPage, 'image_row')
             for idx, img in enumerate(unused_images, 1):
                 print("{}. {}".format(idx, img.title))
+                print("Check complete.")
+        else:
+            print("No unused images.")
 
-        print("Check complete.")
