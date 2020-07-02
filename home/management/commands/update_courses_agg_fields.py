@@ -27,6 +27,7 @@ class Command(BaseCommand):
             return cursor.fetchall()
 
     def handle(self, *args, **options):
+        print("Checking for mismatched courses:")
         mismatched_courses = self._get_courses_with_mismatch()
         for course_id, avg_score, avg_score_calc, review_count, review_count_calc in mismatched_courses:
             message = f'Mismatch found (course_id: {course_id}): '
@@ -41,3 +42,4 @@ class Command(BaseCommand):
                 post_save.send(CourseReview, instance=course_review)
             else:
                 post_delete.send(CourseReview, instance=course_review)
+        print("Check complete.")

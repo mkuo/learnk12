@@ -33,7 +33,7 @@ class Command(BaseCommand):
             self.check_streamfield(unused_images, InfoPage, 'image_row')
             for idx, img in enumerate(unused_images, 1):
                 print("{}. {}".format(idx, img.title))
-                print("Check complete.")
+            print("Check complete.")
         else:
             print("No unused images.")
 
