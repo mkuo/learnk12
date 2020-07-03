@@ -94,3 +94,8 @@ section {
 .mw-200 {
     max-width: 200px;
 }
+
+.avatar {
+    height: 36px;
+    width: 36px;
+}
