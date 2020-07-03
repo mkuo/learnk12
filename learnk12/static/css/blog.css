@@ -1,0 +1,23 @@
+.blog-card .blog-text {
+    overflow: hidden;
+    max-height: 120px;
+    margin-bottom: 10px;
+}
+
+.blog-image {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    height: 300px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.blog-image-block {
+    margin: .5rem;
+}
+
+.block-image img {
+    margin: 10px 0;
+}

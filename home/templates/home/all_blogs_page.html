@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock %}
+{% block body_in_container %}
+    <div class="row">
+        {% for block in page.get_children.specific %}
+            <div class=" col-sm-12 col-md-4">
+                <div class="card mb-4 shadow-sm blog-card">
+                    <div class="blog-image-block">
+                        <div class="blog-image" style="background-image: url('{{ block.main_image.file.url }}');"></div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ block.title }}</h5>
+                        <div class="blog-text">
+                            {% for content in block.body %}
+                                {% if content.block_type == "text" %}
+                                    {% include_block content %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <a class="btn btn-primary" href="{{ block.get_url }}" role="button">Read More</a>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">{{ block.publish_date }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
