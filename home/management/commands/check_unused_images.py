@@ -15,7 +15,7 @@ class Command(BaseCommand):
     def check_streamfield(unused_images, page_model, block_type):
         for page in page_model.objects.all():
             for block in page.body:
-                if block.block_type != 'image_row':
+                if block.block_type != block_type:
                     continue
                 for img in block.value:
                     if img in unused_images:
