@@ -12,7 +12,7 @@ class Command(BaseCommand):
         oversized_images = set()
         for course_image in CourseImage.objects.all():
             img = course_image.image
-            if img.width > 320 or img.height > 240:
+            if img.width > 320 and img.height > 240:
                 oversized_images.add(img)
 
         if len(oversized_images) > 0:
