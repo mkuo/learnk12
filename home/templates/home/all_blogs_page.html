@@ -8,8 +8,9 @@
         {% for block in page.get_children.specific %}
             <div class=" col-sm-12 col-md-4">
                 <div class="card mb-4 shadow-sm blog-card">
-                    <div class="blog-image-block">
-                        <div class="blog-image" style="background-image: url('{{ block.main_image.file.url }}');"></div>
+                    <div class="m-2">
+                         {% image block.main_image original as img %}
+                        <div class="blog-image" style="background-image: url('{{ img.url }}');"></div>
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ block.title }}</h5>

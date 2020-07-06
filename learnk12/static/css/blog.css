@@ -6,18 +6,10 @@
 
 .blog-image {
     width: 100%;
-    max-width: 500px;
+    max-width: 100%;
     margin: 0 auto;
     height: 300px;
     background-position: center;
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
-}
-
-.blog-image-block {
-    margin: .5rem;
-}
-
-.block-image img {
-    margin: 10px 0;
 }

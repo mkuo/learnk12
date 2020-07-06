@@ -10,15 +10,17 @@
             <div class="d-flex flex-row align-items-center p-2">
                 {% if page.author and page.author.image %}
                     {% image page.author.image fill-50x50 as img %}
-                    <img src="{{ img.url }}" class="rounded-circle mr-1" alt="{{ page.author.name }}">
+                    <img src="{{ img.url }}" class="rounded-circle mr-2" alt="{{ page.author.name }}">
                 {% endif %}
+
                 <p class="m-0">
                     {% firstof page.author.name "Anonymous" %} <small class="text-muted">{{ page.publish_date }}</small>
                 </p>
             </div>
             <hr>
             <div class="text-center mb-2">
-                <img src="{{ page.main_image.file.url }}" alt="" style="max-width: 400px;max-height: 400px">
+                <img src="{{ page.main_image.file.url }}" alt="{{ page.title }}" class="my-1"
+                     style="max-width: 400px;max-height: 400px">
             </div>
             <div class="">
                 {{ page.body }}
