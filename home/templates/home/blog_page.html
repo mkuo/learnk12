@@ -5,25 +5,35 @@
 {% endblock %}
 {% block body_in_container %}
     <div class="row">
-        <div class="col-12">
+        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
             <h1>{{ page.title }}</h1>
-            <div class="d-flex flex-row align-items-center p-2">
-                {% if page.author and page.author.image %}
-                    {% image page.author.image fill-50x50 as img %}
-                    <img src="{{ img.url }}" class="rounded-circle mr-2" alt="{{ page.author.name }}">
+            <div class="p-2">
+                {% if page.author %}
+                    {% if page.author.image %}
+                        {% image page.author.image fill-50x50 as img %}
+                        <img src="{{ img.url }}" class="rounded-circle mr-2" alt="{{ page.author.name }}">
+                    {% endif %}
+                    {{ page.author.name }}
                 {% endif %}
-
-                <p class="m-0">
-                    {% firstof page.author.name "Anonymous" %} <small class="text-muted">{{ page.publish_date }}</small>
-                </p>
+                <p class="text-muted m-0">{{ page.publish_date }}</p>
             </div>
             <hr>
-            <div class="text-center mb-2">
-                <img src="{{ page.main_image.file.url }}" alt="{{ page.title }}" class="my-1"
-                     style="max-width: 400px;max-height: 400px">
+            <div class="text-center my-1">
+                <img src="{{ page.main_image.file.url }}" alt="{{ page.title }}"
+                     style="max-width: 100%">
             </div>
             <div class="">
                 {{ page.body }}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+            <h3>Recent Blogs</h3>
+            <div class="list-group">
+                {% for blog in recent_blogs %}
+                    <a href="{{ blog.get_url }}" class="list-group-item list-group-item-action">
+                        {{ blog.title }}
+                    </a>
+                {% endfor %}
             </div>
         </div>
     </div>

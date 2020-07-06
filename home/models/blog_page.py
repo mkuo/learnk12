@@ -19,6 +19,7 @@ class BlogPage(Page):
         related_name="+",
         on_delete=models.SET_NULL
     )
+    short_description = models.TextField(null=True, blank=False)
     body = StreamField([
         ('image', blocks.ImageBlock()),
         ('text', blocks.RichTextBlock()),
@@ -26,10 +27,18 @@ class BlogPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel('publish_date'),
+        SnippetChooserPanel("author"),
         ImageChooserPanel('main_image'),
+        FieldPanel('short_description'),
         StreamFieldPanel("body"),
-        SnippetChooserPanel("author")
     ]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super(BlogPage, self).get_context(request)
+        blogs = BlogPage.objects.live().public()
+        blogs = blogs.order_by('-publish_date')[:3]
+        context['recent_blogs'] = blogs
+        return context
 
 
 @register_snippet
