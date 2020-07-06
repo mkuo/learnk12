@@ -4,64 +4,80 @@
     {% if page.age_low is not None or page.age_high is not None %}
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">face</i></div>
-        <span class="d-none d-sm-block font-weight-bold mx-1">Age:</span>
-        <span class="text-nowrap ml-1">{{ page.age_low|render_age_range:page.age_high }}</span>
+        <div class="ml-1">
+            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Age:</span>
+            <span class="text-nowrap">{{ page.age_low|render_age_range:page.age_high }}</span>
+        </div>
     </div>
     {% endif %}
 
     {% if page.cost_amount is not None and page.cost_interval is not None %}
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">payment</i></div>
-        <span class="d-none d-sm-block font-weight-bold mx-1">Cost:</span>
-        <span class="ml-1">{{ page.cost_amount|render_cost:page.cost_interval }}</span>
+        <div class="ml-1">
+            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Cost:</span>
+            <span class="text-nowrap">{{ page.cost_amount|render_cost:page.cost_interval }}</span>
+        </div>
     </div>
     {% endif %}
 
     {% if page.difficulty is not None %}
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">signal_cellular_alt</i></div>
-        <span class="d-none d-sm-block font-weight-bold mx-1">Difficulty:</span>
-        <span class="text-nowrap ml-1">{{ page.difficulty | render_course_difficulty }}</span>
+        <div class="ml-1">
+            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Difficulty:</span>
+            <span class="text-nowrap">{{ page.difficulty | render_course_difficulty }}</span>
+        </div>
     </div>
     {% endif %}
 
     {% if page.lesson_type_tags.count > 0 %}
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">description</i></div>
-        <span class="d-none d-sm-block font-weight-bold mx-1">Lesson Type:</span>
-        <span class="ml-1">{{ page.lesson_type_tags.all|dictsort:"name"|join:", " }}</span>
+        <div class="ml-1">
+            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Lesson Type:</span>
+            <span>{{ page.lesson_type_tags.all|dictsort:"name"|join:", " }}</span>
+        </div>
     </div>
     {% endif %}
 
     {% if page.course_length_hours is not None %}
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">schedule</i></div>
-        <span class="d-none d-sm-block font-weight-bold mx-1">Duration:</span>
-        <span class="ml-1">{{ page.course_length_hours | render_duration }}</span>
+        <div class="ml-1">
+            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Duration:</span>
+            <span class="text-nowrap">{{ page.course_length_hours | render_duration }}</span>
+        </div>
     </div>
     {% endif %}
 
     {% if page.platform_tags.count > 0 %}
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">ondemand_video</i></div>
-        <span class="d-none d-sm-block font-weight-bold mx-1">Platform:</span>
-        <span class="ml-1">{{ page.platform_tags.all|dictsort:"name"|join:", " }}</span>
+        <div class="ml-1">
+            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Platform:</span>
+            <span>{{ page.platform_tags.all|dictsort:"name"|join:", " }}</span>
+        </div>
     </div>
     {% endif %}
 
     {% if page.scheduled is not None %}
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">calendar_today</i></div>
-        <span class="d-none d-sm-block font-weight-bold mx-1">Schedule:</span>
-        <span class="ml-1">{{ page.scheduled|yesno:'Yes,No' }}</span>
+        <div class="ml-1">
+            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Schedule:</span>
+            <span>{{ page.scheduled|yesno:'Yes,No' }}</span>
+        </div>
     </div>
     {% endif %}
 
     {% if page.programming_language_tags.count > 0 %}
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">keyboard</i></div>
-        <span class="d-none d-sm-block font-weight-bold mx-1">Language:</span>
-        <span class="ml-1">{{ page.programming_language_tags.all|dictsort:"name"|join:", " }}</span>
+        <div class="ml-1">
+            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Language:</span>
+            <span>{{ page.programming_language_tags.all|dictsort:"name"|join:", " }}</span>
+        </div>
     </div>
     {% endif %}
 </div>
