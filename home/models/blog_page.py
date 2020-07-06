@@ -35,8 +35,10 @@ class BlogPage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super(BlogPage, self).get_context(request)
-        blogs = BlogPage.objects.live().public()
-        blogs = blogs.order_by('-publish_date')[:3]
+        blogs = BlogPage.objects.live().public().\
+            exclude(page_ptr_id=self.page_ptr_id).\
+            order_by('-publish_date').\
+            order_by('-last_published_at')[:3]
         context['recent_blogs'] = blogs
         return context
 
@@ -44,12 +46,13 @@ class BlogPage(Page):
 @register_snippet
 class BlogAuthor(models.Model):
     name = models.CharField(max_length=100)
-    image = models.ForeignKey("wagtailimages.Image",
-                              on_delete=models.SET_NULL,
-                              null=True,
-                              blank=True,
-                              related_name="+", )
-
+    image = models.ForeignKey(
+        "wagtailimages.Image",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+"
+    )
     panels = [
         MultiFieldPanel(
             [
