@@ -7,6 +7,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 from home.models import blocks
+from home.models.course_rank_table import CourseRankTableBlock
 
 
 class BlogPage(Page):
@@ -23,6 +24,7 @@ class BlogPage(Page):
     body = StreamField([
         ('image', blocks.ImageBlock()),
         ('text', blocks.RichTextBlock()),
+        ('course_rank_table', CourseRankTableBlock()),
     ])
 
     content_panels = Page.content_panels + [
