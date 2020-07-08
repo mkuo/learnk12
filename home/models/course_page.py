@@ -189,20 +189,11 @@ class CoursePage(Page):
         form = CourseReviewForm(request.POST)
         do_redirect = False
         if form.is_valid():
-            existing_review = CourseReview.objects.filter(
-                course_page_id=self.page_ptr_id,
-                email=form.cleaned_data['email']
-            ).exists()
-            if existing_review:
-                form.add_error('email', "A review already exists for this course and email.")
-                context['form'] = form
-                context['show_form'] = True
-            else:
-                obj = form.save(commit=False)
-                obj.course_page_id = self.page_ptr_id
-                obj.save()
-                self.append_to_reviewed_courses(request)
-                do_redirect = True
+            obj = form.save(commit=False)
+            obj.course_page_id = self.page_ptr_id
+            obj.save()
+            self.append_to_reviewed_courses(request)
+            do_redirect = True
         else:
             context['form'] = form
             context['show_form'] = True
