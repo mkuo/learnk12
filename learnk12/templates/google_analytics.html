@@ -1,0 +1,18 @@
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-168750813-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-168750813-1', { 'anonymize_ip': true });
+
+    var gaTry = (func) => {
+        try {
+            func();
+        } catch(err) {
+            gtag('event', 'exception', {
+                'description': func.name,
+                'fatal': false
+            });
+        };
+    };
+</script>

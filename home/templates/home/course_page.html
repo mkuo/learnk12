@@ -146,23 +146,25 @@
 {% block extra_js %}
 <script>
     const getPagedData = (url) => {
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'html',
-            success: function(data) {
-                $('#query-buttons').html($('#query-buttons', data));
-                $('#course-reviews').html($('#course-reviews', data));
-                $('html,body').animate({
-                    scrollTop: $('#reviews').offset().top
-                }, 'fast')
-            },
-            error: function(xhr, status, error) {
-                ga('send', 'exception', {
-                    'exDescription': xhr.responseText,
-                    'exFatal': false
-                });
-            }
+        gaTry(() => {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'html',
+                success: function(data) {
+                    $('#query-buttons').html($('#query-buttons', data));
+                    $('#course-reviews').html($('#course-reviews', data));
+                    $('html,body').animate({
+                        scrollTop: $('#reviews').offset().top
+                    }, 'fast')
+                },
+                error: function(xhr, status, error) {
+                    ga('send', 'exception', {
+                        'exDescription': xhr.responseText,
+                        'exFatal': false
+                    });
+                }
+            });
         });
     };
 </script>
