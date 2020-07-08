@@ -1,0 +1,13 @@
+{% extends "account/account_base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Profile</h1>
+    <p>{{ request.user.first_name }}</p>
+    <p>{{ request.user.last_name }}</p>
+    <p>{{ request.user.birth_date }}</p>
+    <p><img src="{{ request.user.photo.url }}" alt="User Photo" class="img-thumbnail"></p>
+
+    <a href="{% url 'update_profile' %}"><h1>Update Profile</h1></a>
+{% endblock %}

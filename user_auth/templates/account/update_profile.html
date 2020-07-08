@@ -1,0 +1,23 @@
+{% extends "account/account_base.html" %}
+{% load i18n %}
+
+
+{% load crispy_forms_tags %}
+
+{% block title %}Create an account{% endblock %}
+{% block body_in_container %}
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-10 col-md-8 col-lg-6">
+                <h1>{% trans "Update Profile" %}</h1>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <a href="{% url 'account_email' %}">Change Email</a>
+                    <p><a href="{% url "account_set_password" %}">Change Passwod</a></p>
+                    <p><input class="btn btn-info btn-block" type="submit" value="Update my profile"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

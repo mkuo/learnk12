@@ -36,6 +36,13 @@
                 {% endif %}
             {% endfor %}
         </ul>
+            <form class="form-inline my-2 my-lg-0">
+            {% if request.user.is_authenticated %}
+                <a class="btn btn-info my-2 my-sm-0" href="{% url "account_logout" %}">Logout</a>
+            {% else %}
+                <a class="btn btn-info my-2 my-sm-0" href="{% url "account_login" %}">Log-in</a>
+            {% endif %}
+        </form>
         {% comment %}
         <a class="nav-link px-0 text-info" href="#">Register or Sign in</a>
         {% endcomment %}
