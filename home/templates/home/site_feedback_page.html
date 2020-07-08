@@ -16,7 +16,33 @@
         {% endif %}
         <form action="." method="post">
             {% csrf_token %}
-            {{ form|crispy }}
+            <div class="row">
+                <div class="col">{{ form.name | as_crispy_field }}</div>
+                <div class="col">{{ form.email | as_crispy_field }}</div>
+            </div>
+            <div class="row">
+                <div class="col">{{ form.subject | as_crispy_field }}</div>
+            </div>
+            <div class="row">
+                <div class="col">{{ form.description | as_crispy_field }}</div>
+            </div>
+            <div class="row mb-1">
+                <div class="col smaller text-muted">
+                    <input class="d-inline mr-2" type="checkbox" required>
+                    {% slugurl 'privacy-policy' as privacy_policy_link %}
+                    <label class="d-inline">
+                        I have read the <a href="{{ privacy_policy_link|default:'#' }}">Privacy Policy</a>. I understand my name and email are <strong>not shared</strong> and are used internally for <strong>feedback purposes only</strong>.
+                    </label>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col smaller text-muted">
+                    <input class="d-inline mr-2" type="checkbox" required>
+                    <label class="d-inline">
+                        I am 16 years of age or older, or I have the consent of my parent or guardian to post this review.
+                    </label>
+                </div>
+            </div>
             <input type="submit" value="Submit" class="btn btn-success">
         </form>
     </div>
