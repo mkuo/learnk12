@@ -18,7 +18,7 @@ class CourseReviewAdmin(ModelAdmin):
     add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
     exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
     list_display = ['course_page', 'name', 'email', 'publish_date', 'subject', 'score']
-    list_filter = ['course_page', 'publish_date', 'reviewer_type', 'score', 'is_anonymous']
+    list_filter = ['course_page', 'publish_date', 'reviewer_type', 'score']
     search_fields = ['subject', 'description', 'name', 'email']
 
 

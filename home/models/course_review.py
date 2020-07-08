@@ -33,7 +33,6 @@ class CourseReview(models.Model):
 
     name = models.CharField(max_length=255)
     email = models.EmailField(db_index=True)
-    is_anonymous = models.BooleanField()
 
 
 @receiver(post_save, sender=CourseReview, dispatch_uid="post_save_course_agg_fields")

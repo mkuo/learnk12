@@ -111,8 +111,10 @@
                 <div class="col">{{ form.description | as_crispy_field }}</div>
             </div>
             <div class="row">
-                <div class="col-8">{{ form.is_anonymous | as_crispy_field }}</div>
-                <div class="col text-right">
+                <div class="col-md-9 text-muted">
+                    Your name and email are <strong>not shared</strong>. They are used internally for review verification purposes only.
+                </div>
+                <div class="col-md-3 text-right">
                     <button type="submit" class="btn btn-success">Submit</button>
                 </div>
             </div>

@@ -7,13 +7,13 @@ from home.models.course_review import CourseReview
 class CourseReviewForm(ModelForm):
     class Meta:
         model = CourseReview
-        fields = ['score', 'subject', 'description', 'reviewer_type', 'name', 'email', 'is_anonymous']
+        fields = ['score', 'subject', 'description', 'reviewer_type', 'name', 'email']
         labels = {
-            'reviewer_type': 'I am a',
-            'is_anonymous': 'Hide name and email'
+            'reviewer_type': 'I am a'
         }
         help_texts = {
-            'email': 'Your email is not shared in your review'
+            'name': 'Your name is not shared.',
+            'email': 'Your email is not shared.'
         }
         widgets = {
             'score': StarRatingWidget(choices=[(i, i) for i in range(1, 5)]),
