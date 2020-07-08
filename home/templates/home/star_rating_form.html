@@ -6,37 +6,31 @@
 
 <script>
     const starClick = (el) => {
-        gaTry(() => {
-            const val = el.getAttribute('value')
-            document.querySelector('#score').setAttribute('value', val)
-            for (selected of stars.slice(0, val)) {
-                selected.classList.add('text-warning')
-                selected.classList.remove('text-secondary')
-            }
-            for (unselected of stars.slice(val)) {
-                unselected.classList.add('text-secondary')
-                unselected.classList.remove('text-warning')
-            }
-        });
+        const val = el.getAttribute('value');
+        document.querySelector('#score').setAttribute('value', val);
+        for (selected of stars.slice(0, val)) {
+            selected.classList.add('text-warning');
+            selected.classList.remove('text-secondary');
+        };
+        for (unselected of stars.slice(val)) {
+            unselected.classList.add('text-secondary');
+            unselected.classList.remove('text-warning');
+        };
     };
     const starMouseover = (el) => {
-        gaTry(() => {
-            const val = el.getAttribute('value')
-            for (selected of stars.slice(0, val)) {
-                selected.classList.add('text-warning')
-                selected.classList.remove('text-secondary')
-            }
-            for (unselected of stars.slice(val)) {
-                unselected.classList.add('text-secondary')
-                unselected.classList.remove('text-warning')
-            }
-        });
+        const val = el.getAttribute('value');
+        for (selected of stars.slice(0, val)) {
+            selected.classList.add('text-warning');
+            selected.classList.remove('text-secondary');
+        };
+        for (unselected of stars.slice(val)) {
+            unselected.classList.add('text-secondary');
+            unselected.classList.remove('text-warning');
+        };
     };
     const starMouseout = () => {
-        gaTry(() => {
-            const input = document.querySelector('#score')
-            starClick(input)
-        });
+        const input = document.querySelector('#score');
+        starClick(input);
     };
 </script>
 
@@ -86,13 +80,11 @@
 <script>
     const stars = Array.prototype.slice.call(
         document.querySelectorAll('#stars-list i')
-    )
+    );
     {% if widget.value %}
-        gaTry(() => {
-            const selectedStar = document.querySelector(
-                'div.rating-star[value="' + {{ widget.value|safe }}[0] + '"]'
-            );
-            if (selectedStar) { starClick(selectedStar) };
-        });
+        const selectedStar = document.querySelector(
+            'div.rating-star[value="' + {{ widget.value|safe }}[0] + '"]'
+        );
+        if (selectedStar) { starClick(selectedStar) };
     {% endif %}
 </script>

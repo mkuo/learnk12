@@ -30,29 +30,27 @@
     };
     suppressEnterPropagation();
     const getPagedData = (url, arg_selector=null) => {
-        gaTry(() => {
-            if (arg_selector) {
-                url = encodeURI(url + $(arg_selector).val());
-            };
-            const anchor = '#courses-table';
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'html',
-                success: function(data) {
-                    $(anchor).html($(anchor, data));
-                    $('html,body').animate({
-                        scrollTop: $(anchor).offset().top
-                    }, 'fast');
-                    suppressEnterPropagation();
-                },
-                error: function(xhr, status, error) {
-                    ga('send', 'exception', {
-                        'exDescription': xhr.responseText,
-                        'exFatal': false
-                    });
-                }
-            });
+        if (arg_selector) {
+            url = encodeURI(url + $(arg_selector).val());
+        };
+        const anchor = '#courses-table';
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html',
+            success: function(data) {
+                $(anchor).html($(anchor, data));
+                $('html,body').animate({
+                    scrollTop: $(anchor).offset().top
+                }, 'fast');
+                suppressEnterPropagation();
+            },
+            error: function(xhr, status, error) {
+                ga('send', 'exception', {
+                    'exDescription': xhr.responseText,
+                    'exFatal': false
+                });
+            }
         });
     };
 </script>

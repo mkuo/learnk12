@@ -3,9 +3,6 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
     <head>
-        {% filter minify_code %}
-            {% include 'google_analytics.html' %}
-        {% endfilter %}
         <meta charset="utf-8" />
         {% with seo=page.seo_title override=page.override_title title=page.title site_name=page.get_site.site_name %}
             <title>
