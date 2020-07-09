@@ -172,7 +172,8 @@ class CoursePage(Page):
             context['sort_btn'].selected_args[0],
             reviewer_type_data.selected_args
         )
-        context['form'] = CourseReviewForm()
+        user = request.user if request.user.is_authenticated else None
+        context['form'] = CourseReviewForm(user=user)
         return context
 
     def append_to_reviewed_courses(self, request):
@@ -186,7 +187,8 @@ class CoursePage(Page):
         request.session['reviewed_courses'] = reviewed_courses
 
     def process_form(self, request, context):
-        form = CourseReviewForm(request.POST)
+        user = request.user if request.user.is_authenticated else None
+        form = CourseReviewForm(request.POST, user=user)
         do_redirect = False
         if form.is_valid():
             existing_review = CourseReview.objects.filter(
@@ -200,6 +202,7 @@ class CoursePage(Page):
             else:
                 obj = form.save(commit=False)
                 obj.course_page_id = self.page_ptr_id
+                obj.user = request.user if request.user.is_authenticated else None
                 obj.save()
                 self.append_to_reviewed_courses(request)
                 do_redirect = True

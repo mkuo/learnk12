@@ -8,5 +8,5 @@ class User(AbstractUser):
     photo = models.ImageField(upload_to='images/profile/', null=False, blank=True)
     email = models.EmailField(_('email address'), unique=True)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    def get_full_name(self):
+        return '{} {}'.format(self.first_name, self.last_name)

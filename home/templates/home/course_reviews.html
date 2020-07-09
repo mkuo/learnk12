@@ -11,7 +11,7 @@
                 {% if review.is_anonymous %}
                     <span>Anonymous</span>
                 {% else %}
-                    <span>{{ review.name }}</span>
+                    <span>{% if review.user %}{{ review.user.get_full_name }}{% else %}{{ review.name }}{% endif %}</span>
                 {% endif %}
                 <span>·</span>
                 <span>{{ review.reviewer_type | title }}</span>

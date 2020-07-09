@@ -38,6 +38,13 @@
         </ul>
             <form class="form-inline my-2 my-lg-0">
             {% if request.user.is_authenticated %}
+                <a href="{% url 'profile' %}" class="pr-2">
+                {% if request.user.photo %}
+                    <div class="avatar rounded-circle" style="background-image: url('{{ request.user.photo.url }}'); "></div>
+                {% else %}
+                    <div class="avatar rounded-circle" style="background-image: url('https://therminic2018.eu/wp-content/uploads/2018/07/dummy-avatar.jpg'); "></div>
+                {% endif %}
+                </a>
                 <a class="btn btn-info my-2 my-sm-0" href="{% url "account_logout" %}">Logout</a>
             {% else %}
                 <a class="btn btn-info my-2 my-sm-0" href="{% url "account_login" %}">Log-in</a>
