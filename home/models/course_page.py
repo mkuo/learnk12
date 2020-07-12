@@ -130,8 +130,7 @@ class CoursePage(Page):
         return ParamData(request, 'reviewer_type', diffs)
 
     def _get_reviews_pages(self, page, sort_arg, reviewer_type_args):
-        # get reviews from database
-        review_query = self.course_reviews
+        review_query = CourseReview.objects.filter(course_page_id=self.page_ptr_id)
         if sort_arg[0] == '-':
             review_query = review_query.order_by(F(sort_arg[1:]).desc(nulls_last=True))
         else:
