@@ -1,47 +1,49 @@
 {% load humanize learnk12_tags wagtailimages_tags %}
 
-{% if value.heading %}
-    <h1 class="mt-5 mb-2 text-dark">
-        {% if value.link %}
-            <a href="{{ value.link.url }}" class="text-dark text-decoration-none">{{ value.heading }}</a>
-        {% else %}
-            {{ value.heading }}
-        {% endif %}
-    </h1>
-{% endif %}
-{% if value.caption %}
-    <p class="lead">{{ value.caption }}</p>
-{% endif %}
-<div class="table-responsive">
-    <table class="table table-hover border-bottom">
-        <thead class="thead-light">
-            <tr>
-                <th></th>
-                <th>Course</th>
-                <th class="d-none d-md-table-cell">Provider</th>
-                <th class="d-none d-md-table-cell">Age</th>
-                <th>Reviews</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for page in value.courses %}
-                {# transform defines containing block for stretched-link #}
-                <tr style="transform: rotate(0);">
-                    <th class="text-center">{{ forloop.counter }}</th>
-                    <td>
-                        <a href="{{ page.url }}" class="stretched-link font-weight-bold darkslategray">
-                            {{ page.title }}
-                        </a>
-                    </td>
-                    <td class="d-none d-md-table-cell">{{ page.provider }}</td>
-                    <td class="d-none d-md-table-cell text-nowrap">
-                        {{ page.age_low|render_age_range:page.age_high }}
-                    </td>
-                    <td>
-                        {% include 'home/page_star_rating.html' with inline=True %}
-                    </td>
+<div class="container">
+    {% if value.heading %}
+        <h2 class="mt-5 mb-2 text-dark">
+            {% if value.link %}
+                <a href="{{ value.link.url }}" class="text-dark text-decoration-none">{{ value.heading }}</a>
+            {% else %}
+                {{ value.heading }}
+            {% endif %}
+        </h2>
+    {% endif %}
+    {% if value.caption %}
+        <p>{{ value.caption }}</p>
+    {% endif %}
+    <div class="table-responsive">
+        <table class="table table-hover border-bottom">
+            <thead class="thead-light">
+                <tr>
+                    <th></th>
+                    <th>Course</th>
+                    <th class="d-none d-md-table-cell">Provider</th>
+                    <th class="d-none d-md-table-cell">Age</th>
+                    <th>Reviews</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for page in value.courses %}
+                    {# transform defines containing block for stretched-link #}
+                    <tr style="transform: rotate(0);">
+                        <th class="text-center">{{ forloop.counter }}</th>
+                        <td>
+                            <a href="{{ page.url }}" class="stretched-link font-weight-bold darkslategray">
+                                {{ page.title }}
+                            </a>
+                        </td>
+                        <td class="d-none d-md-table-cell">{{ page.provider }}</td>
+                        <td class="d-none d-md-table-cell text-nowrap">
+                            {{ page.age_low|render_age_range:page.age_high }}
+                        </td>
+                        <td>
+                            {% include 'home/page_star_rating.html' with inline=True %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>

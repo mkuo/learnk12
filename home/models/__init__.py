@@ -14,6 +14,8 @@ from .site_feedback import SiteFeedback
 from .site_feedback_page import SiteFeedbackPage
 from .tutor_detail_page import TutorDetailPage
 from .tutors_page import TutorsPage
+from .all_blogs_page import AllBlogsPage
+from .blog_page import BlogPage
 
 # set HomePage as only page under root
 Page.subpage_types = ['home.HomePage']

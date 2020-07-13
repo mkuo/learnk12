@@ -4,8 +4,6 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from modelcluster.fields import ParentalKey
 
-from user_auth.models import User
-
 
 class CourseReview(models.Model):
     course_page = ParentalKey(
@@ -33,10 +31,8 @@ class CourseReview(models.Model):
         TEACHER = 'teacher'
     reviewer_type = models.CharField(choices=ReviewerType.choices, max_length=24)
 
-    name = models.CharField(max_length=255, null=True, blank=True)
-    email = models.EmailField(db_index=True, null=True, blank=True)
-    is_anonymous = models.BooleanField()
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=255)
+    email = models.EmailField(db_index=True)
 
 
 @receiver(post_save, sender=CourseReview, dispatch_uid="post_save_course_agg_fields")

@@ -130,8 +130,7 @@ class CoursePage(Page):
         return ParamData(request, 'reviewer_type', diffs)
 
     def _get_reviews_pages(self, page, sort_arg, reviewer_type_args):
-        # get reviews from database
-        review_query = self.course_reviews
+        review_query = CourseReview.objects.filter(course_page_id=self.page_ptr_id)
         if sort_arg[0] == '-':
             review_query = review_query.order_by(F(sort_arg[1:]).desc(nulls_last=True))
         else:
@@ -172,8 +171,7 @@ class CoursePage(Page):
             context['sort_btn'].selected_args[0],
             reviewer_type_data.selected_args
         )
-        user = request.user if request.user.is_authenticated else None
-        context['form'] = CourseReviewForm(user=user)
+        context['form'] = CourseReviewForm()
         return context
 
     def append_to_reviewed_courses(self, request):
@@ -187,25 +185,14 @@ class CoursePage(Page):
         request.session['reviewed_courses'] = reviewed_courses
 
     def process_form(self, request, context):
-        user = request.user if request.user.is_authenticated else None
-        form = CourseReviewForm(request.POST, user=user)
+        form = CourseReviewForm(request.POST)
         do_redirect = False
         if form.is_valid():
-            existing_review = CourseReview.objects.filter(
-                course_page_id=self.page_ptr_id,
-                email=form.cleaned_data['email']
-            ).exists()
-            if existing_review:
-                form.add_error('email', "A review already exists for this course and email.")
-                context['form'] = form
-                context['show_form'] = True
-            else:
-                obj = form.save(commit=False)
-                obj.course_page_id = self.page_ptr_id
-                obj.user = request.user if request.user.is_authenticated else None
-                obj.save()
-                self.append_to_reviewed_courses(request)
-                do_redirect = True
+            obj = form.save(commit=False)
+            obj.course_page_id = self.page_ptr_id
+            obj.save()
+            self.append_to_reviewed_courses(request)
+            do_redirect = True
         else:
             context['form'] = form
             context['show_form'] = True
