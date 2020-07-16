@@ -1,7 +1,5 @@
 {% extends "account/account_base.html" %}
 
-{% block title %}Dashboard{% endblock %}
-
 {% block content %}
     <div class="container">
         <div class="row">
@@ -9,8 +7,7 @@
                 <h1>My Profile</h1>
                 <div class="">
                     {% if request.user.photo %}
-                        <p class="m-0"><strong>Photo:</strong></p>
-                        <div class="avatar rounded-circle" style="background-image: url('{{ request.user.photo.url }}'); "></div>
+                        <div class="avatar mb-3" style="background-image: url('{{ request.user.photo.url }}'); "></div>
                     {% endif %}
                 </div>
                 <div>

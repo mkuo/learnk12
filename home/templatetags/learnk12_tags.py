@@ -136,7 +136,7 @@ def google_fonts_import_url():
 
 @register.simple_tag
 def feedback_page(subject):
-    page = SiteFeedbackPage.objects.live().public()
+    page = SiteFeedbackPage.objects.live().public()[0]
     if page:
         url_string = page.url
         url_parsed = parse.urlparse(url_string)

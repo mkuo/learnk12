@@ -45,9 +45,9 @@
                     <div class="avatar rounded-circle" style="background-image: url('https://therminic2018.eu/wp-content/uploads/2018/07/dummy-avatar.jpg'); "></div>
                 {% endif %}
                 </a>
-                <a class="btn btn-info my-2 my-sm-0" href="{% url "account_logout" %}">Logout</a>
+                <a class="btn btn-outline-info my-2 my-sm-0" href="{% url "account_logout" %}">Logout</a>
             {% else %}
-                <a class="btn btn-info my-2 my-sm-0" href="{% url "account_login" %}">Log-in</a>
+                <a class="btn btn-info my-2 my-sm-0" href="{% url "account_login" %}">Login</a>
             {% endif %}
         </form>
         {% comment %}

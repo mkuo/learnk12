@@ -6,38 +6,34 @@
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
 {% block content %}
-    <div class="container h-100">
-        <div class="row h-100 justify-content-center align-items-center">
-            <div class="col-10 col-md-8 col-lg-6">
-                <h1>{% trans "Sign In" %}</h1>
-                <p>{% blocktrans %}If you have not created an account yet, then please
-                    <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-                <form class="login" method="POST" action="{% url 'account_login' %}">
-                    {% csrf_token %}
-                    {{ form.non_field_errors }}
-                    {{ form.username.errors }}
-                    {{ form.password.errors }}
-                    <label for="username">Username:</label>
-                    <div class="form-group">
-                        <input type="text" class="form-control username" id="id_login" name="{{ form.login.name }}"
-                               placeholder="Username">
-                    </div>
-                    <label for="password">Password:</label>
-                    <div class="form-group">
-                        <input type="password" class="form-control username" id="id_password"
-                               name="{{ form.password.name }}"
-                               placeholder="Password">
-                    </div>
-                    <p>Remember Me: {{ form.remember }}</p>
-                    {% if redirect_field_value %}
-                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-                    {% endif %}
-                    <button class="btn btn-info btn-block" type="submit">{% trans "Sign In" %}</button>
-                </form>
-                <small style="float: left;"><a href="{% url 'account_reset_password' %}">Forgot Password?</a></small>
-            </div>
+    <h1>{% trans "Sign In" %}</h1>
+    <p>{% blocktrans %}If you have not created an account yet, then please
+        <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+    <form class="login" method="POST" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {{ form.username.errors }}
+        {{ form.password.errors }}
+        <label for="id_login">Username:</label>
+        <div class="form-group">
+            <input type="text" class="form-control username" id="id_login" name="{{ form.login.name }}"
+                   placeholder="Username">
         </div>
-    </div>
-
+        <label for="id_password">Password:</label>
+        <div class="form-group">
+            <input type="password" class="form-control username" id="id_password"
+                   name="{{ form.password.name }}"
+                   placeholder="Password">
+        </div>
+        <div class="my-1">
+            <span class="mr-1">Remember Me</span>
+            <span>{{ form.remember }}</span>
+        </div>
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
+        <button class="btn btn-info btn-block" type="submit">{% trans "Sign In" %}</button>
+    </form>
+    <small><a href="{% url 'account_reset_password' %}">Forgot Password?</a></small>
 {% endblock %}
 
