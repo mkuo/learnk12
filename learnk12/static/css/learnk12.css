@@ -103,3 +103,11 @@ section {
 .smaller {
     font-size: 92%;
 }
+
+.rich-text h2,
+.rich-text h3,
+.rich-text h4,
+.rich-text hr {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
