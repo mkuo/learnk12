@@ -18,7 +18,7 @@ class Command(BaseCommand):
         if len(oversized_images) > 0:
             for idx, img in enumerate(oversized_images, 1):
                 print("{}. {}".format(idx, img.title))
-                print("Check complete.")
+            print("Check complete.")
         else:
             print("No oversized course images.")
 
