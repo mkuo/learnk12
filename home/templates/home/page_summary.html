@@ -35,7 +35,7 @@
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">description</i></div>
         <div class="ml-1">
-            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Lesson Type:</span>
+            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Lessons:</span>
             <span>{{ page.lesson_type_tags.all|dictsort:"name"|join:", " }}</span>
         </div>
     </div>
@@ -55,7 +55,7 @@
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">ondemand_video</i></div>
         <div class="ml-1">
-            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Platform:</span>
+            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Platforms:</span>
             <span>{{ page.platform_tags.all|dictsort:"name"|join:", " }}</span>
         </div>
     </div>
@@ -75,7 +75,7 @@
     <div class="d-flex flex-50 {{ icon_div_cls }}">
         <div><i class="material-icons text-secondary">keyboard</i></div>
         <div class="ml-1">
-            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Language:</span>
+            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Languages:</span>
             <span>{{ page.programming_language_tags.all|dictsort:"name"|join:", " }}</span>
         </div>
     </div>
