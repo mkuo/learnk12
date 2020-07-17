@@ -20,5 +20,5 @@ class Command(BaseCommand):
                 print("{}. {}".format(idx, img.title))
                 print("Check complete.")
         else:
-            print("No unused images.")
+            print("No oversized course images.")
 
