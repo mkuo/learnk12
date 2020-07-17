@@ -84,6 +84,8 @@ def render_age_range(age_low, age_high):
 def render_cost(cost_amount, cost_interval):
     if cost_amount is None or cost_interval is None:
         return ''
+    elif cost_amount == 0:
+        return 'Free'
     elif cost_interval == CostInterval.LIFETIME:
         return '${}'.format(round(cost_amount))
     else:
