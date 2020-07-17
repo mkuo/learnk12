@@ -2,21 +2,40 @@
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block title %}{% trans "Signup" %}{% endblock %}
 
-{% load crispy_forms_tags %}
-
-{% block title %}Create an account{% endblock %}
+{% load crispy_forms_tags wagtailcore_tags %}
 {% block body_in_container %}
     <div class="container h-100">
         <div class="row h-100 justify-content-center align-items-center">
             <div class="col-10 col-md-8 col-lg-6">
                 <h1>{% trans "Sign Up" %}</h1>
-            {% url 'account_login' as login_url %}
-                <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+                {% url 'account_login' as login_url %}
+                <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>
+                    .{% endblocktrans %}</p>
                 <form action="" method="post" enctype="multipart/form-data">
                     {{ form|crispy }}
                     {% csrf_token %}
+                    <div class="row mb-1">
+                        <div class="col smaller text-muted">
+                            <input class="d-inline mr-2" type="checkbox" required>
+                            {% slugurl 'privacy-policy' as privacy_policy_link %}
+                            <label class="d-inline">
+                                I have read the <a href="{{ privacy_policy_link|default:'#' }}">Privacy Policy</a>. I
+                                understand my name and email are <strong>not shared</strong> and are used internally for
+                                <strong>feedback purposes only</strong>.
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col smaller text-muted">
+                            <input class="d-inline mr-2" type="checkbox" required>
+                            <label class="d-inline">
+                                I am 18 years of age or older, or I have the consent of my parent or guardian submit
+                                this request.
+                            </label>
+                        </div>
+                    </div>
                     <p><input class="btn btn-info btn-block" type="submit" value="Create my account"></p>
                 </form>
             </div>

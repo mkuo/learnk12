@@ -1,6 +1,8 @@
 {% extends "account/account_base.html" %}
 
-{% block title %}Dashboard{% endblock %}
+{% load i18n %}
+
+{% block title %}{% trans "Profile" %}{% endblock %}
 
 {% block content %}
     <div class="container">
@@ -24,10 +26,6 @@
                 <div>
                     <p class="m-0"><strong>Email:</strong></p>
                     <p>{{ request.user.email }}</p>
-                </div>
-                <div>
-                    <p class="m-0"><strong>Birth Date:</strong></p>
-                    <p>{{ request.user.birth_date }}</p>
                 </div>
                 <a class="btn btn-primary" href="{% url 'update_profile' %}">Update Profile</a>
             </div>

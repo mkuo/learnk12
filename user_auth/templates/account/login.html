@@ -3,8 +3,7 @@
 {% load i18n %}
 {% load account socialaccount %}
 
-{% block head_title %}{% trans "Sign In" %}{% endblock %}
-
+{% block title %}{% trans "Sign In" %}{% endblock %}
 {% block content %}
     <div class="container h-100">
         <div class="row h-100 justify-content-center align-items-center">
@@ -12,7 +11,7 @@
                 <h1>{% trans "Sign In" %}</h1>
                 <p>{% blocktrans %}If you have not created an account yet, then please
                     <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-                <form class="login" method="POST" action="{% url 'account_login' %}">
+                <form class="login" method="POST" action="{% url 'account_login' %}?next={{ '/' }}">
                     {% csrf_token %}
                     {{ form.non_field_errors }}
                     {{ form.username.errors }}

@@ -14,7 +14,6 @@ class SignUpPageTests(TestCase):
                          data={'first_name': 'fjohndoe',
                                'last_name': 'ljohndoe',
                                'email': 'john@examples.org',
-                               'birth_date': '1995-12-11',
                                'password1': 'VeryHardPassword',
                                'password2': 'VeryHardPassword'})
         self.assertEqual(User.objects.filter(email='john@examples.org').count(), 1)
@@ -24,27 +23,16 @@ class SignUpPageTests(TestCase):
                                 data={'first_name': 'fjohndoe',
                                       'last_name': 'ljohndoe',
                                       'email': 'john@examples.org',
-                                      'birth_date': '1995-12-11',
                                       'password1': 'johndoe',
                                       'password2': 'janedoe'})
         self.assertFormError(resp, 'form', 'password2', 'The two password fields didn’t match.')
 
-    def test_failed_birth_date_signup(self):
-        self.client.post(reverse('signup'),
-                         data={'first_name': 'fjohndoe',
-                               'last_name': 'ljohndoe',
-                               'email': 'john@examples.org',
-                               'birth_date': '2010-12-11',
-                               'password1': 'VeryHardPassword',
-                               'password2': 'VeryHardPassword'})
-        self.assertEqual(User.objects.filter(email='john@examples.org').count(), 0)
 
     def test_low_password_signup(self):
         self.client.post(reverse('signup'),
                          data={'first_name': 'fjohndoe',
                                'last_name': 'ljohndoe',
                                'email': 'john@examples.org',
-                               'birth_date': '1995-12-11',
                                'password1': 'fjohndoe',
                                'password2': 'fjohndoe'})
         self.assertEqual(User.objects.filter(email='john@examples.org').count(), 0)
@@ -120,7 +108,6 @@ class ChangeReviews(TestCase):
                          data={'first_name': 'fjohndoe',
                                'last_name': 'ljohndoe',
                                'email': 'test@mail.com',
-                               'birth_date': '1995-12-11',
                                'password1': 'VeryHardPassword',
                                'password2': 'VeryHardPassword'})
         review = CourseReview.objects.filter(subject='Some Text').first()
@@ -139,7 +126,6 @@ class ChangeSiteFeedback(TestCase):
                          data={'first_name': 'fjohndoe',
                                'last_name': 'ljohndoe',
                                'email': 'test@mail.com',
-                               'birth_date': '1995-12-11',
                                'password1': 'VeryHardPassword',
                                'password2': 'VeryHardPassword'})
         site_feedback = SiteFeedback.objects.filter(subject='Some subject').first()

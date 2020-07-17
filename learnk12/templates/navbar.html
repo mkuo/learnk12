@@ -7,7 +7,7 @@
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
             aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
@@ -21,35 +21,43 @@
                            data-toggle="dropdown"
                            aria-haspopup="true"
                            aria-expanded="false">
-                            {{ parent.title}}
+                            {{ parent.title }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             {% for child in children %}
-                            <a class="dropdown-item" href="{% slugurl child.page.slug %}">{{ child.title }}</a>
+                                <a class="dropdown-item" href="{% slugurl child.page.slug %}">{{ child.title }}</a>
                             {% endfor %}
                         </div>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% slugurl parent.page.slug %}">{{ parent.title}}</a>
+                        <a class="nav-link" href="{% slugurl parent.page.slug %}">{{ parent.title }}</a>
                     </li>
                 {% endif %}
             {% endfor %}
         </ul>
-            <form class="form-inline my-2 my-lg-0">
-            {% if request.user.is_authenticated %}
-                <a href="{% url 'profile' %}" class="pr-2">
+        <div class="dropdown">
+            <a id="dropdownMenuLink" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false">
                 {% if request.user.photo %}
-                    <div class="avatar rounded-circle" style="background-image: url('{{ request.user.photo.url }}'); "></div>
+                    <div class="avatar rounded-circle"
+                         style="background-image: url('{{ request.user.photo.url }}'); "></div>
                 {% else %}
-                    <div class="avatar rounded-circle" style="background-image: url('https://therminic2018.eu/wp-content/uploads/2018/07/dummy-avatar.jpg'); "></div>
+                    <div class="avatar rounded-circle"><img src="{% static 'favicon/user.svg' %}" alt="user"></div>
                 {% endif %}
-                </a>
-                <a class="btn btn-info my-2 my-sm-0" href="{% url "account_logout" %}">Logout</a>
-            {% else %}
-                <a class="btn btn-info my-2 my-sm-0" href="{% url "account_login" %}">Log-in</a>
-            {% endif %}
-        </form>
+            </a>
+            <div class="dropdown-menu user-dropdown" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                <div class="dropdown-divider"></div>
+                {% if request.user.is_authenticated %}
+                    <form action="{% url "account_logout" %}" method="post">
+                        {% csrf_token %}
+                        <button class="dropdown-item" type="submit">Logout</button>
+                    </form>
+                {% else %}
+                    <a class="dropdown-item" href="{% url "account_login" %}">Log-in</a>
+                {% endif %}
+            </div>
+        </div>
         {% comment %}
         <a class="nav-link px-0 text-info" href="#">Register or Sign in</a>
         {% endcomment %}

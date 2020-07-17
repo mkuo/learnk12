@@ -37,6 +37,5 @@ def update_profile(request):
         else:
             return render(request, 'account/update_profile.html', {'form': form})
 
-    form = UpdateProfile(initial={'first_name': request.user.first_name, 'last_name': request.user.last_name,
-                                  'birth_date': request.user.birth_date, 'photo': request.user.photo})
+    form = UpdateProfile(initial={'first_name': request.user.first_name, 'last_name': request.user.last_name})
     return render(request, 'account/update_profile.html', {'form': form})
