@@ -24,7 +24,7 @@
         </thead>
         <tbody>
             {% for page in courses %}
-                <tr style="transform: rotate(0);">
+                <tr onclick="window.location='{{ page.url }}';" style="cursor: pointer;">
                     <td class="d-none d-lg-table-cell">
                         <div class="py-2">
                         {% with page.course_images.all|first as first_image %}
@@ -40,7 +40,7 @@
                     </td>
                     <td>
                         <div>
-                        <a href="{{ page.url }}" class="stretched-link lead font-weight-bold darkslategray mr-1">
+                        <a href="{{ page.url }}" class="lead font-weight-bold darkslategray mr-1">
                             {{ page.title }}
                         </a>
                         </div>
