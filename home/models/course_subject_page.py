@@ -58,6 +58,7 @@ class CourseSubjectPage(Page):
             course_query = course_query.order_by(F(sort_arg[1:]).desc(nulls_last=True))
         else:
             course_query = course_query.order_by(F(sort_arg).asc(nulls_last=True))
+        course_query = course_query.order_by('title')
 
         age_filter = Q()
         for age_group in age_args:
