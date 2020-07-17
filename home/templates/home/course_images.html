@@ -10,12 +10,11 @@
                     data-target="#imageModal"
                     original="{{ img_original.url }}"
                     image-title="{{ page.title }}: {{ course_image.image.title }}">
-                {% image course_image.image fill-320x240 as img %}
-                <div
-                    style="background-image: url('{{ img.url }}')"
+                {% image course_image.image height-240 as img %}
+                <img
+                    src="{{ img.url }}"
                     class="thumbnail-lg figure-img rounded mr-2 mb-1 border shadow-sm"
                     alt="{{ course_image.image.title }}">
-                </div>
                 <figcaption class="figure-caption">{{ course_image.caption }}</figcaption>
             </figure>
         </div>
