@@ -24,12 +24,17 @@
         </thead>
         <tbody>
             {% for page in courses %}
-                <tr style="transform: rotate(0);">
+                <tr onclick="window.location='{{ page.url }}';" style="cursor: pointer;">
                     <td class="d-none d-lg-table-cell">
                         <div class="py-2">
                         {% with page.course_images.all|first as first_image %}
                             {% if first_image %}
-                                {% image first_image.image fill-180x120 class="rounded border shadow-sm" %}
+                                {% image first_image.image fill-180x120 as img %}
+                                <div
+                                    style="background-image: url('{{ img.url }}')"
+                                    class="thumbnail rounded border shadow-sm"
+                                    alt="{{ course_image.image.title }}">
+                                </div>
                             {% else %}
                                 <div class="img-rect bg-light text-center rounded border shadow-sm">
                                     <i class="material-icons font-size-48 text-secondary centered">menu_book</i>
@@ -40,7 +45,7 @@
                     </td>
                     <td>
                         <div>
-                        <a href="{{ page.url }}" class="stretched-link lead font-weight-bold darkslategray mr-1">
+                        <a href="{{ page.url }}" class="lead font-weight-bold darkslategray mr-1">
                             {{ page.title }}
                         </a>
                         </div>

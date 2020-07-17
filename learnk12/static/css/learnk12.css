@@ -103,3 +103,28 @@ section {
 .smaller {
     font-size: 92%;
 }
+
+.rich-text h2,
+.rich-text h3,
+.rich-text h4,
+.rich-text hr {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.thumbnail-lg {
+    height: 240px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #f7f7f7;
+    background-size: cover;
+}
+
+.thumbnail {
+    width: 180px;
+    height: 120px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #f7f7f7;
+    background-size: cover;
+}

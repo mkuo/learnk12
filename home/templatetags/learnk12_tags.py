@@ -1,5 +1,7 @@
 import re
 from collections import defaultdict
+
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template import Library
 from django.template.defaultfilters import pluralize
 from urllib import parse
@@ -84,10 +86,12 @@ def render_age_range(age_low, age_high):
 def render_cost(cost_amount, cost_interval):
     if cost_amount is None or cost_interval is None:
         return ''
+    elif cost_amount == 0:
+        return 'Free'
     elif cost_interval == CostInterval.LIFETIME:
-        return '${}'.format(round(cost_amount))
+        return '${}'.format(intcomma(round(cost_amount)))
     else:
-        return '${}/{}'.format(round(cost_amount), CostInterval(cost_interval).value)
+        return '${}/{}'.format(intcomma(round(cost_amount)), CostInterval(cost_interval).value)
 
 
 @register.filter

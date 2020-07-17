@@ -13,7 +13,6 @@ class HomePage(Page):
         'AllCoursesPage',
         'AllProvidersPage',
         'InfoPage',
-        'ProviderPage',
         'SiteFeedbackPage',
         'TutorsPage',
         'AllBlogsPage',

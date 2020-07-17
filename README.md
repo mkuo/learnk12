@@ -40,6 +40,7 @@ DDOS mitigatios was initially set up according to [this guide](https://www.nginx
 
 To run custom Django commands, see command files in `learnk12/home/management/commands`.
 ```
+(venv) [mike@learnk12 learnk12 (master)]$ export DJANGO_SETTINGS_MODULE="learnk12.settings.production"
 (venv) [mike@learnk12 learnk12 (master)]$ ./manage.py update_courses_agg_fields
 ```
 

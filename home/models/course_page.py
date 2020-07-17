@@ -116,6 +116,11 @@ class CoursePage(Page):
     def override_description(self):
         return BeautifulSoup(self.description, features='html5lib').get_text(' ', True)
 
+    def full_clean(self, *args, **kwargs):
+        super(CoursePage, self).full_clean(*args, **kwargs)
+        if self.provider.slug not in self.slug:
+            self.slug = self.slug + '-' + self.provider.slug
+
     @staticmethod
     def _get_sort_data(request):
         sort_columns = {
