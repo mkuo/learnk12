@@ -1,7 +1,7 @@
 {% load wagtailimages_tags %}
 
 {% if page.course_images %}
-<div class="overflow-auto text-nowrap mb-1">
+<div class="overflow-auto text-nowrap mb-1 rounded bg-light pt-3 px-3 pb-0">
     {% for course_image in page.course_images.all %}
         <div class="d-inline">
             {% image course_image.image original as img_original %}
