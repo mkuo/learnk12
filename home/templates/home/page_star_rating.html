@@ -2,7 +2,7 @@
 
 <div class="{{ inline|yesno:'mb-2,text-right'}}">
     {% if false %}
-        <div class="text-nowrap {{ inline|yesno:'d-inline pr-1,'}} vert-adj-top-1">
+        <div class="d-inline-block text-nowrap {{ inline|yesno:'d-inline pr-1,'}} vert-adj-top-1">
             {% for icon in page.avg_score|get_stars %}
                 <i class="material-icons font-size-20 md-narrow align-middle text-warning">{{ icon }}</i>
             {% endfor %}
@@ -11,7 +11,7 @@
             {{ page.review_count }} review{{ page.review_count | pluralize }}
         </div>
     {% else %}
-        <div class="text-nowrap text-secondary {{ inline|yesno:'d-inline pr-1,'}}">
+        <div class="d-inline-block text-nowrap text-secondary {{ inline|yesno:'d-inline pr-1,'}}">
             {% for i in 5|times %}
                 <i class="material-icons font-size-20 md-narrow align-middle">star_outline</i>
             {% endfor %}
