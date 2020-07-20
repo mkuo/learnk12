@@ -14,8 +14,8 @@ class HomePage(Page):
         'AllProvidersPage',
         'InfoPage',
         'SiteFeedbackPage',
-        'TutorsPage',
-        'AllBlogsPage',
+        'TutorPage',
+        'AllTutorsPage',
     ]
     heading = models.CharField(max_length=255)
     caption = models.TextField(blank=True, null=True)

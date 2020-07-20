@@ -6,7 +6,7 @@ from wagtail.contrib.modeladmin.options import (
 )
 from wagtail.core import hooks
 
-from home.models import SiteFeedback
+from home.models import SiteFeedback, TutorReview
 from home.models.course_review import CourseReview
 from home.models.menu_item import MenuItem
 
@@ -19,6 +19,17 @@ class CourseReviewAdmin(ModelAdmin):
     exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
     list_display = ['course_page', 'name', 'email', 'publish_date', 'subject', 'score']
     list_filter = ['course_page', 'publish_date', 'reviewer_type', 'score']
+    search_fields = ['subject', 'description', 'name', 'email']
+
+
+class TutorReviewAdmin(ModelAdmin):
+    model = TutorReview
+    menu_icon = 'form'  # change as required
+    menu_order = 350  # (000 being 1st, 100 2nd)
+    add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
+    exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
+    list_display = ['tutor_page', 'name', 'email', 'publish_date', 'subject', 'score']
+    list_filter = ['tutor_page', 'publish_date', 'reviewer_type', 'score']
     search_fields = ['subject', 'description', 'name', 'email']
 
 
@@ -58,6 +69,7 @@ modeladmin_register(CourseReviewAdmin)
 modeladmin_register(MenuItemAdmin)
 modeladmin_register(SiteFeedbackAdmin)
 modeladmin_register(TagAdmin)
+modeladmin_register(TutorReviewAdmin)
 
 
 @hooks.register('register_admin_search_area')
@@ -68,3 +80,8 @@ def register_frank_search_area():
 @hooks.register('register_admin_search_area')
 def register_frank_search_area():
     return SearchArea('Tags', '/admin/taggit/tag/', classnames='icon icon-tag', order=300)
+
+
+@hooks.register('register_admin_search_area')
+def register_frank_search_area():
+    return SearchArea('Tutor Reviews', '/admin/home/tutorreview/', classnames='icon icon-form', order=250)

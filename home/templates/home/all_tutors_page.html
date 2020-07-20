@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="canonical" href="{{ page.full_url }}"/>
+    <meta property="og:url" content="{{ page.full_url }}"/>
+{% endblock %}
+
+{% block body_in_container %}
+    <h1>{{ page.title }}</h1>
+    <div id="tutors-table">
+        <h1>{{ page.heading }}</h1>
+        {% if page.caption %}
+            <p>{{ page.caption }}</p>
+        {% endif %}
+        {% include 'home/query_buttons.html' with anchor='#tutors-table' include_search=True %}
+        {% include 'home/tutor_table.html' with tutors=tutors_paged %}
+        {% include 'home/page_buttons.html' with anchor='#tutors-table' %}
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        /** Prevents bugs with browser extensions */
+        const suppressEnterPropagation = () => {
+            $('#search-input').keydown(event => {
+                if (event.keyCode == 13) {
+                    event.stopPropagation();
+                }
+                ;
+            });
+        };
+        suppressEnterPropagation();
+        const getPagedData = (url, arg_selector = null) => {
+            gaTry(() => {
+                if (arg_selector) {
+                    url = encodeURI(url + $(arg_selector).val());
+                }
+                ;
+                const anchor = '#tutors-table';
+
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function (data) {
+                        $(anchor).html($(anchor, data));
+                        $('html,body').animate({
+                            scrollTop: $(anchor).offset().top
+                        }, 'fast');
+                        suppressEnterPropagation();
+
+                    },
+                    error: function (xhr, status, error) {
+                        ga('send', 'exception', {
+                            'exDescription': xhr.responseText,
+                            'exFatal': false
+                        });
+                    }
+                });
+
+            });
+        };
+    </script>
+{% endblock extra_js %}

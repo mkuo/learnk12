@@ -1,0 +1,72 @@
+{% load humanize learnk12_tags wagtailimages_tags %}
+
+{% if paging_data %}
+    <div class="d-flex justify-content-between">
+        <small class="text-muted">{% page_result_figures paging_data %}</small>
+        {% feedback_page 'Suggest a tutor on '|add:page.subject as feedback_page_url %}
+        {% if feedback_page_url %}
+            <small><a href="{{ feedback_page_url }}">Suggest a tutor</a></small>
+        {% endif %}
+    </div>
+{% endif %}
+<div class="table-responsive">
+    <table class="table table-hover border-bottom">
+        <thead class="thead-light">
+        <tr>
+            <th class="d-none d-lg-table-cell"></th>
+            <th class="d-none d-lg-table-cell">Tutor</th>
+            <th class="d-none d-lg-table-cell text-nowrap">Timezone</th>
+            <th class="d-none d-lg-table-cell text-nowrap">Price</th>
+            <th class="d-none d-lg-table-cell text-right">Reviews</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for page in tutors %}
+            {% if page.public %}
+
+                <tr style="transform: rotate(0);">
+                    <td class="d-none d-lg-table-cell">
+                        <div class="py-2">
+                            {% if page.user.photo %}
+                                <img src="{{ page.user.photo.url }}" alt="user_photo" class="rounder border shadow-sm"
+                                     style="width: 120px">
+                            {% else %}
+                                <div class="avatar rounded-circle"
+                                     style="background-image: url('https://therminic2018.eu/wp-content/uploads/2018/07/dummy-avatar.jpg');">
+                                </div>
+                                </div>
+                            {% endif %}
+                    </td>
+                    <td>
+                        <div>
+                            <a href="{{ page.url }}" class="stretched-link lead font-weight-bold darkslategray mr-1">
+                                {{ page.title }}
+                            </a>
+                        </div>
+                        <div>
+                            {{ page.course_subjects }}
+                        </div>
+                        <div>
+                            {{ page.description }}
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            {{ page.timezone }}
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            {{ page.hourly_rate }}$/h
+                        </div>
+                    </td>
+                    <td class="d-none d-lg-table-cell">
+                        {% include 'home/page_star_rating.html' %}
+                    </td>
+                </tr>
+            {% endif %}
+
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

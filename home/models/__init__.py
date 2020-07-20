@@ -13,7 +13,9 @@ from .provider_page import ProviderPage
 from .site_feedback import SiteFeedback
 from .site_feedback_page import SiteFeedbackPage
 from .tutor_detail_page import TutorDetailPage
-from .tutors_page import TutorsPage
+from .tutor_page import TutorPage
+from .tutor_review import TutorReview
+from .all_tutors_page import AllTutorsPage
 from .all_blogs_page import AllBlogsPage
 from .blog_page import BlogPage
 

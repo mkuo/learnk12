@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags humanize learnk12_tags static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_in_container %}
+    <section>
+        <h1 class="darkslategray mb-0">{{ page.title }}</h1>
+        <div class="align-items-center mb-2">
+            <a href="#reviews">
+                {% include 'home/page_star_rating.html' with inline=True %}
+            </a>
+        </div>
+        <div>
+            {% if page.user == request.user %}
+                <a class="btn btn-primary" href="{% url 'update_tutor' page.id %}">Edit</a>
+            {% endif %}
+        </div>
+    </section>
+
+    <section>
+        <div class="d-flex">
+            <h2 class="text-dark mr-3">Tutor Summary</h2>
+        </div>
+        <div class="col-lg-8 mt-2">
+            {% include 'home/page_summary.html' with icon_div_cls='py-1' %}
+        </div>
+    </section>
+    <section>
+        <h2 class="text-dark">Description</h2>
+        {{ page.description | richtext }}
+        {% feedback_page 'Suggest an edit on '|add:page.title|add:' by '|add:page.user as tutor_feedback_url %}
+        {% if tutor_feedback_url %}
+            <span>Do you have information on this tutor?</span>
+            <a href="{{ tutor_feedback_url }}">Suggest an edit</a>
+        {% endif %}
+    </section>
+    </section>
+    <section id="reviews" class="pt-2">
+        <h2 class="text-dark">Reviews</h2>
+        {% if page.page_ptr_id in request.session.reviewed_tutors %}
+            <div class="alert alert-success" role="alert">Thank you for your review! 😊</div>
+        {% endif %}
+        <div class="d-flex justify-content-between">
+            <div id="query-buttons">
+                {% if page.review_count %}{% include 'home/query_buttons.html' %}{% endif %}
+            </div>
+            {% if 'reviewed_tutors' not in request.session or page.page_ptr_id not in request.session.reviewed_tutors %}
+                <button class="btn btn-success d-none d-sm-block {{ page.review_count|yesno:',mb-2' }}"
+                        data-toggle="collapse"
+                        data-target="#write-review">
+                    <span class="align-middle">Write a review</span>
+                    <i class="material-icons font-size-16 align-middle">create</i>
+                </button>
+            {% endif %}
+        </div>
+        {% if 'reviewed_tutors' not in request.session or page.page_ptr_id not in request.session.reviewed_tutors %}
+            <button class="btn btn-success d-block d-sm-none {{ page.review_count|yesno:',mb-2' }}"
+                    data-toggle="collapse"
+                    data-target="#write-review">
+                <span class="align-middle">Write a review</span>
+                <i class="material-icons font-size-16 align-middle">create</i>
+            </button>
+        {% endif %}
+        <div id="write-review" class="border rounded p-4 my-2 bg-light collapse {{ show_form|yesno:'show,' }}">
+            <form method="post" action="{{ page.url }}#reviews">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-3">{{ form.name | as_crispy_field }}</div>
+                    <div class="col-md-3">{{ form.email | as_crispy_field }}</div>
+                    <div class="col-md-3">{{ form.reviewer_type | as_crispy_field }}</div>
+                    <div class="col-md-3">{{ form.score | as_crispy_field }}</div>
+                </div>
+                <div class="row">
+                    <div class="col">{{ form.subject | as_crispy_field }}</div>
+                </div>
+                <div class="row">
+                    <div class="col">{{ form.description | as_crispy_field }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-8">{{ form.is_anonymous | as_crispy_field }}</div>
+                    <div class="col text-right">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="tutor-reviews">
+            {% include 'home/tutor_reviews.html' %}
+            {% include 'home/page_buttons.html' %}
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        const getPagedData = (url) => {
+            gaTry(() => {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function (data) {
+                        $('#query-buttons').html($('#query-buttons', data));
+                        $('#tutor-reviews').html($('#tutor-reviews', data));
+                        $('html,body').animate({
+                            scrollTop: $('#reviews').offset().top
+                        }, 'fast')
+                    },
+                    error: function (xhr, status, error) {
+                        ga('send', 'exception', {
+                            'exDescription': xhr.responseText,
+                            'exFatal': false
+                        });
+                    }
+                });
+            });
+        };
+    </script>
+{% endblock extra_js %}

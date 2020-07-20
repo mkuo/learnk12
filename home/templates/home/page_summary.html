@@ -2,82 +2,134 @@
 
 <div class="d-flex flex-wrap">
     {% if page.age_low is not None or page.age_high is not None %}
-    <div class="d-flex flex-50 {{ icon_div_cls }}">
-        <div><i class="material-icons text-secondary">face</i></div>
-        <div class="ml-1">
-            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Age:</span>
-            <span class="text-nowrap">{{ page.age_low|render_age_range:page.age_high }}</span>
+        <div class="d-flex flex-50 {{ icon_div_cls }}">
+            <div><i class="material-icons text-secondary">face</i></div>
+            <div class="ml-1">
+                <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Age:</span>
+                <span class="text-nowrap">{{ page.age_low|render_age_range:page.age_high }}</span>
+            </div>
         </div>
-    </div>
     {% endif %}
 
     {% if page.cost_amount is not None and page.cost_interval is not None %}
-    <div class="d-flex flex-50 {{ icon_div_cls }}">
-        <div><i class="material-icons text-secondary">payment</i></div>
-        <div class="ml-1">
-            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Cost:</span>
-            <span class="text-nowrap">{{ page.cost_amount|render_cost:page.cost_interval }}</span>
+        <div class="d-flex flex-50 {{ icon_div_cls }}">
+            <div><i class="material-icons text-secondary">payment</i></div>
+            <div class="ml-1">
+                <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Cost:</span>
+                <span class="text-nowrap">{{ page.cost_amount|render_cost:page.cost_interval }}</span>
+            </div>
         </div>
-    </div>
     {% endif %}
 
     {% if page.difficulty is not None %}
-    <div class="d-flex flex-50 {{ icon_div_cls }}">
-        <div><i class="material-icons text-secondary">signal_cellular_alt</i></div>
-        <div class="ml-1">
-            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Difficulty:</span>
-            <span class="text-nowrap">{{ page.difficulty | render_course_difficulty }}</span>
+        <div class="d-flex flex-50 {{ icon_div_cls }}">
+            <div><i class="material-icons text-secondary">signal_cellular_alt</i></div>
+            <div class="ml-1">
+                <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Difficulty:</span>
+                <span class="text-nowrap">{{ page.difficulty | render_course_difficulty }}</span>
+            </div>
         </div>
-    </div>
     {% endif %}
 
     {% if page.lesson_type_tags.count > 0 %}
-    <div class="d-flex flex-50 {{ icon_div_cls }}">
-        <div><i class="material-icons text-secondary">description</i></div>
-        <div class="ml-1">
-            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Lessons:</span>
-            <span>{{ page.lesson_type_tags.all|dictsort:"name"|join:", " }}</span>
+        <div class="d-flex flex-50 {{ icon_div_cls }}">
+            <div><i class="material-icons text-secondary">description</i></div>
+            <div class="ml-1">
+                <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Lesson Type:</span>
+                <span>{{ page.lesson_type_tags.all|dictsort:"name"|join:", " }}</span>
+            </div>
         </div>
-    </div>
     {% endif %}
 
     {% if page.course_length_hours is not None %}
-    <div class="d-flex flex-50 {{ icon_div_cls }}">
-        <div><i class="material-icons text-secondary">schedule</i></div>
-        <div class="ml-1">
-            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Duration:</span>
-            <span class="text-nowrap">{{ page.course_length_hours | render_duration }}</span>
+        <div class="d-flex flex-50 {{ icon_div_cls }}">
+            <div><i class="material-icons text-secondary">schedule</i></div>
+            <div class="ml-1">
+                <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Duration:</span>
+                <span class="text-nowrap">{{ page.course_length_hours | render_duration }}</span>
+            </div>
         </div>
-    </div>
     {% endif %}
 
     {% if page.platform_tags.count > 0 %}
-    <div class="d-flex flex-50 {{ icon_div_cls }}">
-        <div><i class="material-icons text-secondary">ondemand_video</i></div>
-        <div class="ml-1">
-            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Platforms:</span>
-            <span>{{ page.platform_tags.all|dictsort:"name"|join:", " }}</span>
+        <div class="d-flex flex-50 {{ icon_div_cls }}">
+            <div><i class="material-icons text-secondary">ondemand_video</i></div>
+            <div class="ml-1">
+                <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Platform:</span>
+                <span>{{ page.platform_tags.all|dictsort:"name"|join:", " }}</span>
+            </div>
         </div>
-    </div>
     {% endif %}
 
     {% if page.scheduled is not None %}
-    <div class="d-flex flex-50 {{ icon_div_cls }}">
-        <div><i class="material-icons text-secondary">calendar_today</i></div>
-        <div class="ml-1">
-            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Schedule:</span>
-            <span>{{ page.scheduled|yesno:'Yes,No' }}</span>
+        <div class="d-flex flex-50 {{ icon_div_cls }}">
+            <div><i class="material-icons text-secondary">calendar_today</i></div>
+            <div class="ml-1">
+                <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Schedule:</span>
+                <span>{{ page.scheduled|yesno:'Yes,No' }}</span>
+            </div>
         </div>
-    </div>
     {% endif %}
 
     {% if page.programming_language_tags.count > 0 %}
-    <div class="d-flex flex-50 {{ icon_div_cls }}">
-        <div><i class="material-icons text-secondary">keyboard</i></div>
-        <div class="ml-1">
-            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Languages:</span>
-            <span>{{ page.programming_language_tags.all|dictsort:"name"|join:", " }}</span>
+        <div class="d-flex flex-50 {{ icon_div_cls }}">
+            <div><i class="material-icons text-secondary">keyboard</i></div>
+            <div class="ml-1">
+                <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Language:</span>
+                <span>{{ page.programming_language_tags.all|dictsort:"name"|join:", " }}</span>
+            </div>
         </div>
-    </div>
+    {% endif %}
+    {% if page.course_subjects is not None %}
+        <div class="d-flex flex-50 {{ icon_div_cls }}">
+            <div><i class="material-icons text-secondary">description</i></div>
+            <div class="ml-1">
+                <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Course subject:</span>
+                <span>{{ page.course_subjects }}</span>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if page.hourly_rate is not None %}
+        <div class="d-flex flex-50 {{ icon_div_cls }}">
+            <div><i class="material-icons text-secondary">payment</i></div>
+            <div class="ml-1">
+                <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Cost:</span>
+                <span class="text-nowrap">{{ page.hourly_rate }}$/h</span>
+            </div>
+        </div>
+    {% endif %}
+    {% if page.user.email is not None %}
+        <div class="d-flex flex-50 {{ icon_div_cls }}">
+            <div><i class="material-icons text-secondary">face</i></div>
+            <div class="ml-1">
+                <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">User:</span>
+
+                <span class="text-nowrap" id="user_email">{{ page.user.email }}</span>
+                <a style="color: blue" id="show">Show email</a>
+            </div>
+        </div>
+    {% endif %}
+    {% if page.timezone is not None %}
+        <div class="d-flex flex-50 {{ icon_div_cls }}">
+            <div><i class="material-icons text-secondary">schedule</i></div>
+            <div class="ml-1">
+                <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Timezone:</span>
+                <span class="text-nowrap">{{ page.timezone }}</span>
+            </div>
+        </div>
     {% endif %}
 </div>
+
+{% block extra_js %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#user_email").hide();
+            $("#show").click(function () {
+                $("#user_email").show();
+                $("#show").hide();
+            });
+        });
+    </script>
+{% endblock %}
