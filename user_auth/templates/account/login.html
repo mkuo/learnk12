@@ -3,7 +3,7 @@
 {% load i18n %}
 {% load account socialaccount %}
 
-{% block title %}{% trans "Sign In" %}{% endblock %}
+{% block title %}{% trans "Sign In | Learn K12" %}{% endblock %}
 {% block content %}
     <div class="container h-100">
         <div class="row h-100 justify-content-center align-items-center">
@@ -16,10 +16,10 @@
                     {{ form.non_field_errors }}
                     {{ form.username.errors }}
                     {{ form.password.errors }}
-                    <label for="username">Username:</label>
+                    <label for="username">Email:</label>
                     <div class="form-group">
                         <input type="text" class="form-control username" id="id_login" name="{{ form.login.name }}"
-                               placeholder="Username">
+                               placeholder="Email">
                     </div>
                     <label for="password">Password:</label>
                     <div class="form-group">
