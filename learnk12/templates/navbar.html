@@ -7,7 +7,7 @@
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
             aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+    <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
@@ -21,17 +21,17 @@
                            data-toggle="dropdown"
                            aria-haspopup="true"
                            aria-expanded="false">
-                            {{ parent.title }}
+                            {{ parent.title}}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             {% for child in children %}
-                                <a class="dropdown-item" href="{% slugurl child.page.slug %}">{{ child.title }}</a>
+                            <a class="dropdown-item" href="{% slugurl child.page.slug %}">{{ child.title }}</a>
                             {% endfor %}
                         </div>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% slugurl parent.page.slug %}">{{ parent.title }}</a>
+                        <a class="nav-link" href="{% slugurl parent.page.slug %}">{{ parent.title}}</a>
                     </li>
                 {% endif %}
             {% endfor %}
