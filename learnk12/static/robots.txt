@@ -1,6 +1,7 @@
 User-agent: *
 Disallow: /admin/
 Disallow: /django-admin/
+Disallow: /accounts/
 
 Host: https://www.learnk12.org
 Sitemap: https://www.learnk12.org/sitemap.xml

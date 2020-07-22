@@ -18,12 +18,14 @@ class SiteFeedbackPage(Page):
     ]
 
     def process_form(self, request, context):
-        form = SiteFeedbackForm(request.POST)
+        user = request.user if request.user.is_authenticated else None
+        form = SiteFeedbackForm(request.POST, user=user)
         do_redirect = False
         if form.is_valid():
             obj = form.save(commit=False)
+            obj.user = user
             obj.save()
-            request.session['submitted_feedback'] = form.cleaned_data['category']
+            request.session['submitted_feedback'] = form.cleaned_data['subject']
             do_redirect = True
         else:
             context['form'] = form
@@ -34,8 +36,9 @@ class SiteFeedbackPage(Page):
     def get_context(self, request):
         context = super().get_context(request)
         subject = request.GET.get('subject', '')
+        user = request.user if request.user.is_authenticated else None
         context['form'] = SiteFeedbackForm(
-            initial={'subject': unescape(subject)}
+            initial={'subject': unescape(subject)}, user=user
         )
         return context
 

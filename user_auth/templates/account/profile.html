@@ -1,0 +1,34 @@
+{% extends "account/account_base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Profile | Learn K12" %}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>My Profile</h1>
+                <div class="">
+                    {% if request.user.photo %}
+                        <p class="m-0"><strong>Photo:</strong></p>
+                        <div class="avatar rounded-circle" style="background-image: url('{{ request.user.photo.url }}'); "></div>
+                    {% endif %}
+                </div>
+                <div>
+                    <p class="m-0"><strong>First Name:</strong></p>
+                    <p>{{ request.user.first_name }}</p>
+                </div>
+                <div>
+                    <p class="m-0"><strong>Last Name:</strong></p>
+                    <p>{{ request.user.last_name }}</p>
+                </div>
+                <div>
+                    <p class="m-0"><strong>Email:</strong></p>
+                    <p>{{ request.user.email }}</p>
+                </div>
+                <a class="btn btn-primary" href="{% url 'update_profile' %}">Update Profile</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -15,6 +15,8 @@ urlpatterns = [
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
     url(r'^sitemap\.xml$', sitemap),
+    url('accounts/', include('user_auth.urls')),
+    url('accounts/', include('allauth.urls')),
 
     url(r'^search/$', search_views.search, name='search'),
 ]
