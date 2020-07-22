@@ -37,14 +37,16 @@
             {% endfor %}
         </ul>
         {% if request.user.is_authenticated %}
-            <div class="dropdown">
+            <div class="dropdown align-bottom">
                 <a id="dropdownMenuLink" data-toggle="dropdown" type="button" aria-haspopup="true"
-                   aria-expanded="false">
+                   aria-expanded="false" class="align-middle">
                     {% if request.user.photo %}
                         <div class="avatar rounded-circle"
                              style="background-image: url('{{ request.user.photo.url }}'); "></div>
                     {% else %}
-                        <div class="avatar rounded-circle"><img class="avatar" src="{% static 'favicon/user.svg' %}" alt="user"></div>
+                        <div class="avatar rounded-circle">
+                            <img class="avatar" src="{% static 'favicon/user.svg' %}" alt="user">
+                        </div>
                     {% endif %}
                 </a>
                 <div class="dropdown-menu user-dropdown" aria-labelledby="dropdownMenuLink">
