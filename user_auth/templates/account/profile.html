@@ -11,23 +11,22 @@
                 <h1>My Profile</h1>
                 <div class="">
                     {% if request.user.photo %}
-                        <p class="m-0"><strong>Photo:</strong></p>
-                        <div class="avatar rounded-circle" style="background-image: url('{{ request.user.photo.url }}'); "></div>
+                        <div class="avatar my-2" style="background-image: url('{{ request.user.photo.url }}'); "></div>
                     {% endif %}
                 </div>
                 <div>
-                    <p class="m-0"><strong>First Name:</strong></p>
-                    <p>{{ request.user.first_name }}</p>
+                    <span class="m-0"><strong>First Name:</strong></span>
+                    <span>{{ request.user.first_name }}</span>
                 </div>
                 <div>
-                    <p class="m-0"><strong>Last Name:</strong></p>
-                    <p>{{ request.user.last_name }}</p>
+                    <span class="m-0"><strong>Last Name:</strong></span>
+                    <span>{{ request.user.last_name }}</span>
                 </div>
                 <div>
-                    <p class="m-0"><strong>Email:</strong></p>
-                    <p>{{ request.user.email }}</p>
+                    <span class="m-0"><strong>Email:</strong></span>
+                    <span>{{ request.user.email }}</span>
                 </div>
-                <a class="btn btn-primary" href="{% url 'update_profile' %}">Update Profile</a>
+                <a class="btn btn-primary mt-3" href="{% url 'update_profile' %}">Update Profile</a>
             </div>
         </div>
     </div>
