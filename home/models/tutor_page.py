@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import F, Q
 from django.shortcuts import render, redirect
+from multiselectfield import MultiSelectField
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.models import Page
 from django.db import models
@@ -20,8 +21,8 @@ class TutorPage(Page):
     parent_page_type = ['AllTutorsPage']
 
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=False)
-    course_subjects = models.CharField(max_length=255, choices=CourseSubject.choices, null=True, blank=False)
-    is_accepting_students = models.BooleanField(null=True, blank=False)
+    course_subjects = MultiSelectField(max_length=255, choices=CourseSubject.choices, null=True, blank=False)
+    is_accepting_students = models.BooleanField(null=True, blank=True)
     hourly_rate = models.PositiveIntegerField(null=True)
     timezone = models.CharField(max_length=255, choices=TIMEZONE, null=True)
     description = models.TextField(null=True)

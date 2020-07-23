@@ -6,11 +6,6 @@
 
 {% block content %}
     <div class="container">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-success" role="alert">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
         <div class="row">
             <div class="col-12">
                 <h1>My Profile</h1>
@@ -34,10 +29,6 @@
                     <p>{{ request.user.email }}</p>
                 </div>
                 <a class="btn btn-primary" href="{% url 'update_profile' %}">Update Profile</a>
-
-                <a class="btn btn-primary" href="{% url 'user_tutor' %}">Add Tutor</a>
-                <a class="btn btn-primary" href="{% url 'all_tutors' %}">All Tutors</a>
-
             </div>
         </div>
     </div>

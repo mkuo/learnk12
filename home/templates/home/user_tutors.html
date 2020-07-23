@@ -1,65 +1,70 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags humanize learnk12_tags static wagtailcore_tags wagtailimages_tags %}
 
 {% block body_in_container %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% for page in tutors %}
+        <section>
+            <h1 class="darkslategray mb-0">{{ page.title }}</h1>
 
-    <div class="table-responsive">
-        <table class="table table-hover border-bottom">
-            <thead class="thead-light">
-            <tr>
-                <th class="d-none d-lg-table-cell"></th>
-                <th class="d-none d-lg-table-cell">Tutor</th>
-                <th class="d-none d-lg-table-cell text-nowrap">Timezone</th>
-                <th class="d-none d-lg-table-cell text-nowrap">Price</th>
-                <th class="d-none d-lg-table-cell text-right">Reviews</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for page in tutors %}
-                    <tr style="transform: rotate(0);">
-                        <td class="d-none d-lg-table-cell">
-                            <div class="py-2">
-                                {% if page.user.photo %}
-                                    <img src="{{ page.user.photo.url }}" alt="user_photo"
-                                         class="rounder border shadow-sm"
-                                         style="width: 120px">
-                                {% else %}
-                                    <div class="avatar rounded-circle"
-                                         style="background-image: url('https://therminic2018.eu/wp-content/uploads/2018/07/dummy-avatar.jpg');">
-                                    </div>
-                                    </div>
-                                {% endif %}
-                        </td>
-                        <td>
-                            <div>
-                                <a href="{{ page.url }}"
-                                   class="stretched-link lead font-weight-bold darkslategray mr-1">
-                                    {{ page.title }}
-                                </a>
-                            </div>
-                            <div>
-                                {{ page.course_subjects }}
-                            </div>
-                            <div>
-                                {{ page.description }}
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                {{ page.timezone }}
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                {{ page.hourly_rate }}$/h
-                            </div>
-                        </td>
-                        <td class="d-none d-lg-table-cell">
-                            {% include 'home/page_star_rating.html' %}
-                        </td>
-                    </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+        </section>
+
+        <section>
+            <div class="d-flex">
+                <h2 class="text-dark mr-3">Tutor Summary</h2>
+            </div>
+            <div class="col-lg-8 mt-2">
+                {% if page.course_subjects is not None %}
+                    <div class="d-flex flex-50 {{ icon_div_cls }}">
+                        <div><i class="material-icons text-secondary">description</i></div>
+                        <div class="ml-1">
+                            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Course subject:</span>
+                            <span>{{ page.course_subjects }}</span>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if page.hourly_rate is not None %}
+                    <div class="d-flex flex-50 {{ icon_div_cls }}">
+                        <div><i class="material-icons text-secondary">payment</i></div>
+                        <div class="ml-1">
+                            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Cost:</span>
+                            <span class="text-nowrap">{{ page.hourly_rate }}$/h</span>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if page.user.email is not None %}
+                    <div class="d-flex flex-50 {{ icon_div_cls }}">
+                        <div><i class="material-icons text-secondary">face</i></div>
+                        <div class="ml-1">
+                            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">User:</span>
+                            <span class="text-nowrap">{{ page.user.email }}</span>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if page.timezone is not None %}
+                    <div class="d-flex flex-50 {{ icon_div_cls }}">
+                        <div><i class="material-icons text-secondary">schedule</i></div>
+                        <div class="ml-1">
+                            <span class="d-none d-sm-inline font-weight-bold text-nowrap mr-1">Timezone:</span>
+                            <span class="text-nowrap">{{ page.timezone }}</span>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+        <section>
+            <h2 class="text-dark">Description</h2>
+            {{ page.description | richtext }}
+        </section>
+        <div>
+            {% if page.user == request.user %}
+                <a class="btn btn-primary" href="{% url 'update_tutor' page.id %}">Edit</a>
+            {% endif %}
+        </div>
+    {% endfor %}
 {% endblock %}

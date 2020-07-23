@@ -45,14 +45,19 @@ def update_profile(request):
 
 @login_required
 def create_tutor(request):
-    if request.method == 'POST':
-        form = TutorForm(request.POST, user=request.user)
-        all_tutors = AllTutorsPage.objects.all()[0]
-        if form.is_valid():
-            tutor_page = form.save(commit=False)
-            all_tutors.add_child(instance=tutor_page)
-            messages.success(request, 'New Tutor Created!')
-            return redirect('profile')
+    tutor = TutorPage.objects.filter(user=request.user).first()
+    if tutor:
+        return redirect('update_tutor', tutor.pk)
+    else:
+        if request.method == 'POST':
+            form = TutorForm(request.POST, user=request.user)
+            all_tutors = AllTutorsPage.objects.all()[0]
+
+            if form.is_valid():
+                tutor_page = form.save(commit=False)
+                all_tutors.add_child(instance=tutor_page)
+                messages.success(request, 'New Tutor Created!')
+                return redirect('profile')
     form = TutorForm()
     return render(request, 'home/tutor_user_page.html', {'form': form})
 
@@ -65,9 +70,9 @@ def update_tutor(request, tutor_id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Tutor successfully updated!')
-            return redirect('profile')
+            return redirect('all_tutors')
 
-    form = UpdateTutorForm(initial={'title': tutor.title, 'course_subjects': tutor.course_subjects,
+    form = UpdateTutorForm(initial={'title': tutor.user, 'course_subjects': tutor.course_subjects,
                                     'hourly_rate': tutor.hourly_rate, 'timezone': tutor.timezone,
                                     'description': tutor.description,
                                     'is_accepting_students': tutor.is_accepting_students,'public': tutor.public})

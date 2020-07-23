@@ -40,7 +40,7 @@ class AllTutorsPage(Page):
 
         course_filter = Q()
         for course in course_args:
-            course_filter |= Q(course_subjects=course)
+            course_filter |= Q(course_subjects__icontains=course)
         tutor_query = tutor_query.filter(course_filter)
         timezone_filter = Q()
         for timezone in timezone_args:
