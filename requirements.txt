@@ -9,6 +9,7 @@ django-cogwheels==0.3
 django-crispy-forms==1.9.0
 django-htmlmin==0.11.0
 django-modelcluster==5.0.1
+django-multiselectfield==0.1.12
 django-sendgrid-v5==0.8.1
 django-taggit==1.2.0
 django-treebeard==4.3.1
