@@ -55,10 +55,15 @@ class CourseSubjectPage(Page):
         # get courses from database
         course_query = CoursePage.objects.child_of(self).live().public()
         if sort_arg[0] == '-':
-            course_query = course_query.order_by(F(sort_arg[1:]).desc(nulls_last=True))
-        elif sort_arg != 'title':
-            course_query = course_query.order_by(F(sort_arg).asc(nulls_last=True))
-        course_query = course_query.order_by(Lower('title'))
+            course_query = course_query.order_by(
+                F(sort_arg[1:]).desc(nulls_last=True),
+                Lower('title')
+            )
+        else:
+            course_query = course_query.order_by(
+                F(sort_arg).asc(nulls_last=True),
+                Lower('title')
+            )
 
         age_filter = Q()
         for age_group in age_args:
