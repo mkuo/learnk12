@@ -26,11 +26,10 @@
             </thead>
             <tbody>
                 {% for page in value.courses %}
-                    {# transform defines containing block for stretched-link #}
-                    <tr style="transform: rotate(0);">
+                    <tr onclick="window.location='{{ page.url }}';" class="cursor-pointer">
                         <th class="text-center">{{ forloop.counter }}</th>
                         <td>
-                            <a href="{{ page.url }}" class="stretched-link font-weight-bold darkslategray">
+                            <a href="{{ page.url }}" class="font-weight-bold darkslategray">
                                 {{ page.title }}
                             </a>
                         </td>

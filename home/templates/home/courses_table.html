@@ -24,7 +24,7 @@
         </thead>
         <tbody>
             {% for page in courses %}
-                <tr onclick="window.location='{{ page.url }}';" style="cursor: pointer;">
+                <tr onclick="window.location='{{ page.url }}';" class="cursor-pointer">
                     <td class="d-none d-lg-table-cell">
                         <div class="py-2">
                         {% with page.course_images.all|first as first_image %}

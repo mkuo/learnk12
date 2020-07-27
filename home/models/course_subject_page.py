@@ -28,12 +28,12 @@ class CourseSubjectPage(Page):
     @staticmethod
     def _get_sort_data(request):
         sort_columns = {
-            '-avg_score': 'Highest Rated',
+            'rating': 'Highest Rated',
             'title': 'Course Title (a-z)',
             'cost_amount': 'Lowest Cost',
             'course_length_hours': 'Shortest Duration'
         }
-        return ParamData(request, 'sort', sort_columns, is_list=False, default='-avg_score')
+        return ParamData(request, 'sort', sort_columns, is_list=False, default='rating')
 
     @staticmethod
     def _get_course_age_data(request):
@@ -54,7 +54,13 @@ class CourseSubjectPage(Page):
     def _get_courses_paged(self, page, sort_arg, age_args, difficulty_args, provider_args, search_arg):
         # get courses from database
         course_query = CoursePage.objects.child_of(self).live().public()
-        if sort_arg[0] == '-':
+        if sort_arg == 'rating':
+            course_query = course_query.order_by(
+                F('avg_score').desc(nulls_last=True),
+                F('review_count').desc(nulls_last=True),
+                Lower('title')
+            )
+        elif sort_arg[0] == '-':
             course_query = course_query.order_by(
                 F(sort_arg[1:]).desc(nulls_last=True),
                 Lower('title')
