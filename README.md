@@ -9,6 +9,7 @@
 	postgres=# ALTER ROLE admin SET default_transaction_isolation TO 'read committed';
 	postgres=# ALTER ROLE admin SET timezone TO 'UTC';
 	postgres=# GRANT ALL PRIVILEGES ON DATABASE learnk12 TO admin;
+    postgres=# ALTER USER admin CREATEDB;
 	postgres=# \q
 	```
 2. Clone this repo.

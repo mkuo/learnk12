@@ -26,7 +26,7 @@
                 <span class="mx-1">·</span>
                 <span>{{ review.reviewer_type | title }}</span>
             </div>
-            <p class="my-1">{{ review.description }}</p>
+            <p class="my-1">{{ review.description | linebreaks }}</p>
             {% if review_feedback_url %}
                 <small>
                     <a href="{{ review_feedback_url|add:'+titled+'|add:review.subject }}">

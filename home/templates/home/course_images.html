@@ -1,20 +1,19 @@
 {% load wagtailimages_tags %}
 
 {% if page.course_images %}
-<div class="overflow-auto text-nowrap mb-1">
+<div class="overflow-auto text-nowrap mb-1 rounded bg-light pt-3 px-3 pb-0">
     {% for course_image in page.course_images.all %}
         <div class="d-inline">
             {% image course_image.image original as img_original %}
-            <figure class="figure text-center p-0 mb-2"
-                    data-toggle="modal"
-                    data-target="#imageModal"
-                    original="{{ img_original.url }}"
-                    image-title="{{ page.title }}: {{ course_image.image.title }}">
+            <figure class="figure text-center p-0 mb-2">
                 {% image course_image.image height-240 as img %}
                 <img
                     src="{{ img.url }}"
-                    class="thumbnail-lg figure-img rounded mr-2 mb-1 border shadow-sm"
-                    alt="{{ course_image.image.title }}">
+                    class="thumbnail-lg figure-img rounded mr-2 mb-1 border shadow-sm cursor-pointer img-btn"
+                    alt="{{ course_image.image.title }}"
+                    data-toggle="modal"
+                    data-target="#imageModal"
+                >
                 <figcaption class="figure-caption">{{ course_image.caption }}</figcaption>
             </figure>
         </div>

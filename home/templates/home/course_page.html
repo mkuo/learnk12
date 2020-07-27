@@ -141,10 +141,37 @@
         {% include 'home/page_buttons.html' %}
     </div>
 </section>
+{# Image modal #}
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="imageTitle" class="modal-title">{{ page.title }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="imageExpand" class="figure-img img-fluid border shadow-sm">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
+    $(".img-btn").on("click", function() {
+        gaTry(() => {
+            const title = $(this).attr('alt');
+            $('#imageTitle').html(title);
+            const src = $(this).attr('src');
+            $('#imageExpand').attr('src', src);
+        });
+    });
     const getPagedData = (url) => {
         gaTry(() => {
             $.ajax({
