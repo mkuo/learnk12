@@ -16,7 +16,8 @@
             {% endif %}
             <span class="text-muted">{{ page.publish_date }}</span>
             <div class="text-center mt-3 mb-4">
-                <img class="mw-100" src="{{ page.main_image.file.url }}" alt="{{ page.title }}">
+                {% image page.main_image height-600 as img %}
+                <img class="blog-image mw-100" src="{{ img.url }}" alt="{{ page.title }}">
             </div>
             <div>
                 {{ page.body }}
