@@ -35,7 +35,6 @@ class CourseReview(models.Model):
 
     name = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(db_index=True, null=True, blank=True)
-    is_anonymous = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
 
