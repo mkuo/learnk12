@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% load static wagtailcore_tags wagtailimages_tags %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock %}
 {% block body_in_container %}
     <h1>{{ page.title }}</h1>
     {% if page.sub_heading %}
@@ -11,7 +14,7 @@
                  <a href="{{ blog_page.get_url }}" class="text-decoration-none">
                     <div class="card mb-4 shadow-sm p-3 text-dark hover-bg-light">
                         <div class="mb-2 p-1">
-                            {% image blog_page.main_image max-360x240 as img %}
+                            {% image blog_page.main_image max-600x400 as img %}
                             <img src="{{img.url}}" class="img-fluid" alt="{{ blog_page.title }}">
                         </div>
                         <div class="card-body p-1">

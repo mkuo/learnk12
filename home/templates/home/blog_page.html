@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% load static wagtailcore_tags wagtailimages_tags %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock %}
 {% block body_in_container %}
     <div class="row">
         <div class="col-lg-8">
@@ -13,8 +16,8 @@
             {% endif %}
             <span class="text-muted">{{ page.publish_date }}</span>
             <div class="text-center mt-3 mb-4">
-                {% image page.main_image max-480x320 as img %}
-                <img class="blog-image mw-100" src="{{ img.url }}" alt="{{ page.title }}">
+                {% image page.main_image max-600x400 as img %}
+                <img class="blog-splash-image" src="{{ img.url }}" alt="{{ page.title }}">
             </div>
             <div>
                 {{ page.body }}
@@ -27,8 +30,14 @@
                     {% for blog in recent_blogs %}
                         <a href="{{ blog.get_url }}" class="list-group-item list-group-item-action">
                             <div class="font-weight-bold">{{ blog.title }}</div>
-
-                            <div>{{ blog.description|truncatewords:20 }}</div>
+                            <div class="my-0">
+                                {% if blog.author %}
+                                    <small>{{ blog.author.name }}</small>
+                                    <small class="mx-1">·</small>
+                                {% endif %}
+                                <small>{{ blog.publish_date }}</small>
+                            </div>
+                            <small>{{ blog.description|truncatewords:20 }}</small>
                         </a>
                     {% endfor %}
                 </div>
