@@ -9,29 +9,31 @@
         <p>{{ page.sub_heading }}</p>
     {% endif %}
     <div class="row">
-        {% for block in resources %}
+        {% for blog_page in resources %}
             <div class="col-sm-12 col-md-4">
-                <a href="{{ block.get_url }}" class="text-dark">
-                    <div class="card mb-4 shadow-sm blog-card">
-                        <div class="p-3">
-                            {% image block.main_image original as img %}
-                            <div class="blog-image" style="background-image: url('{{ img.url }}');"></div>
+                 <a href="{{ blog_page.get_url }}" class="text-decoration-none">
+                    <div class="card mb-4 shadow-sm p-3 text-dark hover-bg-light">
+                        <div class="mb-2 p-1">
+                            {% image blog_page.main_image max-360x240 as img %}
+                            <img src="{{img.url}}" class="img-fluid" alt="{{ blog_page.title }}">
                         </div>
-                        <div class="card-body p-3">
-                            <h5 class="card-title">{{ block.title }}</h5>
-                            {% if block.author %}
-                                {% if block.author.image %}
-                                    {% image block.author.image fill-64x64 as img %}
+                        <div class="card-body p-1">
+                            <h5 class="card-title mb-1">{{ blog_page.title }}</h5>
+                            {% if blog_page.author %}
+                                {% if blog_page.author.image %}
+                                    {% image blog_page.author.image fill-64x64 as img %}
                                     <img src="{{ img.url }}"
-                                         class="avatar rounded-circle mr-2"
-                                         alt="{{ block.author.name }}">
+                                         class="avatar rounded-circle mr-2 mb-1"
+                                         alt="{{ blog_page.author.name }}">
                                 {% endif %}
-                                {{ block.author.name }}
+                                {{ blog_page.author.name }}
                             {% endif %}
-                            <p class="text-muted my-1">{{ block.publish_date }}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <p class="m-0">{{ block.short_description }}</p>
-                            </div>
+                            <p class="text-muted mb-1">
+                                {{ blog_page.publish_date }}
+                            </p>
+                            {% if blog_page.description %}
+                                <p class="m-0">{{ blog_page.description|truncatewords:20 }}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </a>
@@ -47,8 +49,8 @@
                 </li>
             {% endif %}
             {% for page_num in resources.paginator.page_range %}
-                <li class="page-item {% if page_num == resources.number %}active{% endif %}"><a class="page-link"
-                                                                                                href="?page={{ page_num }}">{{ page_num }}</a>
+                <li class="page-item {% if page_num == resources.number %}active{% endif %}">
+                    <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
                 </li>
             {% endfor %}
             {% if resources.has_next %}

@@ -128,3 +128,7 @@ section {
     background-color: #f7f7f7;
     background-size: cover;
 }
+
+.hover-bg-light:hover {
+    background-color: #f7f7f7 !important;
+}

@@ -16,7 +16,7 @@
             {% endif %}
             <span class="text-muted">{{ page.publish_date }}</span>
             <div class="text-center mt-3 mb-4">
-                {% image page.main_image height-600 as img %}
+                {% image page.main_image max-480x320 as img %}
                 <img class="blog-image mw-100" src="{{ img.url }}" alt="{{ page.title }}">
             </div>
             <div>
@@ -30,7 +30,8 @@
                     {% for blog in recent_blogs %}
                         <a href="{{ blog.get_url }}" class="list-group-item list-group-item-action">
                             <div class="font-weight-bold">{{ blog.title }}</div>
-                            <div>{{ blog.short_description }}</div>
+
+                            <div>{{ blog.description|truncatewords:20 }}</div>
                         </a>
                     {% endfor %}
                 </div>
