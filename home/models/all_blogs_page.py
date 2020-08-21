@@ -5,6 +5,7 @@ from wagtail.core.models import Page
 from home import models as home_models
 from django.db import models
 
+
 class AllBlogsPage(Page):
     max_count = 1
     parent_page_type = ['HomePage']
@@ -18,7 +19,9 @@ class AllBlogsPage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super(AllBlogsPage, self).get_context(request)
-        all_resources = home_models.BlogPage.objects.live().public()
+        all_resources = home_models.BlogPage.objects.live().public().\
+            order_by('-publish_date').\
+            order_by('-last_published_at')
         paginator = Paginator(all_resources, 6)
         page = request.GET.get('page')
         try:
