@@ -44,9 +44,9 @@ class BlogPage(Page):
     def get_context(self, request, *args, **kwargs):
         context = super(BlogPage, self).get_context(request)
         blogs = BlogPage.objects.live().public().\
-            exclude(page_ptr_id=self.page_ptr_id).\
-            order_by('-publish_date').\
-            order_by('-last_published_at')[:3]
+            exclude(page_ptr_id=self.page_ptr_id). \
+            order_by('-last_published_at'). \
+            order_by('-publish_date')[:3]
         context['recent_blogs'] = blogs
         return context
 

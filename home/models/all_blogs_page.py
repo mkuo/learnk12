@@ -19,9 +19,9 @@ class AllBlogsPage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super(AllBlogsPage, self).get_context(request)
-        all_resources = home_models.BlogPage.objects.live().public().\
-            order_by('-publish_date').\
-            order_by('-last_published_at')
+        all_resources = home_models.BlogPage.objects.live().public(). \
+            order_by('-last_published_at').\
+            order_by('-publish_date')
         paginator = Paginator(all_resources, 6)
         page = request.GET.get('page')
         try:
