@@ -110,7 +110,7 @@ class CoursePage(Page):
 
     @property
     def override_title(self):
-        return self.title + ' Reviews'
+        return self.title + ' by ' + self.provider.title
 
     @property
     def override_description(self):
