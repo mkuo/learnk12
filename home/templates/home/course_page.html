@@ -68,6 +68,10 @@
         <a href="{{ course_feedback_url }}">Suggest an edit</a>
     {% endif %}
 </section>
+<section>
+    <h2 class="text-dark">Provider</h2>
+    {% include 'home/course_provider.html' with provider=page.provider %}
+</section>
 <section id="reviews" class="pt-2">
     <h2 class="text-dark">Reviews</h2>
     {% feedback_page 'Report review on '|add:page.title|add:' by '|add:page.provider as review_feedback_url %}

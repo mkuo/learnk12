@@ -18,6 +18,8 @@ class ProviderPage(Page):
         related_name="+",
         on_delete=models.SET_NULL
     )
+    avg_score = models.FloatField(db_index=True, blank=True, null=True)
+    review_count = models.IntegerField(default=0)
 
     content_panels = Page.content_panels + [
         FieldPanel('description'),

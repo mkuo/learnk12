@@ -132,3 +132,8 @@ section {
 .hover-bg-light:hover {
     background-color: #f7f7f7 !important;
 }
+
+.provider-thumbnail {
+    max-height: 60px;
+    max-width: 40px;
+}

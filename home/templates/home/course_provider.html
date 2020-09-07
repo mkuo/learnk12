@@ -1,0 +1,18 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% image provider.logo max-120x80 as logo %}
+<div class="d-flex align-items-center">
+    {% if logo %}
+        <img src="{{logo.url}}" class="provider-thumbnail mr-1" alt="{{ provider }}">
+    {% endif %}
+    <h5 class="my-0 font-weight-normal">{{ provider }}</h5>
+</div>
+{% if provider.avg_score and provider.review_count > 0 %}
+    <div class="text-muted">
+        <span>Aggregate rating: </span>
+        <span class="mr-1">{{ provider.avg_score | stringformat:".1f" }}/5.0 </span>
+        <span>({{ provider.review_count }} review{{ provider.review_count | pluralize }})</span>
+    </div>
+{% endif %}
+<a href="{{ provider.url }}">see more</a>
+<p>{{ provider.description | richtext }}</p>
