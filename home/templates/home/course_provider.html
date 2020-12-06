@@ -8,20 +8,29 @@
         {% endif %}
         <h5 class="my-0 font-weight-normal">{{ provider }}</h5>
     </div>
+    <div>
     {% if provider.avg_score and provider.review_count > 0 %}
         <div class="text-muted">
-            <div class="d-inline-block text-nowrap mr-2">
+            <div class="d-inline-block text-nowrap mr-1">
                 {% for icon in provider.avg_score|get_stars %}
                     <i class="material-icons font-size-20 md-narrow text-warning align-middle">
                         {{ icon }}
                     </i>
                 {% endfor %}
             </div>
-            <div class="d-inline-block text-secondary align-middle {{ inline|yesno:'d-inline,'}}">
+            <div class="d-inline text-secondary align-middle">
                 {{ provider.review_count }} review{{ provider.review_count | pluralize }}
             </div>
         </div>
+    {% else %}
+        <div class="d-inline text-nowrap text-secondary mr-1">
+            {% for i in 5|times %}
+                <i class="material-icons font-size-20 md-narrow align-middle">star_outline</i>
+            {% endfor %}
+        </div>
+        <div class="d-inline text-secondary align-middle">0 reviews</div>
     {% endif %}
+    </div>
     <a href="{{ provider.url }}" class="stretched-link">see more</a>
 </div>
 <p>{{ provider.description | richtext }}</p>

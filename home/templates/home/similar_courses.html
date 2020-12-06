@@ -8,16 +8,23 @@
                     <div class="font-weight-bold">{{ course }}</div>
                     <div>by {{ course.provider }}</div>
                     {% if course.review_count > 0 %}
-                        <div class="d-inline-block text-nowrap mr-2">
+                        <div class="d-inline-block text-nowrap mr-1">
                             {% for icon in course.avg_score|get_stars %}
                                 <i class="material-icons font-size-20 md-narrow text-warning align-middle">
                                     {{ icon }}
                                 </i>
                             {% endfor %}
                         </div>
-                        <div class="d-inline-block text-secondary align-middle {{ inline|yesno:'d-inline,'}}">
+                        <div class="d-inline text-secondary align-middle">
                             {{ course.review_count }} review{{ course.review_count | pluralize }}
                         </div>
+                    {% else %}
+                        <div class="d-inline text-nowrap text-secondary mr-1">
+                            {% for i in 5|times %}
+                                <i class="material-icons font-size-20 md-narrow align-middle">star_outline</i>
+                            {% endfor %}
+                        </div>
+                        <div class="d-inline text-secondary align-middle">0 reviews</div>
                     {% endif %}
                     <a href="{{ course.url }}" class="stretched-link"></a>
                 </div>
