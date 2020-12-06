@@ -68,10 +68,12 @@
         <a href="{{ course_feedback_url }}">Suggest an edit</a>
     {% endif %}
 </section>
-<section>
-    <h2 class="text-dark">Similar Courses</h2>
-    {% include 'home/similar_courses.html' with similar_courses=page.similar_courses %}
-</section>
+{% if page.similar_courses %}
+    <section>
+        <h2 class="text-dark">Similar Courses</h2>
+        {% include 'home/similar_courses.html' with similar_courses=page.similar_courses %}
+    </section>
+{% endif %}
 <section>
     <h2 class="text-dark">Provider</h2>
     {% include 'home/course_provider.html' with provider=page.provider %}
