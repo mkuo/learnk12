@@ -1,0 +1,27 @@
+{% load learnk12_tags %}
+
+<div class="row">
+    {% for course in similar_courses %}
+        <div class="col-lg-4 mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="font-weight-bold">{{ course }}</div>
+                    <div>by {{ course.provider }}</div>
+                    {% if course.review_count > 0 %}
+                        <div class="d-inline-block text-nowrap mr-2">
+                            {% for icon in course.avg_score|get_stars %}
+                                <i class="material-icons font-size-20 md-narrow text-warning align-middle">
+                                    {{ icon }}
+                                </i>
+                            {% endfor %}
+                        </div>
+                        <div class="d-inline-block text-secondary align-middle {{ inline|yesno:'d-inline,'}}">
+                            {{ course.review_count }} review{{ course.review_count | pluralize }}
+                        </div>
+                    {% endif %}
+                    <a href="{{ course.url }}" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

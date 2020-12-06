@@ -123,42 +123,6 @@ class CoursePage(Page):
                 self.slug + '-' + self.provider.slug
             )
 
-    @staticmethod
-    def _get_sort_data(request):
-        sort_columns = {
-            '-publish_date': 'Most Recent',
-            '-score': 'Highest Rated'
-        }
-        return ParamData(request, 'sort', sort_columns, is_list=False, default='-publish_date')
-
-    @staticmethod
-    def _get_reviewer_type_data(request):
-        diffs = {str(val): label for val, label in CourseReview.ReviewerType.choices}
-        return ParamData(request, 'reviewer_type', diffs)
-
-    def _get_reviews_pages(self, page, sort_arg, reviewer_type_args):
-        review_query = CourseReview.objects.filter(course_page_id=self.page_ptr_id)
-        if sort_arg[0] == '-':
-            review_query = review_query.order_by(F(sort_arg[1:]).desc(nulls_last=True))
-        else:
-            review_query = review_query.order_by(F(sort_arg).asc(nulls_last=True))
-
-        reviewer_type_filter = Q()
-        for reviewer_type in reviewer_type_args:
-            reviewer_type_filter |= Q(reviewer_type=reviewer_type)
-        review_query = review_query.filter(reviewer_type_filter)
-
-        paginator = Paginator(review_query, per_page=5)
-        try:
-            reviews = paginator.page(page)
-        except EmptyPage:
-            # if page is out of range (e.g. 9999), deliver last page of results
-            page = paginator.num_pages
-            reviews = paginator.page(page)
-
-        paging_data = PagingData(page, paginator.num_pages, paginator.count)
-        return reviews, paging_data
-
     def get_context(self, request):
         context = super().get_context(request)
 
@@ -215,3 +179,59 @@ class CoursePage(Page):
             return redirect(self.url)
         else:
             return render(request, self.get_template(request), context)
+
+    def similar_courses(self):
+        base_courses_query = CoursePage.objects.live().public(). \
+            exclude(page_ptr_id=self.page_ptr_id)
+
+        courses_query = base_courses_query.filter(provider=self.provider)
+        if self.age_low is not None:
+            courses_query = courses_query.filter(age_low__gte=self.age_low)
+        if self.age_high is not None:
+            courses_query = courses_query.filter(age_high__lte=self.age_high)
+
+        courses = courses_query.order_by('avg_score', 'review_count')[:3]
+
+        if len(courses) < 3:
+            similar_ids = courses.values_list('page_ptr_id', flat=True)
+            more_courses = base_courses_query. \
+                exclude(page_ptr_id__in=similar_ids)[:3-len(courses)]
+            courses = courses.union(more_courses)
+
+        return courses
+
+    @staticmethod
+    def _get_sort_data(request):
+        sort_columns = {
+            '-publish_date': 'Most Recent',
+            '-score': 'Highest Rated'
+        }
+        return ParamData(request, 'sort', sort_columns, is_list=False, default='-publish_date')
+
+    @staticmethod
+    def _get_reviewer_type_data(request):
+        diffs = {str(val): label for val, label in CourseReview.ReviewerType.choices}
+        return ParamData(request, 'reviewer_type', diffs)
+
+    def _get_reviews_pages(self, page, sort_arg, reviewer_type_args):
+        review_query = CourseReview.objects.filter(course_page_id=self.page_ptr_id)
+        if sort_arg[0] == '-':
+            review_query = review_query.order_by(F(sort_arg[1:]).desc(nulls_last=True))
+        else:
+            review_query = review_query.order_by(F(sort_arg).asc(nulls_last=True))
+
+        reviewer_type_filter = Q()
+        for reviewer_type in reviewer_type_args:
+            reviewer_type_filter |= Q(reviewer_type=reviewer_type)
+        review_query = review_query.filter(reviewer_type_filter)
+
+        paginator = Paginator(review_query, per_page=5)
+        try:
+            reviews = paginator.page(page)
+        except EmptyPage:
+            # if page is out of range (e.g. 9999), deliver last page of results
+            page = paginator.num_pages
+            reviews = paginator.page(page)
+
+        paging_data = PagingData(page, paginator.num_pages, paginator.count)
+        return reviews, paging_data
