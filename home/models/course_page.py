@@ -186,11 +186,11 @@ class CoursePage(Page):
 
         courses_query = base_courses_query.filter(provider=self.provider)
         if self.age_low is not None:
-            courses_query = courses_query.filter(age_low__gte=self.age_low)
+            courses_query = courses_query.filter(age_low__gte=self.age_low-1)
         if self.age_high is not None:
-            courses_query = courses_query.filter(age_high__lte=self.age_high)
+            courses_query = courses_query.filter(age_high__lte=self.age_high+1)
 
-        courses = courses_query.order_by('avg_score', 'review_count')[:3]
+        courses = courses_query.order_by('-avg_score', '-review_count')[:3]
 
         if len(courses) < 3:
             similar_ids = courses.values_list('page_ptr_id', flat=True)
@@ -202,8 +202,8 @@ class CoursePage(Page):
             if self.age_high is not None:
                 more_courses = more_courses.filter(age_high__lte=self.age_high+1)
 
-            more_courses = more_courses.order_by('avg_score', 'review_count')[:3-len(courses)]
-            courses = courses.union(more_courses)
+            more_courses = more_courses.order_by('-avg_score', '-review_count')[:3-len(courses)]
+            courses = courses.union(more_courses).order_by('-avg_score', '-review_count')
 
         return courses
 
