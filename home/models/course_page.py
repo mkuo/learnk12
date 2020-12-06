@@ -187,9 +187,13 @@ class CoursePage(Page):
 
         courses_query = base_courses_query.filter(provider=self.provider)
         if self.age_low is not None:
-            courses_query = courses_query.filter(age_low__gte=self.age_low-1)
+            courses_query = courses_query.filter(
+                Q(age_low__gte=self.age_low-1) | Q(age_low__isnull=True)
+            )
         if self.age_high is not None:
-            courses_query = courses_query.filter(age_high__lte=self.age_high+1)
+            courses_query = courses_query.filter(
+                Q(age_high__lte=self.age_high+1) | Q(age_high__isnull=True)
+            )
 
         courses = courses_query.order_by(
             F('avg_score').desc(nulls_last=True),
@@ -203,9 +207,13 @@ class CoursePage(Page):
                 exclude(page_ptr_id__in=similar_ids)
 
             if self.age_low is not None:
-                more_courses = more_courses.filter(age_low__gte=self.age_low-1)
+                more_courses = more_courses.filter(
+                    Q(age_low__gte=self.age_low - 1) | Q(age_low__isnull=True)
+                )
             if self.age_high is not None:
-                more_courses = more_courses.filter(age_high__lte=self.age_high+1)
+                more_courses = more_courses.filter(
+                    Q(age_high__lte=self.age_high + 1) | Q(age_high__isnull=True)
+                )
 
             more_courses = more_courses.order_by(
                 F('avg_score').desc(nulls_last=True),
