@@ -198,10 +198,10 @@ class CoursePage(Page):
         courses = CoursePage.objects.live().public(). \
             exclude(page_ptr_id=self.page_ptr_id). \
             annotate(is_same_provider=same_provider_case). \
-            order_by('is_same_provider'). \
             annotate(is_same_age=same_age_case). \
-            order_by('is_same_age'). \
             order_by(
+                'is_same_provider',
+                'is_same_age',
                 F('avg_score').desc(nulls_last=True),
                 F('review_count').desc(nulls_last=True),
                 Lower('title')
