@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from django.core.paginator import Paginator, EmptyPage
 from django.db import models
-from django.db.models import F, Q
+from django.db.models import F, Q, BooleanField, Case, When
 from django.db.models.functions import Lower
 from django.shortcuts import render, redirect
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -182,47 +182,31 @@ class CoursePage(Page):
             return render(request, self.get_template(request), context)
 
     def similar_courses(self):
-        base_courses_query = CoursePage.objects.live().public(). \
-            exclude(page_ptr_id=self.page_ptr_id)
-
-        courses_query = base_courses_query.filter(provider=self.provider)
-        if self.age_low is not None:
-            courses_query = courses_query.filter(
-                Q(age_low__gte=self.age_low-1) | Q(age_low__isnull=True)
-            )
-        if self.age_high is not None:
-            courses_query = courses_query.filter(
-                Q(age_high__lte=self.age_high+1) | Q(age_high__isnull=True)
-            )
-
-        courses = courses_query.order_by(
-            F('avg_score').desc(nulls_last=True),
-            F('review_count').desc(nulls_last=True),
-            Lower('title')
-        )[:3]
-
-        if len(courses) < 3:
-            similar_ids = courses.values_list('page_ptr_id', flat=True)
-            more_courses = base_courses_query. \
-                exclude(page_ptr_id__in=similar_ids)
-
-            if self.age_low is not None:
-                more_courses = more_courses.filter(
-                    Q(age_low__gte=self.age_low - 1) | Q(age_low__isnull=True)
-                )
-            if self.age_high is not None:
-                more_courses = more_courses.filter(
-                    Q(age_high__lte=self.age_high + 1) | Q(age_high__isnull=True)
-                )
-
-            more_courses = more_courses.order_by(
+        same_provider_case = Case(
+            When(provider=self.provider, then=1),
+            default=0,
+            output_field=BooleanField()
+        )
+        same_age_case = Case(
+            When(
+                Q(age_low__gt=self.age_high or 99) | Q(age_high__lt=self.age_low or 0),
+                then=0
+            ),
+            default=1,
+            output_field=BooleanField()
+        )
+        courses = CoursePage.objects.live().public(). \
+            exclude(page_ptr_id=self.page_ptr_id). \
+            annotate(is_same_provider=same_provider_case). \
+            order_by('is_same_provider'). \
+            annotate(is_same_age=same_age_case). \
+            order_by('is_same_age'). \
+            order_by(
                 F('avg_score').desc(nulls_last=True),
                 F('review_count').desc(nulls_last=True),
                 Lower('title')
-            )[:3-len(courses)]
-            courses = courses.union(more_courses)
-
-        return courses
+            )
+        return courses[:3]
 
     @staticmethod
     def _get_sort_data(request):
