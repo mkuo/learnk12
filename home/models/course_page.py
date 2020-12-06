@@ -183,16 +183,16 @@ class CoursePage(Page):
 
     def similar_courses(self):
         same_provider_case = Case(
-            When(provider=self.provider, then=1),
-            default=0,
+            When(provider=self.provider, then=0),
+            default=1,
             output_field=BooleanField()
         )
         same_age_case = Case(
             When(
                 Q(age_low__gt=self.age_high or 99) | Q(age_high__lt=self.age_low or 0),
-                then=0
+                then=1
             ),
-            default=1,
+            default=0,
             output_field=BooleanField()
         )
         courses = CoursePage.objects.live().public(). \
