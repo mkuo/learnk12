@@ -13,7 +13,7 @@
 	postgres=# \q
 	```
 2. Clone this repo.
-3. Make sure you are running Python3. If you are on a Mac, use [pyenv](https://github.com/pyenv/pyenv).
+3. Make sure you are running Python 3.9.6. If you are on a Mac, use [pyenv](https://github.com/pyenv/pyenv).
 4. Install requirements within a virtual environment in the project directory
 	```
 	learnk12 $ virtualenv venv
