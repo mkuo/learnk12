@@ -74,16 +74,11 @@ $ ssh mike@learnk12.org
 ```
 
 # Production Deploy
-To deploy new code, use the zshell script `deploy.sh`.
+To deploy new code, use the zshell script `deploy.sh` on the host machine.
 ```
-# authenticate with GitHub
-$ ssh -T git@github.com
-$ ssh mike@learnk12.org
-
 # manually run first time only to pull the deploy.sh script 
-[mike@learnk12 ~ ]$ cd ~/projects/learnk12
-[mike@learnk12 learnk12 (master)]$ git pull
-
-[mike@learnk12 ~ ]$ echo -n 'alias deploy="zsh ~/projects/learnk12/deploy.sh"' >> ~/.zshrc
-[mike@learnk12 ~ ]$ source ~/.zshrc
+$ cd ~/projects/learnk12
+$ git remote set-url origin https://github.com/mkuo/learnk12.git
+$ git pull
+$ zsh deploy.sh
 ```
