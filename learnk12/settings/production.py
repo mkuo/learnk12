@@ -36,5 +36,3 @@ LOGGING['handlers']['mail_admins'] = {
 }
 DEFAULT_FROM_EMAIL = 'info@learnk12.org'
 SERVER_EMAIL = 'info@learnk12.org'
-ADMINS = [('Michael Kuo', 'mike@learnk12.org')]
-EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
